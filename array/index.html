@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Array Core & Memory Architecture — Structura</title>
+  <meta name="description" content="A beginner-friendly guide to Arrays, Real-world analogies, Contiguous memory math, 1D & 2D Matrix representations, Row-Major vs Column-Major, Sparse Matrices, and C programming.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <!-- Instant Theme Setup (Prevents theme flash) -->
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body>
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Array Storage Model &bull; ⏱️ 6 min read</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link active">Array Core</a>
+        <a href="searching.html" class="nav-link">Searching</a>
+        <a href="sorting.html" class="nav-link">Sorting</a>
+        <a href="visualizer.html" class="nav-link">Interactive Lab</a>
+        <a href="questions.html" class="nav-link">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions: Theme Switcher & Mobile Menu -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Data Structures in C</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle dark and light theme" role="switch" aria-checked="false" title="Switch Theme (Light / Dark)">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb">
+              <span class="thumb-icon-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="thumb-icon-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Application Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- 1. WHAT IS AN ARRAY & HERO SECTION -->
+    <section class="hero-card" id="overview">
+      <div class="hero-badge-row">
+        <span class="section-tag">Linear Data Structure</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">Beginner Level</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">Contiguous RAM</span>
+      </div>
+
+      <h1 class="hero-title">What is an <span>Array</span>?</h1>
+      <p class="hero-description">
+        Imagine you want to store the exam marks of 5 students. Without an array, you would need to create 5 individual variables: <code>mark1, mark2, mark3, mark4, mark5</code>. If you had 1,000 students, creating and tracking 1,000 variable names would be impossible!
+      </p>
+      <p class="hero-description" style="margin-top: 0.75rem; color: var(--text-primary);">
+        An <strong>Array</strong> solves this problem by grouping all items under <strong>one single name</strong> in physical computer memory. It arranges them in a continuous unbroken row of slots, where each slot is identified by a simple number called an <strong>Index</strong>.
+      </p>
+
+      <div class="concept-card-grid cols-4" style="margin-top: 1.5rem;">
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-sky">0-Indexed</span>
+          </div>
+          <div class="concept-title" style="font-size: 1rem;">Zero Offset</div>
+          <div class="concept-body" style="font-size: 0.86rem;">
+            Counting begins at Slot <code>0</code>, matching physical memory offsets from the base address.
+          </div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-emerald">Contiguous</span>
+          </div>
+          <div class="concept-title" style="font-size: 1rem;">Unbroken Blocks</div>
+          <div class="concept-body" style="font-size: 0.86rem;">
+            Elements sit shoulder-to-shoulder in consecutive RAM bytes with zero empty space.
+          </div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-purple">Homogeneous</span>
+          </div>
+          <div class="concept-title" style="font-size: 1rem;">Uniform Type</div>
+          <div class="concept-body" style="font-size: 0.86rem;">
+            Every slot contains identical byte sizes (e.g. all 4-byte <code>int</code> or 8-byte <code>double</code>).
+          </div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-amber">⚡ Instant Access</span>
+          </div>
+          <div class="concept-title" style="font-size: 1rem;">O(1) Direct Math</div>
+          <div class="concept-body" style="font-size: 0.86rem;">
+            Calculates exact byte position in a single CPU cycle via <code>Base + (i &times; Size)</code>.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. FORMAL DEFINITION & ADT -->
+    <section class="section-container" id="definition">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Formal Definition &amp; <span>Abstract Data Type (ADT)</span></h2>
+          <p class="section-subtitle">The theoretical definition explained with crystal-clear clarity</p>
+        </div>
+        <span class="speed-pill instant">📚 Core Concept</span>
+      </div>
+
+      <div class="card-glass blue-accent">
+        <div style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">
+          📌 Textbook Definition:
+        </div>
+        <blockquote style="font-size: 1.05rem; line-height: 1.7; color: var(--text-secondary); border-left: 3px solid var(--accent-cyan); padding-left: 1.25rem; margin: 0.75rem 0 1.25rem;">
+          An <strong>Array as an Abstract Data Type (ADT)</strong> is a collection of elements, each identified by an index or key. It represents a <strong>finite, ordered list</strong> of elements of the <strong>same data type</strong> stored in consecutive (contiguous) memory locations.
+        </blockquote>
+
+        <div class="concept-card-grid cols-3">
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-sky">Property 01</span>
+            </div>
+            <div class="concept-title">1. Finite Size</div>
+            <div class="concept-body">
+              The total number of slots is fixed when declared. It does not dynamically grow or shrink in static physical memory.
+            </div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-emerald">Property 02</span>
+            </div>
+            <div class="concept-title">2. Homogeneous Elements</div>
+            <div class="concept-body">
+              Every slot stores the exact same data type (e.g., all <code>int</code>, all <code>float</code>, or all <code>char</code>).
+            </div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-purple">Property 03</span>
+            </div>
+            <div class="concept-title">3. Direct Access</div>
+            <div class="concept-body">
+              Accessing element <code>arr[0]</code> or <code>arr[999]</code> takes the exact same instant time (<span class="pill-highlight">O(1)</span>).
+            </div>
+          </div>
+        </div>
+
+        <!-- Highlighted Key Takeaway -->
+        <div class="key-takeaway-banner">
+          <div class="key-takeaway-header">💡 Key Takeaway: Why use an Array?</div>
+          <ul class="key-takeaway-list">
+            <li><strong>Single Variable Name:</strong> Group hundreds of related numbers under one name.</li>
+            <li><strong>Instant Math Lookup:</strong> Memory addresses are calculated in 1 CPU cycle using the slot index.</li>
+            <li><strong>CPU Cache Friendly:</strong> Because items sit side-by-side in RAM, modern processors load them blazingly fast.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. REAL-LIFE EXAMPLES & ANALOGIES -->
+    <section class="section-container" id="analogies">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Real-Life Examples: <span>Visualizing Computer RAM</span></h2>
+          <p class="section-subtitle">Everyday objects that work exactly like an array</p>
+        </div>
+      </div>
+
+      <!-- Train Compartment Analogy -->
+      <div class="card-glass emerald-accent" style="margin-bottom: 1.75rem;">
+        <h3 style="font-size: 1.2rem; color: var(--accent-emerald-text); margin-bottom: 0.5rem;">
+          🚂 Analogy 1: The Passenger Train
+        </h3>
+        <p style="font-size: 0.98rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1.25rem;">
+          A train has an <strong>Engine</strong> (the <em>Base Address</em> in memory) followed by coupled <strong>Bogies / Compartments</strong> labeled <code>[0]</code>, <code>[1]</code>, <code>[2]</code>, <code>[3]</code>, and <code>[4]</code>. If each bogie is 20 meters long, you don't need to walk through bogies 0, 1, and 2 to reach bogie 3 — you simply walk <code>3 &times; 20 = 60 meters</code> straight to your door!
+        </p>
+
+        <!-- Train Track Visual -->
+        <div class="train-track-visual">
+          <div class="train-engine">
+            <div style="font-size: 1.5rem; margin-bottom: 0.2rem;">🚂</div>
+            <div>ENGINE</div>
+            <div class="train-engine-title">Base: 200</div>
+          </div>
+          <div class="train-coupler"></div>
+
+          <div class="train-bogie">
+            <span class="train-bogie-tag">Bogie [ 0 ]</span>
+            <span class="train-bogie-value">'U'</span>
+            <span class="train-bogie-address">RAM: 200</span>
+            <div class="train-wheels"><div class="train-wheel"></div><div class="train-wheel"></div></div>
+          </div>
+          <div class="train-coupler"></div>
+
+          <div class="train-bogie">
+            <span class="train-bogie-tag">Bogie [ 1 ]</span>
+            <span class="train-bogie-value">'B'</span>
+            <span class="train-bogie-address">RAM: 201</span>
+            <div class="train-wheels"><div class="train-wheel"></div><div class="train-wheel"></div></div>
+          </div>
+          <div class="train-coupler"></div>
+
+          <div class="train-bogie">
+            <span class="train-bogie-tag">Bogie [ 2 ]</span>
+            <span class="train-bogie-value">'F'</span>
+            <span class="train-bogie-address">RAM: 202</span>
+            <div class="train-wheels"><div class="train-wheel"></div><div class="train-wheel"></div></div>
+          </div>
+          <div class="train-coupler"></div>
+
+          <div class="train-bogie">
+            <span class="train-bogie-tag">Bogie [ 3 ]</span>
+            <span class="train-bogie-value">'D'</span>
+            <span class="train-bogie-address">RAM: 203</span>
+            <div class="train-wheels"><div class="train-wheel"></div><div class="train-wheel"></div></div>
+          </div>
+          <div class="train-coupler"></div>
+
+          <div class="train-bogie">
+            <span class="train-bogie-tag">Bogie [ 4 ]</span>
+            <span class="train-bogie-value">'A'</span>
+            <span class="train-bogie-address">RAM: 204</span>
+            <div class="train-wheels"><div class="train-wheel"></div><div class="train-wheel"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid of Everyday Analogies as Concept Cards -->
+      <div class="concept-card-grid cols-3">
+        <div class="concept-card">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-amber">🥚 Physical Container</span>
+          </div>
+          <div class="concept-title">Egg Carton / Ice Tray</div>
+          <div class="concept-body">
+            A molded tray has 6 or 12 identical slots side-by-side. You grab the egg at slot #4 in one physical motion without opening or checking slots #0, #1, #2, or #3.
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-emerald">💊 Dosing Grid</span>
+          </div>
+          <div class="concept-title">7-Day Pill Organizer</div>
+          <div class="concept-body">
+            Compartments labeled Mon(0), Tue(1), Wed(2)... Sun(6). Each slot stores the exact same type of pills in consecutive day order.
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-sky">🏢 Indexed Storage</span>
+          </div>
+          <div class="concept-title">Apartment Mailboxes</div>
+          <div class="concept-body">
+            A numbered row of lockers in a building lobby. Knowing the base locker and locker number 105 gives immediate, direct access.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. ARRAY REPRESENTATION: 1D & 2D -->
+    <section class="section-container" id="representation">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Array Representation: <span>1D vs 2D Arrays</span></h2>
+          <p class="section-subtitle">How data structures exist in single lines and multi-dimensional matrices</p>
+        </div>
+      </div>
+
+      <!-- 1D Array Representation -->
+      <div class="card-glass blue-accent" style="margin-bottom: 1.75rem;">
+        <h3 style="font-size: 1.15rem; color: var(--accent-cyan-text); margin-bottom: 0.5rem;">
+          1. One-Dimensional (1D) Array Representation
+        </h3>
+        <ul style="padding-left: 1.25rem; font-size: 0.92rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: 1.25rem;">
+          <li>It is a linear list of variables sharing the <strong>same data type</strong>.</li>
+          <li>It allows <strong>instant random access</strong>: every element is fetched in <span class="pill-highlight">O(1)</span> time using its index.</li>
+          <li>The size of the array is fixed upon declaration.</li>
+        </ul>
+
+        <!-- Visual Sequential RAM Strip -->
+        <div style="background: var(--bg-app); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 1.5rem; overflow-x: auto;">
+          <div style="font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; color: var(--accent-emerald-text); text-align: center; margin-bottom: 0.75rem; font-weight: 700;">
+            Sequential Memory Locations (Contiguous RAM Addresses)
+          </div>
+          <div class="ram-linear-tape ram-memory-strip" style="min-width: 540px; justify-content: center;">
+            <div class="ram-cell ram-pair-0">
+              <span class="ram-cell-addr">RAM: 200</span>
+              <span class="ram-cell-val">U</span>
+              <span class="ram-cell-idx">Index [ 0 ]</span>
+            </div>
+            <div class="ram-cell ram-pair-0">
+              <span class="ram-cell-addr">RAM: 201</span>
+              <span class="ram-cell-val">B</span>
+              <span class="ram-cell-idx">Index [ 1 ]</span>
+            </div>
+            <div class="ram-cell ram-pair-1">
+              <span class="ram-cell-addr">RAM: 202</span>
+              <span class="ram-cell-val">F</span>
+              <span class="ram-cell-idx">Index [ 2 ]</span>
+            </div>
+            <div class="ram-cell ram-pair-1">
+              <span class="ram-cell-addr">RAM: 203</span>
+              <span class="ram-cell-val">D</span>
+              <span class="ram-cell-idx">Index [ 3 ]</span>
+            </div>
+            <div class="ram-cell ram-pair-2">
+              <span class="ram-cell-addr">RAM: 204</span>
+              <span class="ram-cell-val">A</span>
+              <span class="ram-cell-idx">Index [ 4 ]</span>
+            </div>
+            <div class="ram-cell ram-pair-2">
+              <span class="ram-cell-addr">RAM: 205</span>
+              <span class="ram-cell-val">E</span>
+              <span class="ram-cell-idx">Index [ 5 ]</span>
+            </div>
+            <div class="ram-cell ram-pair-3">
+              <span class="ram-cell-addr">RAM: 206</span>
+              <span class="ram-cell-val">C</span>
+              <span class="ram-cell-idx">Index [ 6 ]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2D Array Representation -->
+      <div class="card-glass amber-accent">
+        <h3 style="font-size: 1.15rem; color: var(--accent-amber-text); margin-bottom: 0.5rem;">
+          2. Two-Dimensional (2D) Array (Matrix)
+        </h3>
+        <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.25rem;">
+          A 2D array is a <strong>collection of 1D arrays</strong> organized into <strong>Rows</strong> and <strong>Columns</strong>. Think of a cinema seating plan <code>[Row][Seat]</code> or a spreadsheet.
+        </p>
+
+        <!-- 2D Matrix Table with Row Highlights -->
+        <div style="background: var(--bg-app); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 1.5rem; overflow-x: auto;">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th style="color: var(--text-muted); font-size: 0.8rem; font-family: 'JetBrains Mono';"></th>
+                <th style="color: var(--accent-cyan-text); font-size: 0.85rem; font-family: 'JetBrains Mono'; padding-bottom: 6px;">Column 0</th>
+                <th style="color: var(--accent-cyan-text); font-size: 0.85rem; font-family: 'JetBrains Mono'; padding-bottom: 6px;">Column 1</th>
+                <th style="color: var(--accent-cyan-text); font-size: 0.85rem; font-family: 'JetBrains Mono'; padding-bottom: 6px;">Column 2</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="matrix-row-header" style="color: var(--accent-cyan-text);">Row 0</td>
+                <td class="matrix-cell ram-pair-0">x[0][0]</td>
+                <td class="matrix-cell ram-pair-0">x[0][1]</td>
+                <td class="matrix-cell ram-pair-0">x[0][2]</td>
+              </tr>
+              <tr>
+                <td class="matrix-row-header" style="color: var(--accent-emerald-text);">Row 1</td>
+                <td class="matrix-cell ram-pair-1">x[1][0]</td>
+                <td class="matrix-cell ram-pair-1">x[1][1]</td>
+                <td class="matrix-cell ram-pair-1">x[1][2]</td>
+              </tr>
+              <tr>
+                <td class="matrix-row-header" style="color: var(--accent-amber-text);">Row 2</td>
+                <td class="matrix-cell ram-pair-2">x[2][0]</td>
+                <td class="matrix-cell ram-pair-2">x[2][1]</td>
+                <td class="matrix-cell ram-pair-2">x[2][2]</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. ROW-MAJOR ORDER VS COLUMN-MAJOR ORDER -->
+    <section class="section-container" id="matrix-ordering">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Memory Mapping: <span>Row-Major vs. Column-Major Order</span></h2>
+          <p class="section-subtitle">How a 2D matrix is flattened into a 1D linear computer RAM</p>
+        </div>
+      </div>
+
+      <div class="card-glass purple-accent">
+        <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.25rem;">
+          Physical RAM is strictly a <strong>1D sequence of bytes</strong>. When storing a 2D matrix like
+          <span class="matrix-brackets">1&nbsp;&nbsp;2<br>3&nbsp;&nbsp;4</span>, the compiler flattens it into contiguous RAM cells following specific reading-direction orders:
+        </p>
+
+        <!-- Reading Direction Visual Guide -->
+        <div class="matrix-reading-guide">
+          <div class="reading-direction-indicator">
+            <span class="direction-arrow-row">⟶</span>
+            <span>📖 Left ➔ Right (Row-Major: Row 0 then Row 1)</span>
+          </div>
+          <div class="reading-direction-indicator">
+            <span class="direction-arrow-col">⟱</span>
+            <span>📋 Top ➔ Bottom (Column-Major: Col 0 then Col 1)</span>
+          </div>
+        </div>
+
+        <div class="concept-card-grid cols-2" style="margin-bottom: 1.5rem;">
+          <!-- Row-Major Order Card -->
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-sky">📖 Left ➔ Right (Row-Major)</span>
+              <span class="direction-arrow-row">⟶</span>
+            </div>
+            <div class="concept-title">Row-by-Row Serialization</div>
+            <div class="concept-body">
+              Row 0 is stored first in RAM, followed immediately by Row 1. Iterating row-wise (<code>for i</code> then <code>for j</code>) maximizes CPU cache hits in C, C++, Java, and Python!
+            </div>
+            <div class="concept-footer">
+              <div style="font-family: 'JetBrains Mono'; font-size: 0.92rem; text-align: center;">
+                Contiguous RAM: <span class="ram-pair-0" style="padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 800; margin-right: 0.35rem;">[ 1, 2 ]</span> <span class="ram-pair-1" style="padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 800;">[ 3, 4 ]</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column-Major Order Card -->
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-rose">📋 Top ➔ Bottom (Column-Major)</span>
+              <span class="direction-arrow-col">⟱</span>
+            </div>
+            <div class="concept-title">Column-by-Column Serialization</div>
+            <div class="concept-body">
+              Column 0 is stored first in RAM, followed immediately by Column 1. In numerical computing languages (Fortran, MATLAB, R), iterating column-wise yields highest throughput.
+            </div>
+            <div class="concept-footer">
+              <div style="font-family: 'JetBrains Mono'; font-size: 0.92rem; text-align: center;">
+                Contiguous RAM: <span class="ram-pair-2" style="padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 800; margin-right: 0.35rem;">[ 1, 3 ]</span> <span class="ram-pair-3" style="padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 800;">[ 2, 4 ]</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Highlighted Key Takeaway -->
+        <div class="key-takeaway-banner">
+          <div class="key-takeaway-header">⚡ Exam Rule: Language Conventions</div>
+          <ul class="key-takeaway-list">
+            <li><strong>C, C++, Java, Python:</strong> Always iterate row-by-row (<code>for i</code> then <code>for j</code>) to get maximum CPU cache speed.</li>
+            <li><strong>Fortran, MATLAB:</strong> Always iterate column-by-column for best performance.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. MEMORY ADDRESS CALCULATION MATH -->
+    <section class="section-container" id="memory-math">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Memory Calculations: <span>Address Math Formulas</span></h2>
+          <p class="section-subtitle">The arithmetic formulas your CPU executes in nanoseconds</p>
+        </div>
+      </div>
+
+      <div class="card-glass emerald-accent">
+        <!-- 1D Formula Box -->
+        <div style="background: var(--bg-surface-subtle); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 1.5rem; text-align: center; margin-bottom: 1.5rem;">
+          <div style="font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 0.4rem;">1D Array Address Formula</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.25rem; font-weight: 800; color: var(--accent-emerald-text);">
+            Address( arr[ i ] ) = Base_Address + ( i &times; Size_of_Data_Type )
+          </div>
+        </div>
+
+        <div class="concept-card-grid cols-2">
+          <!-- 1D Step-by-Step Calculation Panel -->
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-emerald">1D Step-by-Step</span>
+            </div>
+            <div class="concept-title">Worked Example: arr[ 3 ]</div>
+            <div class="concept-body">
+              <div style="display: flex; flex-direction: column; gap: 0.55rem; margin-top: 0.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); padding: 0.4rem 0.75rem; border-radius: 6px; border: 1px solid var(--border-default);">
+                  <span style="font-weight: 600; color: var(--text-primary);">Base Address:</span>
+                  <span class="line-badge sky">2000 (Starting Slot)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); padding: 0.4rem 0.75rem; border-radius: 6px; border: 1px solid var(--border-default);">
+                  <span style="font-weight: 600; color: var(--text-primary);">Data Type:</span>
+                  <span class="line-badge purple">int (4 Bytes)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); padding: 0.4rem 0.75rem; border-radius: 6px; border: 1px solid var(--border-default);">
+                  <span style="font-weight: 600; color: var(--text-primary);">Target Slot:</span>
+                  <span class="line-badge amber">Index i = 3</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); padding: 0.4rem 0.75rem; border-radius: 6px; border: 1px solid var(--border-default);">
+                  <span style="font-weight: 600; color: var(--text-primary);">Calculated Math:</span>
+                  <span class="line-badge emerald">2000 + (3 &times; 4) = 2012</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2D Matrix Address Formulas Panel -->
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-sky">2D Matrix Math</span>
+            </div>
+            <div class="concept-title">Row-Major &amp; Col-Major Formulas</div>
+            <div class="concept-body">
+              <div style="display: flex; flex-direction: column; gap: 0.65rem; margin-top: 0.5rem;">
+                <div style="background: var(--bg-surface); padding: 0.6rem 0.85rem; border-radius: 6px; border: 1px solid var(--border-default);">
+                  <div style="font-size: 0.8rem; font-weight: 700; color: #38bdf8; margin-bottom: 0.25rem; font-family: 'JetBrains Mono';">Row-Major Formula (C/C++/Java):</div>
+                  <code style="font-size: 0.84rem;">Base + [(i &times; TotalCols) + j] &times; Size</code>
+                </div>
+                <div style="background: var(--bg-surface); padding: 0.6rem 0.85rem; border-radius: 6px; border: 1px solid var(--border-default);">
+                  <div style="font-size: 0.8rem; font-weight: 700; color: #f87171; margin-bottom: 0.25rem; font-family: 'JetBrains Mono';">Column-Major Formula (Fortran/MATLAB):</div>
+                  <code style="font-size: 0.84rem;">Base + [(j &times; TotalRows) + i] &times; Size</code>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. SPARSE MATRICES & TRIPLET REPRESENTATION -->
+    <section class="section-container" id="sparse-matrices">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Sparse Matrices &amp; <span>Triplet Representation</span></h2>
+          <p class="section-subtitle">How to save massive amounts of RAM when matrices are mostly zeros</p>
+        </div>
+        <span class="speed-pill instant">💾 Memory Optimization</span>
+      </div>
+
+      <div class="card-glass blue-accent">
+        <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">
+          📌 What is a Sparse Matrix?
+        </div>
+        <p style="font-size: 0.96rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1.25rem;">
+          A <strong>Sparse Matrix</strong> is a matrix in which the <strong>majority of elements are zero (0)</strong>. Allocating an entire 2D array for empty zeros wastes vast amounts of RAM.
+        </p>
+
+        <!-- Example Matrix Comparison -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; align-items: center; margin-bottom: 1.5rem;">
+          <div style="background: var(--bg-app); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 1.25rem; text-align: center;">
+            <div style="font-size: 0.8rem; font-family: 'JetBrains Mono'; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase;">Standard 3&times;4 Matrix (12 Slots)</div>
+            <div style="font-family: 'JetBrains Mono'; font-size: 1.15rem; line-height: 1.8; color: var(--text-secondary); background: var(--bg-surface); padding: 0.75rem; border-radius: 6px; display: inline-block;">
+              [ 0 &nbsp; 0 &nbsp; 0 &nbsp; <strong style="color: var(--accent-emerald-text);">5</strong> ]<br>
+              [ 0 &nbsp; <strong style="color: var(--accent-cyan-text);">8</strong> &nbsp; 0 &nbsp; 0 ]<br>
+              [ 0 &nbsp; 0 &nbsp; 0 &nbsp; 0 ]
+            </div>
+            <div style="font-size: 0.82rem; color: var(--accent-rose-text); margin-top: 0.6rem; font-weight: 600;">
+              ⚠️ 10 out of 12 slots are zero! (83% wasted space)
+            </div>
+          </div>
+
+          <!-- Triplet Representation -->
+          <div style="background: var(--bg-app); border: 1px solid var(--accent-emerald-border); border-radius: var(--radius-md); padding: 1.25rem;">
+            <div style="font-size: 0.8rem; font-family: 'JetBrains Mono'; color: var(--accent-emerald-text); margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 700;">✅ Triplet Format (Row, Col, Value)</div>
+            <table style="width: 100%; border-collapse: collapse; font-family: 'JetBrains Mono'; font-size: 0.88rem; text-align: center;">
+              <thead>
+                <tr style="border-bottom: 1px solid var(--border-strong); color: var(--text-muted);">
+                  <th style="padding: 0.4rem;">Row</th>
+                  <th style="padding: 0.4rem;">Column</th>
+                  <th style="padding: 0.4rem;">Non-Zero Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom: 1px solid var(--border-default);">
+                  <td style="padding: 0.5rem; color: var(--text-secondary);">0</td>
+                  <td style="padding: 0.5rem; color: var(--text-secondary);">3</td>
+                  <td style="padding: 0.5rem; color: var(--accent-emerald-text); font-weight: 800;">5</td>
+                </tr>
+                <tr>
+                  <td style="padding: 0.5rem; color: var(--text-secondary);">1</td>
+                  <td style="padding: 0.5rem; color: var(--text-secondary);">1</td>
+                  <td style="padding: 0.5rem; color: var(--accent-cyan-text); font-weight: 800;">8</td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.6rem;">
+              We only record the 2 non-zero numbers and their coordinates!
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Advantages as Concept Cards -->
+        <h4 style="font-size: 1rem; color: var(--text-primary); margin-bottom: 0.75rem;">Advantages of Sparse Representation:</h4>
+        <div class="concept-card-grid cols-3">
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-emerald">Efficiency</span>
+            </div>
+            <div class="concept-title">💾 Memory Efficient</div>
+            <div class="concept-body">Saves huge memory space by ignoring empty zeros.</div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-sky">Performance</span>
+            </div>
+            <div class="concept-title">⚡ Faster Processing</div>
+            <div class="concept-body">Speeds up matrix math by skipping useless zero operations.</div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-purple">Modern Use</span>
+            </div>
+            <div class="concept-title">🌐 Big Data Applications</div>
+            <div class="concept-body">Used in graph connections, Google search indexing, and neural networks.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. PROGRAMMING ARRAYS IN C -->
+    <section class="section-container" id="code-guide">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Programming Arrays in C: <span>Code Walkthrough</span></h2>
+          <p class="section-subtitle">Declaration, initialization, index access, and looping explained line-by-line</p>
+        </div>
+        <button class="copy-code-btn" data-target="c-code-core">
+          <span>📋</span> Copy Code
+        </button>
+      </div>
+
+      <div class="annotated-code-container">
+        <div class="annotated-code-header">
+          <div class="ide-window-dots">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+          </div>
+          <div class="annotated-code-title">
+            <span>📄</span> array_program.c
+          </div>
+        </div>
+
+        <div class="code-annotation-grid">
+          <div class="chalkboard-code-area">
+            <pre><code id="c-code-core"><span class="syn-macro">#include</span> <span class="syn-str">&lt;stdio.h&gt;</span>
+
+<span class="syn-type">int</span> <span class="syn-fn">main</span>() {
+    <span class="syn-cm">// 1. Declare and initialize an array of 5 integers</span>
+    <span class="syn-type">int</span> <span class="syn-var">numbers</span>[<span class="syn-num">5</span>] = {<span class="syn-num">10</span>, <span class="syn-num">20</span>, <span class="syn-num">30</span>, <span class="syn-num">40</span>, <span class="syn-num">50</span>};
+
+    <span class="syn-cm">// 2. Direct instant access by index</span>
+    <span class="syn-fn">printf</span>(<span class="syn-str">"Element at index 2 is: %d\n"</span>, <span class="syn-var">numbers</span>[<span class="syn-num">2</span>]);
+
+    <span class="syn-cm">// 3. Print all elements using a traversal loop</span>
+    <span class="syn-fn">printf</span>(<span class="syn-str">"Array elements are:\n"</span>);
+    <span class="syn-kw">for</span> (<span class="syn-type">int</span> <span class="syn-var">i</span> = <span class="syn-num">0</span>; <span class="syn-var">i</span> &lt; <span class="syn-num">5</span>; <span class="syn-var">i</span>++) {
+        <span class="syn-fn">printf</span>(<span class="syn-str">"%d "</span>, <span class="syn-var">numbers</span>[<span class="syn-var">i</span>]);
+    }
+    <span class="syn-fn">printf</span>(<span class="syn-str">"\n"</span>);
+
+    <span class="syn-kw">return</span> <span class="syn-num">0</span>;
+}</code></pre>
+          </div>
+
+          <div class="step-breakdown-panel">
+            <div class="step-breakdown-header">
+              <span>👨‍🏫</span> Step-by-Step Breakdown
+            </div>
+
+            <div class="step-card">
+              <div class="step-card-header">
+                <span class="step-line-pill line-badge sky">Line 5: Declaration &amp; Init</span>
+              </div>
+              <div class="step-card-title step-title">Memory Allocation</div>
+              <div class="step-card-body step-text">
+                <span class="step-code-chip">int numbers[5] = {10, 20, 30, 40, 50};</span> allocates <strong>20 continuous bytes</strong> in RAM (5 integers &times; 4 bytes).
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div class="step-card-header">
+                <span class="step-line-pill line-badge emerald">Line 8: Instant Access</span>
+              </div>
+              <div class="step-card-title step-title">O(1) Direct Lookup</div>
+              <div class="step-card-body step-text">
+                <span class="step-code-chip">numbers[2]</span> reads the 3rd slot (value <code>30</code>) instantly in <span class="pill-highlight">O(1)</span> time without scanning from index 0.
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div class="step-card-header">
+                <span class="step-line-pill line-badge amber">Line 12: Traversal Loop</span>
+              </div>
+              <div class="step-card-title step-title">Sequential Iteration</div>
+              <div class="step-card-body step-text">
+                The <code>for</code> loop iterates from <code>i = 0</code> to <code>i = 4</code>, printing each value sequentially.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. OPERATIONS SUMMARY & COMPLEXITY TABLE -->
+    <section class="section-container" id="complexities">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Array Operations: <span>Complexity Cheat Sheet</span></h2>
+          <p class="section-subtitle">Quick performance reference for examinations and interviews</p>
+        </div>
+      </div>
+
+      <div class="analogy-table-wrapper">
+        <table class="analogy-table">
+          <thead>
+            <tr>
+              <th>Operation</th>
+              <th>Time Complexity</th>
+              <th>Space Complexity</th>
+              <th>Why it takes this time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Access by Index</strong></td>
+              <td><span class="speed-pill instant">⚡ O(1)</span></td>
+              <td><code>O(1)</code></td>
+              <td>Direct jump to the RAM address using the math formula</td>
+            </tr>
+            <tr>
+              <td><strong>Update by Index</strong></td>
+              <td><span class="speed-pill instant">⚡ O(1)</span></td>
+              <td><code>O(1)</code></td>
+              <td>Direct overwrite of the memory slot</td>
+            </tr>
+            <tr>
+              <td><strong>Linear Search</strong></td>
+              <td><span class="speed-pill sequential">🚶 O(n)</span></td>
+              <td><code>O(1)</code></td>
+              <td>Must inspect elements one by one until match is found</td>
+            </tr>
+            <tr>
+              <td><strong>Binary Search (Sorted)</strong></td>
+              <td><span class="speed-pill logarithmic">🚀 O(log n)</span></td>
+              <td><code>O(1) / O(log n)</code></td>
+              <td>Repeatedly divides the search range in half</td>
+            </tr>
+            <tr>
+              <td><strong>Insertion / Deletion</strong></td>
+              <td><span class="speed-pill sequential">🚶 O(n)</span></td>
+              <td><code>O(1)</code></td>
+              <td>Requires shifting all subsequent elements left or right</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION NAVIGATION -->
+    <section class="section-container">
+      <div style="background: var(--gradient-aurora); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; color: #080a0f;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem;">Next: Searching &amp; Sorting Algorithms</h2>
+        <p style="font-size: 1.05rem; font-weight: 600; max-width: 600px; margin: 0 auto 1.5rem;">
+          Master Linear Search, Binary Search, Bubble Sort, Insertion Sort, Selection Sort, and Radix Sort with visual step-by-step breakdowns!
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="searching.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Explore Searching Guide &rarr;
+          </a>
+          <a href="sorting.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Explore Sorting Guide &rarr;
+          </a>
+          <a href="visualizer.html" class="btn-primary" style="background: #ffffff; color: #080a0f; text-decoration: none;">
+            Open Interactive Lab
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <p style="font-size: 0.88rem; color: var(--text-muted); max-width: 500px;">
+        Master Data Structures Visually in C. Interactive Learning Platform.
+      </p>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Array Core</a>
+        <a href="searching.html" style="color: var(--accent-primary-text); text-decoration: none;">Searching</a>
+        <a href="sorting.html" style="color: var(--accent-primary-text); text-decoration: none;">Sorting</a>
+        <a href="visualizer.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="questions.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Master JavaScript Bundle -->
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>

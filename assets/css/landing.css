@@ -1,0 +1,1157 @@
+/* ==========================================================================
+   STRUCTURA — ROOT ONBOARDING & TOPIC SELECTION (PHASE 1)
+   Consistent with Array Design Architecture & Token System
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. HERO ONBOARDING SECTION
+   -------------------------------------------------------------------------- */
+
+.landing-hero {
+  padding: 3.5rem 1.5rem 2.5rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.hero-layout-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.academic-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.course-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brand);
+  background: var(--accent-primary-subtle);
+  border: 1px solid var(--accent-primary-border);
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+}
+
+.semester-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+}
+
+.hero-main-title {
+  font-size: 2.65rem;
+  font-weight: 900;
+  line-height: 1.18;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+}
+
+.hero-main-title span {
+  color: var(--brand);
+}
+
+.hero-tagline {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  max-width: 580px;
+}
+
+.hero-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.btn-start-learning {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--brand);
+  color: #080A0F;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.6rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.22);
+}
+
+.btn-start-learning:hover {
+  background: var(--brand-strong);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(56, 189, 248, 0.3);
+}
+
+.btn-start-learning:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+}
+
+.btn-start-learning svg {
+  width: 18px;
+  height: 18px;
+  transition: transform var(--transition-fast);
+}
+
+.btn-start-learning:hover svg {
+  transform: translateY(2px);
+}
+
+.btn-secondary-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--surface);
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 0.75rem 1.35rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  transition: all var(--transition-fast);
+}
+
+.btn-secondary-link:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+  color: var(--brand);
+}
+
+/* --------------------------------------------------------------------------
+   2. TECHNICAL PREVIEW BOARD (CSS SHAPES ONLY)
+   -------------------------------------------------------------------------- */
+
+.hero-preview-board {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.preview-board-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.preview-board-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.preview-status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--brand);
+}
+
+.preview-board-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--concept);
+  background: var(--accent-indigo-subtle);
+  border: 1px solid var(--accent-indigo-border);
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-xs);
+}
+
+.preview-shapes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.preview-cell-card {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.6rem;
+  min-height: 108px;
+}
+
+.preview-cell-card.span-two {
+  grid-column: span 2;
+}
+
+.preview-card-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.preview-card-label span.active-tag {
+  color: var(--brand);
+}
+
+/* CSS Shape: Array Memory Cells */
+.shape-array {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+
+.shape-cell {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  padding: 0.4rem 0.2rem;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  transition: all var(--transition-fast);
+}
+
+.shape-cell.highlight {
+  border-color: var(--brand);
+  background: var(--accent-primary-subtle);
+  color: var(--brand);
+}
+
+.shape-cell-idx {
+  font-size: 0.58rem;
+  color: var(--text-muted);
+  display: block;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 2px;
+  margin-bottom: 2px;
+}
+
+.shape-cell-val {
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+/* CSS Shape: Linked List Pointer Nodes */
+.shape-linked-list {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  justify-content: center;
+}
+
+.shape-node {
+  display: flex;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  overflow: hidden;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+}
+
+.shape-node-val {
+  padding: 0.35rem 0.55rem;
+  font-weight: 600;
+  border-right: 1px solid var(--border);
+}
+
+.shape-node-ptr {
+  padding: 0.35rem 0.45rem;
+  color: var(--concept);
+  font-size: 0.65rem;
+  background: var(--accent-indigo-subtle);
+}
+
+.shape-arrow {
+  color: var(--brand);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+/* CSS Shape: Stack LIFO Slots */
+.shape-stack {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 3px;
+  width: 90px;
+  margin: 0 auto;
+  border-left: 2px solid var(--concept);
+  border-right: 2px solid var(--concept);
+  border-bottom: 2px solid var(--concept);
+  padding: 3px;
+  border-radius: 0 0 var(--radius-xs) var(--radius-xs);
+}
+
+.shape-stack-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  text-align: center;
+  padding: 0.2rem;
+  border-radius: 2px;
+}
+
+.shape-stack-item.top {
+  border-color: var(--concept);
+  background: var(--accent-indigo-subtle);
+  color: var(--concept);
+  font-weight: 700;
+}
+
+/* CSS Shape: Queue FIFO Tube */
+.shape-queue {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  border-top: 2px solid var(--warning);
+  border-bottom: 2px solid var(--warning);
+  padding: 3px 0.5rem;
+  justify-content: center;
+}
+
+.shape-queue-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 2px;
+}
+
+/* CSS Shape: Tree Nodes */
+.shape-tree {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.shape-tree-circle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1.5px solid var(--success);
+  color: var(--success);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.shape-tree-branch {
+  display: flex;
+  gap: 1.5rem;
+  position: relative;
+}
+
+.shape-tree-branch::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 4px;
+  border-top: 1px dashed var(--border);
+}
+
+/* CSS Shape: Graph Vertices */
+.shape-graph {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  padding: 0.25rem 0;
+}
+
+.shape-graph-vertex {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1.5px solid var(--danger);
+  color: var(--danger);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+
+.shape-graph-edge {
+  height: 1px;
+  background: var(--border-strong);
+  width: 20px;
+}
+
+/* --------------------------------------------------------------------------
+   3. TOPIC SELECTION: DSA LEARNING MAP PATHWAY
+   -------------------------------------------------------------------------- */
+
+.learning-map-section {
+  padding: 3.5rem 1.5rem 5rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.section-lead-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.pathway-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brand);
+  background: var(--accent-primary-subtle);
+  border: 1px solid var(--accent-primary-border);
+  padding: 0.25rem 0.8rem;
+  border-radius: var(--radius-full);
+}
+
+.section-lead-title {
+  font-size: 2.15rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.section-lead-desc {
+  font-size: 0.98rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* The Map Pathway Architecture */
+.pathway-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+}
+
+/* Stage Blocks */
+.pathway-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.stage-label-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stage-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.stage-divider-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border-subtle);
+}
+
+/* Topic Cards Row in Learning Map */
+.stage-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.75rem;
+  position: relative;
+}
+
+/* Connector Line Between Cards in a Stage */
+.stage-cards-grid::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: var(--border-subtle);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Stage Inter-Connector Vertical Spine (Desktop) */
+.stage-connector-spine {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.25rem 0;
+  position: relative;
+}
+
+.spine-line {
+  width: 2px;
+  height: 32px;
+  background: var(--border-default);
+  position: relative;
+}
+
+.spine-line::after {
+  content: '▼';
+  position: absolute;
+  bottom: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  color: var(--border-strong);
+}
+
+/* --------------------------------------------------------------------------
+   4. INDIVIDUAL TOPIC CARDS
+   -------------------------------------------------------------------------- */
+
+.topic-card {
+  position: relative;
+  z-index: 2;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: all var(--transition-normal);
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Available Card (Array) */
+.topic-card.is-available {
+  border-color: var(--accent-primary-border);
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-raised) 100%);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+
+.topic-card.is-available:hover {
+  border-color: var(--brand);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24);
+}
+
+.topic-card.is-available:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+}
+
+/* Upcoming Cards (Phase 2) */
+.topic-card.is-upcoming {
+  background: var(--surface);
+  border-color: var(--border);
+  opacity: 0.92;
+  cursor: default;
+}
+
+.topic-card.is-upcoming:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-subtle);
+}
+
+/* Card Header: Stop Number + State Badge */
+.topic-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.topic-stop-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+
+.is-available .topic-stop-index {
+  background: var(--accent-primary-subtle);
+  border-color: var(--accent-primary-border);
+  color: var(--brand);
+}
+
+.topic-status-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.status-badge-available {
+  background: var(--accent-emerald-subtle);
+  border: 1px solid var(--accent-emerald-border);
+  color: var(--success);
+}
+
+.status-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 6px var(--success);
+}
+
+.status-badge-upcoming {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+/* Card Visual Icon/Diagram */
+.topic-card-diagram {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 72px;
+}
+
+.is-available .topic-card-diagram {
+  background: var(--bg);
+  border-color: var(--accent-primary-border);
+}
+
+/* Detailed Diagrams Inside Cards */
+.diagram-array-row {
+  display: flex;
+  gap: 5px;
+}
+
+.diagram-array-cell {
+  width: 44px;
+  height: 36px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.diagram-array-cell.active-cell {
+  border-color: var(--brand);
+  background: var(--accent-primary-subtle);
+  color: var(--brand);
+}
+
+.diagram-cell-idx {
+  font-size: 0.55rem;
+  color: var(--text-muted);
+  line-height: 1;
+}
+
+.diagram-cell-val {
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.diagram-list-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.diagram-list-node {
+  display: flex;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+}
+
+.diagram-list-node span:first-child {
+  padding: 0.35rem 0.6rem;
+  font-weight: 700;
+  border-right: 1px solid var(--border);
+}
+
+.diagram-list-node span:last-child {
+  padding: 0.35rem 0.45rem;
+  color: var(--concept);
+  font-size: 0.68rem;
+  background: var(--surface-raised);
+}
+
+.diagram-arrow {
+  color: var(--concept);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 800;
+}
+
+.diagram-stack-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.diagram-stack-tube {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 3px;
+  width: 80px;
+  border-left: 2px solid var(--concept);
+  border-right: 2px solid var(--concept);
+  border-bottom: 2px solid var(--concept);
+  padding: 3px;
+  border-radius: 0 0 4px 4px;
+}
+
+.diagram-stack-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  text-align: center;
+  padding: 0.2rem;
+  border-radius: 2px;
+}
+
+.diagram-stack-item.top-item {
+  border-color: var(--concept);
+  background: var(--accent-indigo-subtle);
+  color: var(--concept);
+  font-weight: 700;
+}
+
+.diagram-stack-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--concept);
+  background: var(--accent-indigo-subtle);
+  border: 1px solid var(--accent-indigo-border);
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-xs);
+}
+
+.diagram-queue-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.diagram-queue-tube {
+  display: flex;
+  gap: 4px;
+  border-top: 2px solid var(--warning);
+  border-bottom: 2px solid var(--warning);
+  padding: 3px 0.4rem;
+}
+
+.diagram-queue-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: 2px;
+}
+
+.diagram-queue-item.front {
+  border-color: var(--warning);
+  color: var(--warning);
+  font-weight: 700;
+}
+
+.diagram-tree-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.diagram-tree-node {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1.5px solid var(--success);
+  color: var(--success);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.diagram-tree-children {
+  display: flex;
+  gap: 1.5rem;
+  position: relative;
+}
+
+.diagram-tree-children::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 4px;
+  border-top: 1px dashed var(--border-strong);
+}
+
+.diagram-graph-network {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.diagram-graph-node {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1.5px solid var(--danger);
+  color: var(--danger);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.diagram-graph-edge {
+  width: 26px;
+  height: 1px;
+  background: var(--border-strong);
+  position: relative;
+}
+
+.diagram-graph-edge::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: 0;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--danger);
+}
+
+/* Card Body */
+.topic-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.topic-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.is-available .topic-title {
+  color: var(--brand);
+}
+
+[data-theme="light"] .is-available .topic-title {
+  color: var(--brand-strong);
+}
+
+.topic-description {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+/* Card Footer / Action Link */
+.topic-card-footer {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.action-text {
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.is-available .action-text {
+  color: var(--brand);
+}
+
+.is-available:hover .action-text {
+  text-decoration: underline;
+}
+
+.is-upcoming .action-text {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   5. ACADEMIC COURSE OVERVIEW / ABOUT SECTION
+   -------------------------------------------------------------------------- */
+
+.course-overview-section {
+  padding: 3rem 1.5rem 4rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.overview-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.overview-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.overview-heading {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.overview-text {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+.overview-specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.spec-item {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.spec-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.spec-val {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* --------------------------------------------------------------------------
+   6. RESPONSIVE BREAKPOINTS
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+  .hero-layout-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .overview-card {
+    grid-template-columns: 1fr;
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .landing-hero {
+    padding: 2.5rem 1rem 1.5rem;
+  }
+
+  .hero-main-title {
+    font-size: 2.15rem;
+  }
+
+  .stage-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .stage-cards-grid::before {
+    display: none;
+  }
+
+  .pathway-stage {
+    gap: 1rem;
+  }
+
+  .overview-specs {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 580px) {
+  .hero-actions-row {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 0.75rem;
+  }
+
+  .btn-start-learning,
+  .btn-secondary-link {
+    width: 100%;
+    min-height: 44px;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-main-title {
+    font-size: 1.75rem;
+  }
+
+  .hero-tagline {
+    font-size: 0.95rem;
+  }
+
+  .preview-shapes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .preview-cell-card.span-two {
+    grid-column: span 1;
+  }
+
+  .topic-card {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero-main-title {
+    font-size: 1.5rem;
+  }
+
+  .landing-hero {
+    padding: 2rem 0.75rem 1.25rem;
+  }
+
+  .preview-shapes-grid {
+    padding: 0.75rem;
+  }
+
+  .preview-cell-card {
+    padding: 0.85rem;
+  }
+
+  .topic-card {
+    padding: 1rem;
+  }
+}

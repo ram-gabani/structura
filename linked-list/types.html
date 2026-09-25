@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Types of Linked Lists — Structura</title>
+  <meta name="description" content="Explore Singly, Doubly, Circular Singly, and Circular Doubly Linked Lists. Pointer directions, C structs, comparison table, and use cases for Data Structures in C.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body class="topic-page topic-linked-list" data-dsa-topic="linked-list">
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Linked List Types &bull; ⏱️ 6 min read</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link">Linked List Core</a>
+        <a href="types.html" class="nav-link active">Types</a>
+        <a href="operations.html" class="nav-link">Operations</a>
+        <a href="interactive-lab.html" class="nav-link">Interactive Lab</a>
+        <a href="practice.html" class="nav-link">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Visual Learning Hub</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb">
+              <span class="thumb-icon-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="thumb-icon-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Application Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO SECTION -->
+    <section class="hero-card">
+      <div class="hero-badge-row">
+        <span class="section-tag">Classification</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">4 Structural Variations</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">Pointer Topology</span>
+      </div>
+
+      <h1 class="hero-title">The Four Types of <span>Linked Lists</span></h1>
+      <p class="hero-description">
+        Depending on whether pointer connections move forward only, backward as well, or loop around in a perpetual cycle, linked lists take four distinct forms. Each variation offers distinct algorithmic advantages.
+      </p>
+    </section>
+
+    <!-- 1. SINGLY LINKED LIST -->
+    <section class="section-container" id="singly">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">1. Singly Linked List <span>(Unidirectional)</span></h2>
+          <p class="section-subtitle">The simplest linear pointer chain: forward navigation only</p>
+        </div>
+        <span class="speed-pill instant">Foundation</span>
+      </div>
+
+      <div class="card-glass blue-accent">
+        <!-- Visual Diagram -->
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.5rem; overflow-x: auto; margin-bottom: 1.25rem;">
+          <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; min-width: 520px; font-family: 'JetBrains Mono';">
+            <span style="color: var(--brand); font-weight: 800;">HEAD &rarr;</span>
+            <div style="display: flex; border: 2px solid var(--border-strong); border-radius: 6px; overflow: hidden; background: var(--surface-raised);">
+              <div style="padding: 0.5rem 0.85rem; font-weight: 800;">10</div>
+              <div style="padding: 0.5rem 0.65rem; border-left: 1px dashed var(--border-strong); color: var(--brand); font-size: 0.8rem;">next &rarr;</div>
+            </div>
+            <span style="color: var(--brand); font-weight: 800;">&rarr;</span>
+            <div style="display: flex; border: 2px solid var(--border-strong); border-radius: 6px; overflow: hidden; background: var(--surface-raised);">
+              <div style="padding: 0.5rem 0.85rem; font-weight: 800;">20</div>
+              <div style="padding: 0.5rem 0.65rem; border-left: 1px dashed var(--border-strong); color: var(--brand); font-size: 0.8rem;">next &rarr;</div>
+            </div>
+            <span style="color: var(--brand); font-weight: 800;">&rarr;</span>
+            <div style="display: flex; border: 2px solid var(--border-strong); border-radius: 6px; overflow: hidden; background: var(--surface-raised);">
+              <div style="padding: 0.5rem 0.85rem; font-weight: 800;">30</div>
+              <div style="padding: 0.5rem 0.65rem; border-left: 1px dashed var(--border-strong); color: var(--danger); font-size: 0.8rem;">NULL</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+          <div>
+            <h3 style="font-size: 1.05rem; color: var(--text-primary); margin-bottom: 0.5rem;">Key Characteristics:</h3>
+            <ul style="color: var(--text-secondary); line-height: 1.7; padding-left: 1.25rem; font-size: 0.92rem;">
+              <li><strong>Pointer Direction:</strong> Strictly forward (left-to-right). Cannot step backward to a previous node.</li>
+              <li><strong>Termination:</strong> The last node's <code>next</code> is explicitly set to <code>NULL</code>.</li>
+              <li><strong>Memory Overhead:</strong> Minimal: only one pointer field (<code>struct Node *next</code>) per node.</li>
+              <li><strong>Ideal Use:</strong> Implementing Stacks, simple queues, and symbol tables where only forward scanning is required.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="code-card" style="margin: 0;">
+              <div class="code-header">
+                <span class="code-title">C Struct Definition</span>
+              </div>
+              <pre class="code-block"><code>struct Node {
+    int data;           /* 4 bytes */
+    struct Node *next;  /* 8 bytes pointer */
+};</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. DOUBLY LINKED LIST -->
+    <section class="section-container" id="doubly">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">2. Doubly Linked List <span>(Bidirectional)</span></h2>
+          <p class="section-subtitle">Two-way navigation with prev and next pointers</p>
+        </div>
+        <span class="speed-pill logarithmic">Bidirectional</span>
+      </div>
+
+      <div class="card-glass emerald-accent">
+        <!-- Visual Diagram -->
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.5rem; overflow-x: auto; margin-bottom: 1.25rem;">
+          <div style="display: flex; align-items: center; justify-content: center; gap: 0.65rem; min-width: 620px; font-family: 'JetBrains Mono';">
+            <span style="color: var(--danger); font-size: 0.8rem; font-weight: 700;">NULL &larr;</span>
+            
+            <div style="display: flex; border: 2px solid var(--border-strong); border-radius: 6px; overflow: hidden; background: var(--surface-raised);">
+              <div style="padding: 0.5rem 0.55rem; color: var(--danger); font-size: 0.72rem; border-right: 1px dashed var(--border);">NULL</div>
+              <div style="padding: 0.5rem 0.85rem; font-weight: 800; color: var(--text-primary);">10</div>
+              <div style="padding: 0.5rem 0.55rem; color: var(--brand); font-size: 0.72rem; border-left: 1px dashed var(--border);">&rarr;</div>
+            </div>
+
+            <span style="color: var(--brand); font-weight: 800; font-size: 1.1rem;">&harr;</span>
+
+            <div style="display: flex; border: 2px solid var(--border-strong); border-radius: 6px; overflow: hidden; background: var(--surface-raised);">
+              <div style="padding: 0.5rem 0.55rem; color: var(--success); font-size: 0.72rem; border-right: 1px dashed var(--border);">&larr;</div>
+              <div style="padding: 0.5rem 0.85rem; font-weight: 800; color: var(--text-primary);">20</div>
+              <div style="padding: 0.5rem 0.55rem; color: var(--brand); font-size: 0.72rem; border-left: 1px dashed var(--border);">&rarr;</div>
+            </div>
+
+            <span style="color: var(--brand); font-weight: 800; font-size: 1.1rem;">&harr;</span>
+
+            <div style="display: flex; border: 2px solid var(--border-strong); border-radius: 6px; overflow: hidden; background: var(--surface-raised);">
+              <div style="padding: 0.5rem 0.55rem; color: var(--success); font-size: 0.72rem; border-right: 1px dashed var(--border);">&larr;</div>
+              <div style="padding: 0.5rem 0.85rem; font-weight: 800; color: var(--text-primary);">30</div>
+              <div style="padding: 0.5rem 0.55rem; color: var(--danger); font-size: 0.72rem; border-left: 1px dashed var(--border);">NULL</div>
+            </div>
+
+            <span style="color: var(--danger); font-size: 0.8rem; font-weight: 700;">&rarr; NULL</span>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+          <div>
+            <h3 style="font-size: 1.05rem; color: var(--text-primary); margin-bottom: 0.5rem;">Key Characteristics:</h3>
+            <ul style="color: var(--text-secondary); line-height: 1.7; padding-left: 1.25rem; font-size: 0.92rem;">
+              <li><strong>Bidirectional Movement:</strong> You can step both forward (<code>curr->next</code>) and backward (<code>curr->prev</code>).</li>
+              <li><strong>Instant Node Deletion:</strong> If you hold a pointer to node <code>curr</code>, you can delete it in <code>O(1)</code> time without having to traverse from HEAD to find its predecessor!</li>
+              <li><strong>Overhead:</strong> Requires 2 pointer addresses per node (typically +16 bytes on 64-bit systems).</li>
+              <li><strong>Ideal Use:</strong> Browser History (Back / Forward buttons), Music Player playlists, and Undo/Redo buffers.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="code-card" style="margin: 0;">
+              <div class="code-header">
+                <span class="code-title">C Struct Definition</span>
+              </div>
+              <pre class="code-block"><code>struct DNode {
+    int data;
+    struct DNode *prev; /* Back pointer */
+    struct DNode *next; /* Forward pointer */
+};</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. CIRCULAR SINGLY LINKED LIST -->
+    <section class="section-container" id="circular-singly">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">3. Circular Singly Linked List <span>(Endless Ring)</span></h2>
+          <p class="section-subtitle">The last node wraps around and points back to HEAD</p>
+        </div>
+        <span class="speed-pill sequential">Looping</span>
+      </div>
+
+      <div class="card-glass amber-accent">
+        <!-- Visual Diagram -->
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.5rem; overflow-x: auto; margin-bottom: 1.25rem;">
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem; min-width: 520px; font-family: 'JetBrains Mono';">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <span style="color: var(--brand); font-weight: 800;">HEAD &rarr;</span>
+              <div style="display: flex; border: 2px solid var(--brand); border-radius: 6px; overflow: hidden; background: var(--surface-raised);">
+                <div style="padding: 0.5rem 0.85rem; font-weight: 800;">10</div>
+                <div style="padding: 0.5rem 0.65rem; border-left: 1px dashed var(--border-strong); color: var(--brand);">&rarr;</div>
+              </div>
+              <span style="color: var(--brand); font-weight: 800;">&rarr;</span>
+              <div style="display: flex; border: 2px solid var(--border-strong); border-radius: 6px; overflow: hidden; background: var(--surface-raised);">
+                <div style="padding: 0.5rem 0.85rem; font-weight: 800;">20</div>
+                <div style="padding: 0.5rem 0.65rem; border-left: 1px dashed var(--border-strong); color: var(--brand);">&rarr;</div>
+              </div>
+              <span style="color: var(--brand); font-weight: 800;">&rarr;</span>
+              <div style="display: flex; border: 2px solid var(--border-strong); border-radius: 6px; overflow: hidden; background: var(--surface-raised);">
+                <div style="padding: 0.5rem 0.85rem; font-weight: 800;">30</div>
+                <div style="padding: 0.5rem 0.65rem; border-left: 1px dashed var(--border-strong); color: var(--warning);">&bull;&crarr;</div>
+              </div>
+            </div>
+            <!-- Wrap-around loop line -->
+            <div style="color: var(--warning); font-size: 0.8rem; display: flex; align-items: center; gap: 0.5rem;">
+              <span>&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500; (last-&gt;next points back to HEAD) &#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+          <div>
+            <h3 style="font-size: 1.05rem; color: var(--text-primary); margin-bottom: 0.5rem;">Key Characteristics:</h3>
+            <ul style="color: var(--text-secondary); line-height: 1.7; padding-left: 1.25rem; font-size: 0.92rem;">
+              <li><strong>Zero NULL Pointers:</strong> No node ever contains <code>NULL</code>! The loop condition is <code>temp->next != head</code>.</li>
+              <li><strong>Full Cycle Reachability:</strong> You can start traversal from any node and eventually reach every other node.</li>
+              <li><strong>Caution — Infinite Loops:</strong> A standard <code>while(temp != NULL)</code> will run in an infinite loop forever!</li>
+              <li><strong>Ideal Use:</strong> Operating System Round-Robin CPU scheduling, multiplayer turn-taking games, and looping audio tracks.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="code-card" style="margin: 0;">
+              <div class="code-header">
+                <span class="code-title">Loop Traversal Condition</span>
+              </div>
+              <pre class="code-block"><code>/* Correct Circular Traversal in C */
+struct Node *temp = head;
+if (head != NULL) {
+    do {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    } while (temp != head);
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. COMPARISON MATRIX -->
+    <section class="section-container" id="matrix">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Comprehensive <span>Comparison Matrix</span></h2>
+          <p class="section-subtitle">All 4 linked list variations evaluated side-by-side</p>
+        </div>
+        <span class="speed-pill instant">Syllabus Sheet</span>
+      </div>
+
+      <div class="analogy-table-wrapper">
+        <table class="analogy-table">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Pointers / Node</th>
+              <th>Traverse Direction</th>
+              <th>End Node Target</th>
+              <th>Delete Node Given Pointer</th>
+              <th>Memory Overhead</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Singly Linked List</strong></td>
+              <td>1 (<code>next</code>)</td>
+              <td>Forward Only</td>
+              <td><code>NULL</code></td>
+              <td><code>O(n)</code> (must find prev)</td>
+              <td>Low (+1 pointer)</td>
+            </tr>
+            <tr>
+              <td><strong>Doubly Linked List</strong></td>
+              <td>2 (<code>prev</code>, <code>next</code>)</td>
+              <td>Bidirectional</td>
+              <td><code>NULL</code> at both ends</td>
+              <td><code>O(1)</code> (instant rewire)</td>
+              <td>Moderate (+2 pointers)</td>
+            </tr>
+            <tr>
+              <td><strong>Circular Singly</strong></td>
+              <td>1 (<code>next</code>)</td>
+              <td>Forward (in a ring)</td>
+              <td>Points back to <code>HEAD</code></td>
+              <td><code>O(n)</code></td>
+              <td>Low (+1 pointer)</td>
+            </tr>
+            <tr>
+              <td><strong>Circular Doubly</strong></td>
+              <td>2 (<code>prev</code>, <code>next</code>)</td>
+              <td>Bidirectional (in a ring)</td>
+              <td>Head &harr; Tail connected</td>
+              <td><code>O(1)</code></td>
+              <td>Moderate (+2 pointers)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CTA NAVIGATION -->
+    <section class="section-container">
+      <div style="background: var(--gradient-aurora); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; color: #080a0f;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem;">Next: Master Linked List Operations</h2>
+        <p style="font-size: 1.05rem; font-weight: 600; max-width: 600px; margin: 0 auto 1.5rem;">
+          Learn step-by-step pointer rewiring for Insertion at Beginning/End/Position, Deletion, and Searching in C.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="operations.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Operations &amp; Algorithms Guide &rarr;
+          </a>
+          <a href="interactive-lab.html" class="btn-primary" style="background: #ffffff; color: #080a0f; text-decoration: none;">
+            Open Interactive Lab
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Linked List Core</a>
+        <a href="types.html" style="color: var(--accent-primary-text); text-decoration: none;">Types</a>
+        <a href="operations.html" style="color: var(--accent-primary-text); text-decoration: none;">Operations</a>
+        <a href="interactive-lab.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="practice.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tree Core & Hierarchical Terminology — Structura</title>
+  <meta name="description" content="A comprehensive beginner guide to Trees, Binary Tree definitions, Full vs Complete vs Perfect trees, Terminology (Root, Height, Depth, Degree), and C struct TreeNode for Data Structures in C.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body class="topic-page topic-trees" data-dsa-topic="trees">
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Tree Storage Model &bull; ⏱️ 8 min read</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link active">Trees Core</a>
+        <a href="traversals.html" class="nav-link">Traversals</a>
+        <a href="bst.html" class="nav-link">Binary Search Tree</a>
+        <a href="interactive-lab.html" class="nav-link">Interactive Lab</a>
+        <a href="practice.html" class="nav-link">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Visual Learning Hub</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb">
+              <span class="thumb-icon-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="thumb-icon-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO SECTION -->
+    <section class="hero-card" id="overview">
+      <div class="hero-badge-row">
+        <span class="section-tag">Non-Linear Data Structure</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">Hierarchical Model</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">Branching Pointers</span>
+      </div>
+
+      <h1 class="hero-title">What is a <span>Tree</span>?</h1>
+      <p class="hero-description">
+        Arrays, Linked Lists, Stacks, and Queues are all <em>linear</em> data structures: elements follow a single straight sequence. In contrast, a <strong>Tree</strong> is a non-linear <strong>hierarchical</strong> data structure composed of nodes connected by directed edges, radiating from a single top node called the <strong>ROOT</strong>.
+      </p>
+      <p class="hero-description" style="margin-top: 0.75rem; color: var(--text-primary);">
+        Trees reflect real-world relationships: file system directory folders, corporate organizational charts, HTML DOM document trees, and decision logic.
+      </p>
+
+      <div class="concept-card-grid cols-4" style="margin-top: 1.5rem;">
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header"><span class="concept-badge badge-sky">Single Root</span></div>
+          <div class="concept-title" style="font-size: 1rem;">Ancestor Node</div>
+          <div class="concept-body" style="font-size: 0.86rem;">The topmost apex of the tree with zero incoming parent edges. Every node descends from Root.</div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header"><span class="concept-badge badge-emerald">Parent-Child</span></div>
+          <div class="concept-title" style="font-size: 1rem;">Directed Branching</div>
+          <div class="concept-body" style="font-size: 0.86rem;">Every child node has exactly ONE parent. Nodes sharing the same parent are <em>Siblings</em>.</div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header"><span class="concept-badge badge-purple">Leaf Nodes</span></div>
+          <div class="concept-title" style="font-size: 1rem;">Terminal Nodes</div>
+          <div class="concept-body" style="font-size: 0.86rem;">Nodes with zero children (both left and right pointer fields point to <code>NULL</code>).</div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header"><span class="concept-badge badge-amber">⚡ O(log n) Speed</span></div>
+          <div class="concept-title" style="font-size: 1rem;">Logarithmic Depth</div>
+          <div class="concept-body" style="font-size: 0.86rem;">Balanced trees cut the search domain in half at each level, delivering blazingly fast lookups.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. COMPREHENSIVE TREE TERMINOLOGY -->
+    <section class="section-container" id="terminology">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Tree Terminology: <span>Exam Definitions Cheat Sheet</span></h2>
+          <p class="section-subtitle">Core vocabulary and fundamental tree definitions</p>
+        </div>
+        <span class="speed-pill instant">Syllabus Core</span>
+      </div>
+
+      <div class="card-glass blue-accent">
+        
+        <!-- Legend -->
+        <div class="tree-diagram-legend" style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;">
+          <div style="display: flex; align-items: center; gap: 0.45rem;">
+            <span style="width: 14px; height: 14px; border-radius: 50%; border: 2.5px solid var(--brand); background: rgba(56, 189, 248, 0.2); display: inline-block;"></span>
+            <span style="color: var(--text-primary); font-weight: 700;">Cyan &bull; Root</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.45rem;">
+            <span style="width: 14px; height: 14px; border-radius: 50%; border: 2.5px solid var(--concept); background: rgba(167, 139, 250, 0.2); display: inline-block;"></span>
+            <span style="color: var(--text-primary); font-weight: 700;">Purple &bull; Internal Node</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.45rem;">
+            <span style="width: 14px; height: 14px; border-radius: 50%; border: 2.5px solid var(--success); background: rgba(52, 211, 153, 0.2); display: inline-block;"></span>
+            <span style="color: var(--text-primary); font-weight: 700;">Green &bull; Leaf Node</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.45rem;">
+            <span style="width: 22px; height: 2.5px; background: var(--border-strong); border-radius: 2px; display: inline-block;"></span>
+            <span style="color: var(--text-primary); font-weight: 700;">Line &bull; Edge</span>
+          </div>
+        </div>
+
+        <!-- Hierarchical Tree Diagram (Responsive Scalable SVG Stage) -->
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.5rem 1rem; display: flex; justify-content: center; align-items: center; margin-bottom: 2rem; overflow-x: auto;">
+          <svg viewBox="0 0 740 430" style="width: 100%; max-width: 740px; height: auto; min-width: 600px; display: block;" aria-label="Hierarchical Binary Tree Terminology Diagram showing Root, Internal Nodes, Leaves, Edges, and Levels">
+            <defs>
+              <filter id="root-glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="var(--brand)" flood-opacity="0.35"/>
+              </filter>
+            </defs>
+
+            <!-- 1. Horizontal Level Guidelines (Behind Everything) -->
+            <g opacity="0.6">
+              <!-- Level 0 Guide -->
+              <line x1="85" y1="70" x2="685" y2="70" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4,4"/>
+              <text x="80" y="74" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="var(--text-muted)">Level 0</text>
+
+              <!-- Level 1 Guide -->
+              <line x1="85" y1="190" x2="685" y2="190" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4,4"/>
+              <text x="80" y="194" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="var(--text-muted)">Level 1</text>
+
+              <!-- Level 2 Guide -->
+              <line x1="85" y1="315" x2="685" y2="315" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4,4"/>
+              <text x="80" y="319" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="var(--text-muted)">Level 2</text>
+            </g>
+
+            <!-- 2. Edges (Rendered before nodes so they visually terminate cleanly at circle perimeters) -->
+            <g stroke="var(--border-strong)" stroke-width="2.5" stroke-linecap="round">
+              <!-- Edge A -> B (Circle perimeter: dx=-140, dy=120, dist=184.4, R=24) -->
+              <line x1="341.8" y1="85.6" x2="238.2" y2="174.4"/>
+              <!-- Edge A -> C (Circle perimeter: dx=140, dy=120, dist=184.4, R=24) -->
+              <line x1="378.2" y1="85.6" x2="481.8" y2="174.4"/>
+              <!-- Edge B -> D (Circle perimeter: dx=-80, dy=125, dist=148.4, R=24) -->
+              <line x1="207.1" y1="210.2" x2="152.9" y2="294.8"/>
+              <!-- Edge B -> E (Circle perimeter: dx=80, dy=125, dist=148.4, R=24) -->
+              <line x1="232.9" y1="210.2" x2="287.1" y2="294.8"/>
+              <!-- Edge C -> F (Circle perimeter: dx=80, dy=125, dist=148.4, R=24) -->
+              <line x1="512.9" y1="210.2" x2="567.1" y2="294.8"/>
+            </g>
+
+            <!-- 3. Sibling Bracket / Annotation between B and C -->
+            <g>
+              <path d="M 255 180 Q 360 162 465 180" fill="none" stroke="var(--warning)" stroke-width="1.5" stroke-dasharray="3,3"/>
+              <text x="360" y="156" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="var(--warning)">&lang; Siblings (Shared Parent A) &rang;</text>
+            </g>
+
+            <!-- 4. Node Circles (Radius = 24px, Diameter = 48px) -->
+            <!-- Node A (Root) -->
+            <circle cx="360" cy="70" r="24" stroke="var(--brand)" stroke-width="3" fill="var(--surface-raised)" filter="url(#root-glow)"/>
+            <text x="360" y="70" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono', monospace" font-size="18" font-weight="800" fill="var(--text-primary)">A</text>
+            <!-- External Role Label for A (Above circle, > 14px gap) -->
+            <text x="360" y="32" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800" fill="var(--brand)">ROOT (Ancestral Apex)</text>
+            <text x="360" y="108" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600" fill="var(--text-muted)">Depth = 0 &bull; Degree = 2</text>
+
+            <!-- Node B (Internal) -->
+            <circle cx="220" cy="190" r="24" stroke="var(--concept)" stroke-width="2.5" fill="var(--surface-raised)"/>
+            <text x="220" y="190" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono', monospace" font-size="18" font-weight="800" fill="var(--text-primary)">B</text>
+            <!-- External Role Label for B (Below circle) -->
+            <text x="220" y="228" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="var(--concept)">Internal Node</text>
+            <text x="220" y="243" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600" fill="var(--text-muted)">Child of A &bull; Deg = 2</text>
+
+            <!-- Node C (Internal) -->
+            <circle cx="500" cy="190" r="24" stroke="var(--concept)" stroke-width="2.5" fill="var(--surface-raised)"/>
+            <text x="500" y="190" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono', monospace" font-size="18" font-weight="800" fill="var(--text-primary)">C</text>
+            <!-- External Role Label for C (Below circle) -->
+            <text x="500" y="228" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="var(--concept)">Internal Node</text>
+            <text x="500" y="243" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600" fill="var(--text-muted)">Child of A &bull; Deg = 1</text>
+
+            <!-- Node D (Leaf) -->
+            <circle cx="140" cy="315" r="24" stroke="var(--success)" stroke-width="2.5" fill="var(--surface-raised)"/>
+            <text x="140" y="315" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono', monospace" font-size="18" font-weight="800" fill="var(--text-primary)">D</text>
+            <!-- External Role Label for D (Below circle) -->
+            <text x="140" y="353" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="var(--success)">Leaf (Terminal)</text>
+            <text x="140" y="368" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600" fill="var(--text-muted)">Deg = 0 &bull; Height = 0</text>
+
+            <!-- Node E (Leaf) -->
+            <circle cx="300" cy="315" r="24" stroke="var(--success)" stroke-width="2.5" fill="var(--surface-raised)"/>
+            <text x="300" y="315" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono', monospace" font-size="18" font-weight="800" fill="var(--text-primary)">E</text>
+            <!-- External Role Label for E (Below circle) -->
+            <text x="300" y="353" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="var(--success)">Leaf (Terminal)</text>
+            <text x="300" y="368" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600" fill="var(--text-muted)">Deg = 0 &bull; Height = 0</text>
+
+            <!-- Node F (Leaf) -->
+            <circle cx="580" cy="315" r="24" stroke="var(--success)" stroke-width="2.5" fill="var(--surface-raised)"/>
+            <text x="580" y="315" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono', monospace" font-size="18" font-weight="800" fill="var(--text-primary)">F</text>
+            <!-- External Role Label for F (Below circle) -->
+            <text x="580" y="353" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="var(--success)">Leaf (Terminal)</text>
+            <text x="580" y="368" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600" fill="var(--text-muted)">Deg = 0 &bull; Height = 0</text>
+
+            <!-- 5. Bottom Architectural Metrics Strip (Separated by > 24px from Leaf Labels) -->
+            <rect x="70" y="395" width="600" height="26" rx="6" fill="var(--surface-raised)" stroke="var(--border)" stroke-width="1"/>
+            <text x="360" y="412" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="var(--text-secondary)">
+              Tree Height = 2 Edges &bull; Total Nodes = 6 &bull; Leaves = 3 &bull; Max Depth = 2 &bull; Max Degree = 2
+            </text>
+          </svg>
+        </div>
+
+        <!-- Comprehensive 12-Term Definitions Grid (2 Columns on Desktop, 1 Column on Mobile) -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.15rem; font-size: 0.9rem;">
+          <div style="padding: 0.9rem 1.15rem; background: var(--surface-raised); border-radius: var(--radius-sm); border-left: 3.5px solid var(--brand); border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+            <strong style="color: var(--text-primary); font-size: 0.96rem;">1. Root:</strong>
+            <p style="color: var(--text-secondary); margin-top: 0.35rem; line-height: 1.6;">The topmost ancestral apex node with zero incoming parent edges (Node A). Every tree possesses exactly one root.</p>
+          </div>
+
+          <div style="padding: 0.9rem 1.15rem; background: var(--surface-raised); border-radius: var(--radius-sm); border-left: 3.5px solid var(--brand); border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+            <strong style="color: var(--text-primary); font-size: 0.96rem;">2. Edge:</strong>
+            <p style="color: var(--text-secondary); margin-top: 0.35rem; line-height: 1.6;">The directed link connecting a parent node to a child node. A tree with \(N\) nodes always contains exactly \(N - 1\) edges.</p>
+          </div>
+
+          <div style="padding: 0.9rem 1.15rem; background: var(--surface-raised); border-radius: var(--radius-sm); border-left: 3.5px solid var(--concept); border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+            <strong style="color: var(--text-primary); font-size: 0.96rem;">3. Parent:</strong>
+            <p style="color: var(--text-secondary); margin-top: 0.35rem; line-height: 1.6;">An immediate predecessor node directly connected to lower successor nodes (e.g., A is the parent of B and C).</p>
+          </div>
+
+          <div style="padding: 0.9rem 1.15rem; background: var(--surface-raised); border-radius: var(--radius-sm); border-left: 3.5px solid var(--concept); border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+            <strong style="color: var(--text-primary); font-size: 0.96rem;">4. Child:</strong>
+            <p style="color: var(--text-secondary); margin-top: 0.35rem; line-height: 1.6;">An immediate successor node directly descended from an upper parent (e.g., D and E are children of B).</p>
+          </div>
+
+          <div style="padding: 0.9rem 1.15rem; background: var(--surface-raised); border-radius: var(--radius-sm); border-left: 3.5px solid var(--warning); border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+            <strong style="color: var(--text-primary); font-size: 0.96rem;">5. Sibling:</strong>
+            <p style="color: var(--text-secondary); margin-top: 0.35rem; line-height: 1.6;">Nodes that share the exact same immediate parent node (e.g., B and C share parent A; D and E share parent B).</p>
+          </div>
+
+          <div style="padding: 0.9rem 1.15rem; background: var(--surface-raised); border-radius: var(--radius-sm); border-left: 3.5px solid var(--success); border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+            <strong style="color: var(--text-primary); font-size: 0.96rem;">6. Leaf Node (Terminal):</strong>
+            <p style="color: var(--text-secondary); margin-top: 0.35rem; line-height: 1.6;">A bottom node possessing zero children (Degree = 0). Nodes D, E, and F are leaves whose left and right pointers are <code>NULL</code>.</p>
+          </div>
+
+          <div style="padding: 0.9rem 1.15rem; background: var(--surface-raised); border-radius: var(--radius-sm); border-left: 3.5px solid var(--concept); border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+            <strong style="color: var(--text-primary); font-size: 0.96rem;">7. Internal Node (Non-Leaf):</strong>
+            <p style="color: var(--text-secondary); margin-top: 0.35rem; line-height: 1.6;">Any node with at least one child (Degree &ge; 1). Nodes B and C are internal nodes connecting the root to the leaves.</p>
+          </div>
+
+          <div style="padding: 0.9rem 1.15rem; background: var(--surface-raised); border-radius: var(--radius-sm); border-left: 3.5px solid var(--brand); border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+            <strong style="color: var(--text-primary); font-size: 0.96rem;">8. Degree of a Node:</strong>
+            <p style="color: var(--text-secondary); margin-top: 0.35rem; line-height: 1.6;">The number of children directly attached to a node. Node B has Degree 2, Node C has Degree 1, and leaves have Degree 0.</p>
+          </div>
+
+          <div style="padding: 0.9rem 1.15rem; background: var(--surface-raised); border-radius: var(--radius-sm); border-left: 3.5px solid var(--brand); border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+            <strong style="color: var(--text-primary); font-size: 0.96rem;">9. Level:</strong>
+            <p style="color: var(--text-secondary); margin-top: 0.35rem; line-height: 1.6;">Hierarchical tier from top to bottom. Root is at Level 0, its children at Level 1, and grandchildren at Level 2.</p>
+          </div>
+
+          <div style="padding: 0.9rem 1.15rem; background: var(--surface-raised); border-radius: var(--radius-sm); border-left: 3.5px solid var(--concept); border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+            <strong style="color: var(--text-primary); font-size: 0.96rem;">10. Depth of a Node:</strong>
+            <p style="color: var(--text-secondary); margin-top: 0.35rem; line-height: 1.6;">The length of the unique path (number of edges) from the Root down to that specific node. Depth(D) = 2.</p>
+          </div>
+
+          <div style="padding: 0.9rem 1.15rem; background: var(--surface-raised); border-radius: var(--radius-sm); border-left: 3.5px solid var(--success); border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+            <strong style="color: var(--text-primary); font-size: 0.96rem;">11. Height of a Node &amp; Tree:</strong>
+            <p style="color: var(--text-secondary); margin-top: 0.35rem; line-height: 1.6;">Length of longest path from that node down to a leaf. Height of a tree equals the height of its Root (Height = 2 edges).</p>
+          </div>
+
+          <div style="padding: 0.9rem 1.15rem; background: var(--surface-raised); border-radius: var(--radius-sm); border-left: 3.5px solid var(--warning); border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+            <strong style="color: var(--text-primary); font-size: 0.96rem;">12. Subtree:</strong>
+            <p style="color: var(--text-secondary); margin-top: 0.35rem; line-height: 1.6;">Any node in the tree along with all of its descendants, forming a valid tree itself (e.g., node B with leaves D and E).</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. BINARY TREE TYPES -->
+    <section class="section-container" id="types">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">The Five Types of <span>Binary Trees</span></h2>
+          <p class="section-subtitle">A binary tree restricts each node to at most 2 children: Left and Right</p>
+        </div>
+      </div>
+
+      <div class="concept-card-grid cols-3">
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-sky">Strict / Proper</span></div>
+          <div class="concept-title">1. Full Binary Tree</div>
+          <div class="concept-body">
+            Every node has either <strong>0 or exactly 2 children</strong>. No node possesses only 1 child!
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-emerald">Heap Foundation</span></div>
+          <div class="concept-title">2. Complete Binary Tree</div>
+          <div class="concept-body">
+            All levels are completely filled except possibly the last level, which must be filled strictly from left to right.
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-purple">Symmetric Apex</span></div>
+          <div class="concept-title">3. Perfect Binary Tree</div>
+          <div class="concept-body">
+            All interior nodes have 2 children, and every leaf node sits at the exact same depth level. Total nodes = \(2^{h+1} - 1\).
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-amber">AVL Standard</span></div>
+          <div class="concept-title">4. Balanced Binary Tree</div>
+          <div class="concept-body">
+            For every node, the height difference between left and right subtrees is at most 1 (\(|h_L - h_R| \le 1\)).
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-rose">Worst Case</span></div>
+          <div class="concept-title">5. Degenerate / Skewed Tree</div>
+          <div class="concept-body">
+            Every parent node has only 1 child. The tree structure collapses into a linear linked list with \(O(n)\) lookup time.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. C STRUCT REPRESENTATION -->
+    <section class="section-container" id="c-representation">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Linked Representation <span>in Standard C</span></h2>
+          <p class="section-subtitle">Declaring the TreeNode struct with left and right pointer fields</p>
+        </div>
+      </div>
+
+      <div class="code-card">
+        <div class="code-header">
+          <span class="code-title">C TreeNode Struct Definition</span>
+          <button class="copy-code-btn" data-target="code-tree-struct">📋 Copy Code</button>
+        </div>
+        <pre class="code-block"><code id="code-tree-struct">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+/* Binary Tree Node Structure */
+struct TreeNode {
+    int data;                    /* Data payload */
+    struct TreeNode *left;       /* Left child memory address */
+    struct TreeNode *right;      /* Right child memory address */
+};
+
+/* Helper constructor to allocate a new node */
+struct TreeNode* createTreeNode(int val) {
+    struct TreeNode *newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    newNode-&gt;data = val;
+    newNode-&gt;left = NULL;
+    newNode-&gt;right = NULL;
+    return newNode;
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- CTA NAVIGATION -->
+    <section class="section-container">
+      <div style="background: var(--gradient-aurora); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; color: #080a0f;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem;">Next: Master Tree Traversals (Inorder, Preorder, Postorder)</h2>
+        <p style="font-size: 1.05rem; font-weight: 600; max-width: 600px; margin: 0 auto 1.5rem;">
+          Learn how recursive functions visit every node systematically with step-by-step traces and call stack animations.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="traversals.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Tree Traversals Guide &rarr;
+          </a>
+          <a href="bst.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Binary Search Trees (BST) &rarr;
+          </a>
+          <a href="interactive-lab.html" class="btn-primary" style="background: #ffffff; color: #080a0f; text-decoration: none;">
+            Open Interactive Lab
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Trees Core</a>
+        <a href="traversals.html" style="color: var(--accent-primary-text); text-decoration: none;">Traversals</a>
+        <a href="bst.html" style="color: var(--accent-primary-text); text-decoration: none;">Binary Search Tree</a>
+        <a href="interactive-lab.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="practice.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linked List Operations & C Algorithms — Structura</title>
+  <meta name="description" content="Step-by-step algorithms and clean C code for Linked List insertion, deletion at beginning/end/position, search, traversal, and memory cleanup. Data Structures in C.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body class="topic-page topic-linked-list" data-dsa-topic="linked-list">
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Linked List Operations &bull; ⏱️ 8 min read</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link">Linked List Core</a>
+        <a href="types.html" class="nav-link">Types</a>
+        <a href="operations.html" class="nav-link active">Operations</a>
+        <a href="interactive-lab.html" class="nav-link">Interactive Lab</a>
+        <a href="practice.html" class="nav-link">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Visual Learning Hub</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb">
+              <span class="thumb-icon-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="thumb-icon-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Application Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO SECTION -->
+    <section class="hero-card">
+      <div class="hero-badge-row">
+        <span class="section-tag">Operations Manual</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">Pointer Rewiring</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">C Source Functions</span>
+      </div>
+
+      <h1 class="hero-title">Linked List <span>Operations in C</span></h1>
+      <p class="hero-description">
+        Because elements are linked by addresses rather than physical memory indices, every insertion and deletion is executed by redirecting pointer coordinates. Master the essential algorithms for inserting, deleting, and searching nodes.
+      </p>
+    </section>
+
+    <!-- 1. INSERTION AT BEGINNING -->
+    <section class="section-container" id="insert-beg">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">1. Insert at Beginning <span>(Prepend)</span></h2>
+          <p class="section-subtitle">Adding a new first node in constant time</p>
+        </div>
+        <span class="speed-pill instant">⚡ O(1) Time</span>
+      </div>
+
+      <div class="card-glass blue-accent">
+        <div style="font-size: 0.98rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1rem;">
+          <strong>Algorithmic Steps:</strong>
+          <ol style="padding-left: 1.5rem; margin-top: 0.5rem;">
+            <li>Allocate new node <code>newNode</code> with <code>malloc()</code> and set <code>newNode->data = val</code>.</li>
+            <li>Point <code>newNode->next</code> to the current <code>head</code>.</li>
+            <li>Update <code>head</code> to point to <code>newNode</code>.</li>
+          </ol>
+        </div>
+
+        <!-- Before & After Diagram -->
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.25rem; margin-bottom: 1.25rem; font-family: 'JetBrains Mono'; font-size: 0.84rem;">
+          <div style="color: var(--text-muted); margin-bottom: 0.5rem;">POINTER FLOW:</div>
+          <div style="color: var(--warning); margin-bottom: 0.35rem;">Step 1: newNode-&gt;next = head; &nbsp;/* New node attaches to old first node */</div>
+          <div style="color: var(--success);">Step 2: head = newNode; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* HEAD moves to new node in 1 step! */</div>
+        </div>
+
+        <div class="code-card">
+          <div class="code-header">
+            <span class="code-title">C Implementation</span>
+            <button class="copy-code-btn" data-target="code-insert-beg">📋 Copy Code</button>
+          </div>
+          <pre class="code-block"><code id="code-insert-beg">struct Node* insertAtBeginning(struct Node *head, int val) {
+    struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        return head;
+    }
+    newNode-&gt;data = val;
+    newNode-&gt;next = head;  /* Connect new node to current head */
+    head = newNode;        /* Update head to point to new node */
+    return head;           /* Return updated head pointer */
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. INSERTION AT END -->
+    <section class="section-container" id="insert-end">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">2. Insert at End <span>(Append)</span></h2>
+          <p class="section-subtitle">Traversing to the tail node and attaching the new element</p>
+        </div>
+        <span class="speed-pill sequential">🚶 O(n) Time</span>
+      </div>
+
+      <div class="card-glass emerald-accent">
+        <div style="font-size: 0.98rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1rem;">
+          <strong>Algorithmic Steps:</strong>
+          <ol style="padding-left: 1.5rem; margin-top: 0.5rem;">
+            <li>Allocate <code>newNode</code> and set <code>newNode->next = NULL</code>.</li>
+            <li><strong>Special Case:</strong> If <code>head == NULL</code> (list is empty), set <code>head = newNode</code> and return.</li>
+            <li>Otherwise, use a temporary pointer <code>temp</code> to scan until <code>temp->next == NULL</code> (the tail).</li>
+            <li>Set <code>temp->next = newNode</code>.</li>
+          </ol>
+        </div>
+
+        <div class="code-card">
+          <div class="code-header">
+            <span class="code-title">C Implementation</span>
+            <button class="copy-code-btn" data-target="code-insert-end">📋 Copy Code</button>
+          </div>
+          <pre class="code-block"><code id="code-insert-end">struct Node* insertAtEnd(struct Node *head, int val) {
+    struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode-&gt;data = val;
+    newNode-&gt;next = NULL;
+
+    /* Empty list edge case */
+    if (head == NULL) {
+        return newNode;
+    }
+
+    struct Node *temp = head;
+    /* Traverse until we reach the last node */
+    while (temp-&gt;next != NULL) {
+        temp = temp-&gt;next;
+    }
+
+    temp-&gt;next = newNode; /* Link last node to new node */
+    return head;
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. INSERTION AT GIVEN POSITION -->
+    <section class="section-container" id="insert-pos">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">3. Insert at Specific Position</h2>
+          <p class="section-subtitle">Rewiring pointers in the middle of an existing chain</p>
+        </div>
+        <span class="speed-pill sequential">🚶 O(pos) Time</span>
+      </div>
+
+      <div class="card-glass amber-accent">
+        <div style="font-size: 0.98rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1rem;">
+          To insert at position <code>pos</code> (1-indexed):
+          <ol style="padding-left: 1.5rem; margin-top: 0.5rem;">
+            <li>If <code>pos == 1</code>, call <code>insertAtBeginning()</code>.</li>
+            <li>Traverse <code>pos - 2</code> steps to reach the node immediately prior to the insertion target.</li>
+            <li>Link <code>newNode->next = temp->next</code> (Crucial! Connect downstream first to prevent losing the chain).</li>
+            <li>Link <code>temp->next = newNode</code>.</li>
+          </ol>
+        </div>
+
+        <div class="code-card">
+          <div class="code-header">
+            <span class="code-title">C Implementation</span>
+            <button class="copy-code-btn" data-target="code-insert-pos">📋 Copy Code</button>
+          </div>
+          <pre class="code-block"><code id="code-insert-pos">struct Node* insertAtPosition(struct Node *head, int val, int pos) {
+    if (pos &lt; 1) {
+        printf("Invalid position!\n");
+        return head;
+    }
+    if (pos == 1) {
+        return insertAtBeginning(head, val);
+    }
+
+    struct Node *temp = head;
+    /* Move to the (pos - 1)th node */
+    for (int i = 1; i &lt; pos - 1 &amp;&amp; temp != NULL; i++) {
+        temp = temp-&gt;next;
+    }
+
+    if (temp == NULL) {
+        printf("Position out of bounds!\n");
+        return head;
+    }
+
+    struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode-&gt;data = val;
+    newNode-&gt;next = temp-&gt;next; /* Step 1: Hook to subsequent node */
+    temp-&gt;next = newNode;       /* Step 2: Hook previous node to new node */
+
+    return head;
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. DELETION OPERATIONS -->
+    <section class="section-container" id="deletion">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">4. Deletion Algorithms: <span>Beginning, End &amp; Position</span></h2>
+          <p class="section-subtitle">Safely freeing memory without causing dangling pointers</p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+        
+        <!-- Delete Beginning -->
+        <div class="card-glass rose-accent">
+          <h3 style="font-size: 1.15rem; color: var(--danger); margin-bottom: 0.5rem;">A. Delete From Beginning</h3>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.75rem;">
+            Save <code>head</code> in <code>temp</code>, advance <code>head = head->next</code>, then call <code>free(temp)</code>.
+          </p>
+          <pre class="code-block" style="font-size: 0.8rem;"><code>struct Node* deleteBeginning(struct Node *head) {
+    if (head == NULL) return NULL;
+    struct Node *temp = head;
+    head = head-&gt;next;
+    free(temp); /* Deallocate memory */
+    return head;
+}</code></pre>
+          <span class="speed-pill instant" style="margin-top: 0.5rem; display: inline-block;">⚡ O(1) Time</span>
+        </div>
+
+        <!-- Delete End -->
+        <div class="card-glass rose-accent">
+          <h3 style="font-size: 1.15rem; color: var(--danger); margin-bottom: 0.5rem;">B. Delete From End</h3>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.75rem;">
+            Traverse to the second-to-last node where <code>temp->next->next == NULL</code>. Free the tail and set <code>temp->next = NULL</code>.
+          </p>
+          <pre class="code-block" style="font-size: 0.8rem;"><code>struct Node* deleteEnd(struct Node *head) {
+    if (head == NULL) return NULL;
+    if (head-&gt;next == NULL) {
+        free(head);
+        return NULL;
+    }
+    struct Node *temp = head;
+    while (temp-&gt;next-&gt;next != NULL) {
+        temp = temp-&gt;next;
+    }
+    free(temp-&gt;next);
+    temp-&gt;next = NULL;
+    return head;
+}</code></pre>
+          <span class="speed-pill sequential" style="margin-top: 0.5rem; display: inline-block;">🚶 O(n) Time</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. SEARCHING IN A LINKED LIST -->
+    <section class="section-container" id="searching">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">5. Searching in a Linked List</h2>
+          <p class="section-subtitle">Iterative pointer traversal to locate a target value</p>
+        </div>
+        <span class="speed-pill sequential">🚶 O(n) Time</span>
+      </div>
+
+      <div class="card-glass purple-accent">
+        <p style="font-size: 0.98rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1rem;">
+          Unlike sorted arrays which support <code>O(log n)</code> Binary Search, a linked list cannot jump directly to the middle node because there is no direct arithmetic index. Hence, searching is always linear (<code>O(n)</code>).
+        </p>
+
+        <div class="code-card">
+          <div class="code-header">
+            <span class="code-title">C Search Function</span>
+            <button class="copy-code-btn" data-target="code-search-ll">📋 Copy Code</button>
+          </div>
+          <pre class="code-block"><code id="code-search-ll">int search(struct Node *head, int target) {
+    struct Node *temp = head;
+    int position = 1;
+
+    while (temp != NULL) {
+        if (temp-&gt;data == target) {
+            return position; /* Found! Return 1-based index */
+        }
+        temp = temp-&gt;next;
+        position++;
+    }
+
+    return -1; /* Not found in list */
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPLEXITY SUMMARY -->
+    <section class="section-container" id="complexity">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Operations Complexity Cheat Sheet</h2>
+          <p class="section-subtitle">Complete Big-O reference for semester examinations</p>
+        </div>
+      </div>
+
+      <div class="analogy-table-wrapper">
+        <table class="analogy-table">
+          <thead>
+            <tr>
+              <th>Operation</th>
+              <th>Time Complexity</th>
+              <th>Space Complexity</th>
+              <th>Why it takes this time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Insert at Beginning</strong></td>
+              <td><span class="speed-pill instant">⚡ O(1)</span></td>
+              <td><code>O(1)</code></td>
+              <td>HEAD pointer is rewired directly in 2 constant steps</td>
+            </tr>
+            <tr>
+              <td><strong>Insert at End</strong></td>
+              <td><span class="speed-pill sequential">🚶 O(n)</span></td>
+              <td><code>O(1)</code></td>
+              <td>Must traverse from HEAD to the tail node (O(1) if tail pointer maintained)</td>
+            </tr>
+            <tr>
+              <td><strong>Insert at Position</strong></td>
+              <td><span class="speed-pill sequential">🚶 O(pos)</span></td>
+              <td><code>O(1)</code></td>
+              <td>Requires stepping through <code>pos</code> nodes to rewire pointer</td>
+            </tr>
+            <tr>
+              <td><strong>Delete Beginning</strong></td>
+              <td><span class="speed-pill instant">⚡ O(1)</span></td>
+              <td><code>O(1)</code></td>
+              <td>HEAD is instantly advanced to <code>head->next</code></td>
+            </tr>
+            <tr>
+              <td><strong>Delete End</strong></td>
+              <td><span class="speed-pill sequential">🚶 O(n)</span></td>
+              <td><code>O(1)</code></td>
+              <td>Must scan to the second-to-last node to set its next to NULL</td>
+            </tr>
+            <tr>
+              <td><strong>Search Element</strong></td>
+              <td><span class="speed-pill sequential">🚶 O(n)</span></td>
+              <td><code>O(1)</code></td>
+              <td>Must inspect nodes sequentially one-by-one</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CTA NAVIGATION -->
+    <section class="section-container">
+      <div style="background: var(--gradient-aurora); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; color: #080a0f;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem;">Next: Test Everything in the Interactive Lab</h2>
+        <p style="font-size: 1.05rem; font-weight: 600; max-width: 600px; margin: 0 auto 1.5rem;">
+          Step through pointer manipulations in real-time with visual nodes, glowing arrows, and operation logs!
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="interactive-lab.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Open Interactive Lab &rarr;
+          </a>
+          <a href="practice.html" class="btn-primary" style="background: #ffffff; color: #080a0f; text-decoration: none;">
+            Practice Questions &amp; Quiz
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Linked List Core</a>
+        <a href="types.html" style="color: var(--accent-primary-text); text-decoration: none;">Types</a>
+        <a href="operations.html" style="color: var(--accent-primary-text); text-decoration: none;">Operations</a>
+        <a href="interactive-lab.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="practice.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>

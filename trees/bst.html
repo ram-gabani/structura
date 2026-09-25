@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Binary Search Tree (BST): Search, Insert & Delete — Structura</title>
+  <meta name="description" content="In-depth guide to Binary Search Trees in C: BST invariant, O(log n) search, insertion, and 3-case node deletion with In-Order Successor for Data Structures in C.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body class="topic-page topic-trees" data-dsa-topic="trees">
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">BST Architecture &bull; ⏱️ 8 min read</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link">Trees Core</a>
+        <a href="traversals.html" class="nav-link">Traversals</a>
+        <a href="bst.html" class="nav-link active">Binary Search Tree</a>
+        <a href="interactive-lab.html" class="nav-link">Interactive Lab</a>
+        <a href="practice.html" class="nav-link">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Visual Learning Hub</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb">
+              <span class="thumb-icon-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="thumb-icon-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO -->
+    <section class="hero-card">
+      <div class="hero-badge-row">
+        <span class="section-tag">Search Tree Architecture</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">BST Invariant</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">O(log n) Average Search</span>
+      </div>
+
+      <h1 class="hero-title">Binary Search Tree <span>(BST)</span></h1>
+      <p class="hero-description">
+        A <strong>Binary Search Tree</strong> is a binary tree structured under a strict relational invariant: for any node, all keys in its left subtree are smaller, and all keys in its right subtree are larger. This property turns searches, insertions, and deletions into high-speed \(O(\log n)\) operations.
+      </p>
+    </section>
+
+    <!-- 1. THE BST PROPERTY -->
+    <section class="section-container" id="property">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">1. The BST Ordering Invariant</h2>
+          <p class="section-subtitle">The golden mathematical rule governing every node</p>
+        </div>
+        <span class="speed-pill instant">Key Property</span>
+      </div>
+
+      <div class="card-glass blue-accent">
+        <blockquote style="font-size: 1.1rem; line-height: 1.7; color: var(--text-primary); border-left: 3px solid var(--brand); padding-left: 1.25rem; margin: 0.5rem 0 1.25rem;">
+          For every node <strong>X</strong>:
+          <br>&bull; All nodes in <strong>LeftSubtree(X) &lt; X.key</strong>
+          <br>&bull; All nodes in <strong>RightSubtree(X) &gt; X.key</strong>
+        </blockquote>
+
+        <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7;">
+          Because this property applies recursively to every single node down the tree, an <strong>In-Order Traversal (Left &rarr; Root &rarr; Right)</strong> of any valid BST is guaranteed to output all keys in <strong>strictly ascending sorted order</strong>!
+        </p>
+      </div>
+    </section>
+
+    <!-- 2. BST SEARCH & INSERTION IN C -->
+    <section class="section-container" id="search-insert">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">2. Search &amp; Insert in C</h2>
+          <p class="section-subtitle">Binary division of the tree search space</p>
+        </div>
+        <span class="speed-pill instant">⚡ O(log n) Time</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem;">
+        
+        <!-- Search Code -->
+        <div class="code-card" style="margin: 0;">
+          <div class="code-header">
+            <span class="code-title">C BST Search Function</span>
+            <button class="copy-code-btn" data-target="code-bst-search">📋 Copy</button>
+          </div>
+          <pre class="code-block"><code id="code-bst-search">struct TreeNode* search(struct TreeNode *root, int target) {
+    /* Base cases: root is null or key is found */
+    if (root == NULL || root-&gt;data == target) {
+        return root;
+    }
+    /* Target is smaller -&gt; search left */
+    if (target &lt; root-&gt;data) {
+        return search(root-&gt;left, target);
+    }
+    /* Target is larger -&gt; search right */
+    return search(root-&gt;right, target);
+}</code></pre>
+        </div>
+
+        <!-- Insert Code -->
+        <div class="code-card" style="margin: 0;">
+          <div class="code-header">
+            <span class="code-title">C BST Insert Function</span>
+            <button class="copy-code-btn" data-target="code-bst-insert">📋 Copy</button>
+          </div>
+          <pre class="code-block"><code id="code-bst-insert">struct TreeNode* insert(struct TreeNode *root, int val) {
+    if (root == NULL) {
+        return createTreeNode(val);
+    }
+    if (val &lt; root-&gt;data) {
+        root-&gt;left = insert(root-&gt;left, val);
+    } else if (val &gt; root-&gt;data) {
+        root-&gt;right = insert(root-&gt;right, val);
+    }
+    return root; /* Return unchanged pointer */
+}</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. BST DELETION (THE 3 CASES) -->
+    <section class="section-container" id="deletion">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">3. Node Deletion: <span>The Three Critical Cases</span></h2>
+          <p class="section-subtitle">How to preserve the BST property when removing an interior node</p>
+        </div>
+        <span class="speed-pill logarithmic">Complex Algorithm</span>
+      </div>
+
+      <div class="concept-card-grid cols-3" style="margin-bottom: 1.5rem;">
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-sky">Case 1</span></div>
+          <div class="concept-title">Leaf Node (0 Children)</div>
+          <div class="concept-body">
+            Simplest case. Directly deallocate the node with <code>free(node)</code> and return <code>NULL</code> to the parent.
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-emerald">Case 2</span></div>
+          <div class="concept-title">One Child (Left or Right)</div>
+          <div class="concept-body">
+            Bypass the node. Return the non-null child pointer directly to the parent, splicing out the deleted node.
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-purple">Case 3</span></div>
+          <div class="concept-title">Two Children</div>
+          <div class="concept-body">
+            Find the <strong>In-Order Successor</strong> (smallest node in right subtree). Copy its data into current node, then delete that successor from the right subtree.
+          </div>
+        </div>
+      </div>
+
+      <div class="code-card">
+        <div class="code-header">
+          <div class="code-title">
+            <span class="code-lang-badge">C99</span>
+            <span>bst_delete.c</span>
+          </div>
+          <button class="copy-code-btn" data-target="code-bst-delete">📋 Copy Complete Deletion Code</button>
+        </div>
+
+        <pre class="code-block"><code id="code-bst-delete">/* Helper: Find node with minimum value in a subtree */
+struct TreeNode* findMin(struct TreeNode *node) {
+    struct TreeNode *curr = node;
+    while (curr &amp;&amp; curr-&gt;left != NULL) {
+        curr = curr-&gt;left;
+    }
+    return curr;
+}
+
+/* Delete a node from BST */
+struct TreeNode* deleteNode(struct TreeNode *root, int key) {
+    if (root == NULL) return root;
+
+    if (key &lt; root-&gt;data) {
+        root-&gt;left = deleteNode(root-&gt;left, key);
+    } else if (key &gt; root-&gt;data) {
+        root-&gt;right = deleteNode(root-&gt;right, key);
+    } else {
+        /* Node to be deleted found! */
+
+        /* Case 1: No child or Case 2: One child */
+        if (root-&gt;left == NULL) {
+            struct TreeNode *temp = root-&gt;right;
+            free(root);
+            return temp;
+        } else if (root-&gt;right == NULL) {
+            struct TreeNode *temp = root-&gt;left;
+            free(root);
+            return temp;
+        }
+
+        /* Case 3: Two children */
+        /* Get In-Order Successor (smallest in right subtree) */
+        struct TreeNode *temp = findMin(root-&gt;right);
+        root-&gt;data = temp-&gt;data; /* Copy value */
+        /* Delete the successor */
+        root-&gt;right = deleteNode(root-&gt;right, temp-&gt;data);
+    }
+    return root;
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- 4. COMPLEXITY ANALYSIS -->
+    <section class="section-container" id="complexity">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">BST Performance Complexity</h2>
+          <p class="section-subtitle">Average case vs worst case skewed degradation</p>
+        </div>
+      </div>
+
+      <div class="analogy-table-wrapper">
+        <table class="analogy-table">
+          <thead>
+            <tr>
+              <th>Operation</th>
+              <th>Average Case (Balanced Tree)</th>
+              <th>Worst Case (Skewed Tree)</th>
+              <th>Why the difference exists</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Search</strong></td>
+              <td><span class="speed-pill logarithmic">🚀 O(log n)</span></td>
+              <td><span class="speed-pill sequential">🚶 O(n)</span></td>
+              <td>Balanced trees halve height each level; Skewed trees become linear chains</td>
+            </tr>
+            <tr>
+              <td><strong>Insert</strong></td>
+              <td><span class="speed-pill logarithmic">🚀 O(log n)</span></td>
+              <td><span class="speed-pill sequential">🚶 O(n)</span></td>
+              <td>Requires descending to leaf level</td>
+            </tr>
+            <tr>
+              <td><strong>Delete</strong></td>
+              <td><span class="speed-pill logarithmic">🚀 O(log n)</span></td>
+              <td><span class="speed-pill sequential">🚶 O(n)</span></td>
+              <td>Search cost + successor lookup</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CTA NAVIGATION -->
+    <section class="section-container">
+      <div style="background: var(--gradient-aurora); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; color: #080a0f;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem;">Explore Trees in the Interactive Lab</h2>
+        <p style="font-size: 1.05rem; font-weight: 600; max-width: 600px; margin: 0 auto 1.5rem;">
+          Insert nodes, execute real-time searches, and animate Inorder, Preorder, and Postorder traversals on an interactive canvas!
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="interactive-lab.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Open Tree Visualizer Lab &rarr;
+          </a>
+          <a href="practice.html" class="btn-primary" style="background: #ffffff; color: #080a0f; text-decoration: none;">
+            Practice Questions &amp; Quiz
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Trees Core</a>
+        <a href="traversals.html" style="color: var(--accent-primary-text); text-decoration: none;">Traversals</a>
+        <a href="bst.html" style="color: var(--accent-primary-text); text-decoration: none;">Binary Search Tree</a>
+        <a href="interactive-lab.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="practice.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Searching Algorithms: Linear vs Binary Search — Structura</title>
+  <meta name="description" content="Beginner-friendly visual guide to Linear Search and Binary Search (Iterative & Recursive) using dictionary and lost-keys analogies with step-by-step C code.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <!-- Instant Theme Setup (Prevents theme flash) -->
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body>
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Searching Guide &bull; ⏱️ 6 min read</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link">Array Core</a>
+        <a href="searching.html" class="nav-link active">Searching</a>
+        <a href="sorting.html" class="nav-link">Sorting</a>
+        <a href="visualizer.html" class="nav-link">Interactive Lab</a>
+        <a href="questions.html" class="nav-link">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Data Structures in C</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb"></span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO SECTION -->
+    <section class="hero-card">
+      <div class="hero-badge-row">
+        <span class="section-tag">Searching Algorithms</span>
+        <span class="section-tag" style="color: var(--accent-amber-text); background: var(--accent-amber-subtle); border-color: var(--accent-amber-border);">Sequential vs Interval</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">Plain English</span>
+      </div>
+
+      <h1 class="hero-title">How Computers Find Items: <span>Searching Algorithms</span></h1>
+      <p class="hero-description">
+        Searching algorithms check for and retrieve an element from a data structure. Based on the search mechanism, algorithms fall into two broad categories: <strong>Sequential Search</strong> (checking one-by-one) and <strong>Interval Search</strong> (repeatedly halving a sorted space).
+      </p>
+
+      <div class="concept-card-grid cols-3" style="margin-top: 1.5rem;">
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-amber">Sequential Search</span>
+          </div>
+          <div class="concept-title" style="font-size: 1rem;">Linear Scan</div>
+          <div class="concept-body" style="font-size: 0.86rem;">
+            Works on any arbitrary unsorted list by inspecting slots sequentially one by one.
+          </div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-sky">Interval Search</span>
+          </div>
+          <div class="concept-title" style="font-size: 1rem;">Binary Split</div>
+          <div class="concept-body" style="font-size: 0.86rem;">
+            Requires pre-sorted data to repeatedly halve the remaining search space.
+          </div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-emerald">Speed Delta</span>
+          </div>
+          <div class="concept-title" style="font-size: 1rem;">50,000&times; Faster</div>
+          <div class="concept-body" style="font-size: 0.86rem;">
+            Searching 1 million sorted items takes at most 20 comparisons vs 1,000,000!
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: LINEAR SEARCH -->
+    <section class="section-container" id="linear-search">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">1. Linear Search: <span>Sequential Element Check</span></h2>
+          <p class="section-subtitle">Checks every single element from left to right until target is found or list ends</p>
+        </div>
+        <span class="speed-pill scan">🔍 Sequential Scan</span>
+      </div>
+
+      <div class="card-glass amber-accent">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; align-items: center;">
+          <div>
+            <h4 style="color: var(--accent-amber-text); font-size: 1.1rem; margin-bottom: 0.5rem;">🔑 Real-Life Metaphor:</h4>
+            <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem;">
+              Imagine searching for your house key in a messy pocket. You pull out item #1, check it. Not it? You pull out item #2, check it. You continue in a straight line until you find the match!
+            </p>
+            <div style="background: var(--bg-surface-subtle); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-default);">
+              <span style="font-weight: 700; color: var(--text-primary);">Algorithm Idea:</span>
+              <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.2rem;">
+                Iterate from index <code>0</code> to <code>N-1</code>. If <code>arr[i] == target</code>, return <code>i</code>. If loop completes without match, return <code>-1</code>.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step-by-Step Trace Widget -->
+          <div style="background: var(--bg-app); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 1.25rem;">
+            <div style="font-size: 0.85rem; font-weight: 800; color: var(--accent-amber-text); margin-bottom: 0.75rem; text-transform: uppercase;">
+              Visual Trace: Searching for Target 42
+            </div>
+
+            <div class="algo-step-container">
+              <div class="algo-step-card">
+                <div class="step-num-badge">1</div>
+                <div class="step-content">
+                  <div class="step-title">Check Slot [ 0 ] &rarr; Value 15</div>
+                  <div class="step-desc">15 &ne; 42 (Mismatch). Move pointer right ⟶.</div>
+                  <div class="step-mini-array">
+                    <div class="step-mini-box active">15</div>
+                    <div class="step-mini-box">28</div>
+                    <div class="step-mini-box">42</div>
+                    <div class="step-mini-box">89</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="algo-step-card">
+                <div class="step-num-badge">2</div>
+                <div class="step-content">
+                  <div class="step-title">Check Slot [ 1 ] &rarr; Value 28</div>
+                  <div class="step-desc">28 &ne; 42 (Mismatch). Move pointer right ⟶.</div>
+                  <div class="step-mini-array">
+                    <div class="step-mini-box">15</div>
+                    <div class="step-mini-box active">28</div>
+                    <div class="step-mini-box">42</div>
+                    <div class="step-mini-box">89</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="algo-step-card">
+                <div class="step-num-badge">3</div>
+                <div class="step-content">
+                  <div class="step-title" style="color: var(--accent-emerald-text);">Check Slot [ 2 ] &rarr; Value 42!</div>
+                  <div class="step-desc">MATCH FOUND! Return index 2.</div>
+                  <div class="step-mini-array">
+                    <div class="step-mini-box">15</div>
+                    <div class="step-mini-box">28</div>
+                    <div class="step-mini-box sorted">42</div>
+                    <div class="step-mini-box">89</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="concept-card-grid cols-3" style="margin-top: 1.5rem;">
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-amber">Iterative</span>
+            </div>
+            <div class="concept-title">Time: O(n) &bull; Space: O(1)</div>
+            <div class="concept-body">Single loop inspects items sequentially from <code>0</code> to <code>n-1</code> with zero extra allocations.</div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-purple">Recursive</span>
+            </div>
+            <div class="concept-title">Time: O(n) &bull; Space: O(n)</div>
+            <div class="concept-body">Each recursive call frame adds 1 stack frame until the base case or item match is reached.</div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-sky">Ideal Use Case</span>
+            </div>
+            <div class="concept-title">Unordered Data</div>
+            <div class="concept-body">Best for unsorted arrays, small collections, and singly linked lists where random access is impossible.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: BINARY SEARCH -->
+    <section class="section-container" id="binary-search">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">2. Binary Search: <span>Interval Halving Split</span></h2>
+          <p class="section-subtitle">How computers locate targets among millions of items in a flash</p>
+        </div>
+        <span class="speed-pill fast">✂️ Half-by-Half Split</span>
+      </div>
+
+      <div class="card-glass blue-accent">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; align-items: center;">
+          <div>
+            <h4 style="color: var(--accent-primary-text); font-size: 1.1rem; margin-bottom: 0.5rem;">📖 Real-Life Metaphor:</h4>
+            <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem;">
+              Imagine looking up the word <strong>"Penguin"</strong> in a 1,000-page English Dictionary. 
+              You don't read from page 1. Instead, you <strong>open the dictionary in the exact middle</strong> (Page 500: Letter "M"). Since "P" comes after "M", you instantly <strong>throw away pages 1 to 500</strong> and repeat on the right half!
+            </p>
+            
+            <div style="background: rgba(248, 113, 113, 0.1); padding: 1rem; border-radius: var(--radius-md); border: 1px solid rgba(248, 113, 113, 0.25);">
+              <span style="font-weight: 800; color: var(--accent-rose-text);">⚠️ The Golden Rule:</span>
+              <p style="font-size: 0.88rem; color: var(--text-secondary); margin-top: 0.2rem;">
+                Binary Search <strong>ONLY works if the array is already sorted in order</strong>.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step-by-Step Binary Split Trace -->
+          <div style="background: var(--bg-app); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 1.25rem;">
+            <div style="font-size: 0.85rem; font-weight: 800; color: var(--accent-primary-text); margin-bottom: 0.75rem; text-transform: uppercase;">
+              Binary Search: Find 73 in [10, 20, 30, 40, 50, 73, 90]
+            </div>
+
+            <div class="algo-step-container">
+              <div class="algo-step-card">
+                <div class="step-num-badge">1</div>
+                <div class="step-content">
+                  <div class="step-title">Middle Element is 40 (Slot [3])</div>
+                  <div class="step-desc">40 &lt; 73 &rarr; Discard left half [10, 20, 30, 40]. Set <code>low = mid + 1</code>.</div>
+                </div>
+              </div>
+
+              <div class="algo-step-card">
+                <div class="step-num-badge">2</div>
+                <div class="step-content">
+                  <div class="step-title">Remaining Range: [50, 73, 90]</div>
+                  <div class="step-desc">Middle of remaining is Slot [5] = 73. <strong>Found target in just 2 comparisons!</strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="concept-card-grid cols-3" style="margin-top: 1.5rem;">
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-sky">Iterative</span>
+            </div>
+            <div class="concept-title">Time: O(log n) &bull; Space: O(1)</div>
+            <div class="concept-body">While <code>low &lt;= high</code>, the range is halved repeatedly with constant extra memory.</div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-purple">Recursive</span>
+            </div>
+            <div class="concept-title">Time: O(log n) &bull; Space: O(log n)</div>
+            <div class="concept-body">Divides search space recursively, creating maximum <code>log₂(N)</code> call frames.</div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-emerald">Divide & Conquer</span>
+            </div>
+            <div class="concept-title">Exponential Speedup</div>
+            <div class="concept-body">Searching 1 million sorted items takes a maximum of only 20 comparisons!</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIDE-BY-SIDE SPEED COMPARISON TABLE -->
+    <section class="section-container" id="comparison">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Speed Comparison: <span>Linear vs. Binary Search</span></h2>
+          <p class="section-subtitle">Comparing the actual physical comparisons required</p>
+        </div>
+      </div>
+
+      <div class="card-glass">
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--border-strong); background: var(--bg-surface-subtle);">
+                <th style="padding: 1rem 1.25rem; color: var(--text-primary);">Total Elements in Array</th>
+                <th style="padding: 1rem 1.25rem; color: var(--accent-amber-text);">Linear Search (Worst Case)</th>
+                <th style="padding: 1rem 1.25rem; color: var(--accent-primary-text);">Binary Search (Worst Case)</th>
+                <th style="padding: 1rem 1.25rem; color: var(--accent-emerald-text);">Speedup</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border-subtle);">
+                <td style="padding: 1rem 1.25rem; font-weight: 700;">10 elements</td>
+                <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Up to 10 checks</td>
+                <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Max 4 checks</td>
+                <td style="padding: 1rem 1.25rem; font-weight: 800; color: var(--accent-emerald-text);">2.5&times; Faster</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-subtle);">
+                <td style="padding: 1rem 1.25rem; font-weight: 700;">1,000 elements</td>
+                <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Up to 1,000 checks</td>
+                <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Max 10 checks</td>
+                <td style="padding: 1rem 1.25rem; font-weight: 800; color: var(--accent-emerald-text);">100&times; Faster</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-subtle);">
+                <td style="padding: 1rem 1.25rem; font-weight: 700;">1,000,000 elements (1 Million)</td>
+                <td style="padding: 1rem 1.25rem; color: var(--accent-rose-text); font-weight: 700;">Up to 1,000,000 checks</td>
+                <td style="padding: 1rem 1.25rem; color: var(--accent-primary-text); font-weight: 800;">Max 20 checks!</td>
+                <td style="padding: 1rem 1.25rem; font-weight: 800; color: var(--accent-emerald-text);">50,000&times; Faster</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- FULL C CODE IMPLEMENTATION -->
+    <section class="section-container" id="c-code">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">C Implementation: <span>Binary Search</span></h2>
+          <p class="section-subtitle">How to write clean, bug-free binary search code in C</p>
+        </div>
+        <button class="copy-code-btn" data-target="c-code-search">
+          <span>📋</span> Copy Code
+        </button>
+      </div>
+
+      <div class="annotated-code-container">
+        <div class="annotated-code-header">
+          <div class="ide-window-dots">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+          </div>
+          <div class="annotated-code-title">
+            <span>📄</span> binary_search.c
+          </div>
+        </div>
+
+        <div class="code-annotation-grid">
+          <div class="chalkboard-code-area">
+            <pre><code id="c-code-search"><span class="syn-macro">#include</span> <span class="syn-str">&lt;stdio.h&gt;</span>
+
+<span class="syn-cm">// Returns index if target found, otherwise -1</span>
+<span class="syn-type">int</span> <span class="syn-fn">binarySearch</span>(<span class="syn-type">int</span> <span class="syn-var">arr</span>[], <span class="syn-type">int</span> <span class="syn-var">size</span>, <span class="syn-type">int</span> <span class="syn-var">target</span>) {
+    <span class="syn-type">int</span> <span class="syn-var">low</span> = <span class="syn-num">0</span>;
+    <span class="syn-type">int</span> <span class="syn-var">high</span> = <span class="syn-var">size</span> - <span class="syn-num">1</span>;
+
+    <span class="syn-kw">while</span> (<span class="syn-var">low</span> &lt;= <span class="syn-var">high</span>) {
+        <span class="syn-cm">// Calculate safe mid to avoid integer overflow</span>
+        <span class="syn-type">int</span> <span class="syn-var">mid</span> = <span class="syn-var">low</span> + (<span class="syn-var">high</span> - <span class="syn-var">low</span>) / <span class="syn-num">2</span>;
+
+        <span class="syn-kw">if</span> (<span class="syn-var">arr</span>[<span class="syn-var">mid</span>] == <span class="syn-var">target</span>) {
+            <span class="syn-kw">return</span> <span class="syn-var">mid</span>; <span class="syn-cm">// Match found!</span>
+        }
+        <span class="syn-kw">else</span> <span class="syn-kw">if</span> (<span class="syn-var">arr</span>[<span class="syn-var">mid</span>] &lt; <span class="syn-var">target</span>) {
+            <span class="syn-var">low</span> = <span class="syn-var">mid</span> + <span class="syn-num">1</span>;  <span class="syn-cm">// Target in right half</span>
+        }
+        <span class="syn-kw">else</span> {
+            <span class="syn-var">high</span> = <span class="syn-var">mid</span> - <span class="syn-num">1</span>; <span class="syn-cm">// Target in left half</span>
+        }
+    }
+    <span class="syn-kw">return</span> -<span class="syn-num">1</span>; <span class="syn-cm">// Target not present</span>
+}
+
+<span class="syn-type">int</span> <span class="syn-fn">main</span>() {
+    <span class="syn-type">int</span> <span class="syn-var">sorted_arr</span>[] = {<span class="syn-num">10</span>, <span class="syn-num">20</span>, <span class="syn-num">30</span>, <span class="syn-num">40</span>, <span class="syn-num">50</span>, <span class="syn-num">73</span>, <span class="syn-num">90</span>};
+    <span class="syn-type">int</span> <span class="syn-var">n</span> = <span class="syn-kw">sizeof</span>(<span class="syn-var">sorted_arr</span>) / <span class="syn-kw">sizeof</span>(<span class="syn-var">sorted_arr</span>[<span class="syn-num">0</span>]);
+    <span class="syn-type">int</span> <span class="syn-var">target</span> = <span class="syn-num">73</span>;
+
+    <span class="syn-type">int</span> <span class="syn-var">result</span> = <span class="syn-fn">binarySearch</span>(<span class="syn-var">sorted_arr</span>, <span class="syn-var">n</span>, <span class="syn-var">target</span>);
+
+    <span class="syn-kw">if</span> (<span class="syn-var">result</span> != -<span class="syn-num">1</span>) {
+        <span class="syn-fn">printf</span>(<span class="syn-str">"Target %d found at slot index: %d\n"</span>, <span class="syn-var">target</span>, <span class="syn-var">result</span>);
+    } <span class="syn-kw">else</span> {
+        <span class="syn-fn">printf</span>(<span class="syn-str">"Target %d not found.\n"</span>, <span class="syn-var">target</span>);
+    }
+    <span class="syn-kw">return</span> <span class="syn-num">0</span>;
+}</code></pre>
+          </div>
+
+          <div class="step-breakdown-panel">
+            <div class="step-breakdown-header">
+              <span>👨‍🏫</span> Step-by-Step Breakdown
+            </div>
+
+            <div class="step-card">
+              <div class="step-card-header">
+                <span class="step-line-pill line-badge amber">Line 10: Overflow Protection</span>
+              </div>
+              <div class="step-card-title step-title">Safe Midpoint Arithmetic</div>
+              <div class="step-card-body step-text">
+                Writing <span class="step-code-chip">low + (high - low) / 2</span> avoids 32-bit integer overflow that occurs with <code>(low + high) / 2</code> when handling large index values.
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div class="step-card-header">
+                <span class="step-line-pill line-badge sky">Line 15 &amp; 18: Halving Subarray</span>
+              </div>
+              <div class="step-card-title step-title">Boundary Discard</div>
+              <div class="step-card-body step-text">
+                Setting <span class="step-code-chip">low = mid + 1</span> or <span class="step-code-chip">high = mid - 1</span> discards half the array in 1 comparison step.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOTTOM CALL TO ACTION -->
+    <section class="section-container">
+      <div style="background: var(--gradient-aurora); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; color: #080a0f;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem;">Next: How do we sort arrays in order?</h2>
+        <p style="font-size: 1.05rem; font-weight: 600; max-width: 600px; margin: 0 auto 1.5rem;">
+          Discover Bubble Sort, Selection Sort, Insertion Sort, and Radix Sort through hands-on visual breakdowns.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="sorting.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Continue to Sorting Guide &rarr;
+          </a>
+          <a href="visualizer.html" class="btn-primary" style="background: #ffffff; color: #080a0f; text-decoration: none;">
+            Test Searches in Lab
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Array Core</a>
+        <a href="searching.html" style="color: var(--accent-primary-text); text-decoration: none;">Searching</a>
+        <a href="sorting.html" style="color: var(--accent-primary-text); text-decoration: none;">Sorting</a>
+        <a href="visualizer.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="questions.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>

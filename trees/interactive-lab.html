@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Binary Search Tree &amp; Tree Types Lab — Structura</title>
+  <meta name="description" content="Interactive Binary Search Tree visualizer and 5-Type Binary Tree Explorer. Step through BST node insertions, searches, traversals, and interactively explore Full, Complete, Perfect, Balanced, and Degenerate trees. Data Structures in C.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body class="topic-page topic-trees" data-dsa-topic="trees">
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Interactive Lab &bull; Trees</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link">Trees Core</a>
+        <a href="traversals.html" class="nav-link">Traversals</a>
+        <a href="bst.html" class="nav-link">Binary Search Tree</a>
+        <a href="interactive-lab.html" class="nav-link active">Interactive Lab</a>
+        <a href="practice.html" class="nav-link">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Visual Learning Hub</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb">
+              <span class="thumb-icon-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="thumb-icon-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO -->
+    <section class="hero-card">
+      <div class="hero-badge-row">
+        <span class="section-tag">Interactive Simulation</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">Hierarchical BST Stage</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">5-Type Explorer</span>
+      </div>
+
+      <h1 class="hero-title">Binary Tree <span>Interactive Lab</span></h1>
+      <p class="hero-description">
+        Master hierarchical structures through live simulations. Step through BST node insertions, recursive searches, and traversals, or explore all five fundamental binary tree types with interactive rule validation and violation testing.
+      </p>
+    </section>
+
+    <!-- LAB MODE SELECTOR (Segmented Tab Control) -->
+    <section class="section-container" style="margin-bottom: 1.5rem;">
+      <div class="tree-lab-mode-switcher" role="tablist" aria-label="Tree Interactive Lab Modes">
+        <button type="button" class="tree-mode-tab active" id="tab-bst-mode" role="tab" aria-selected="true" aria-controls="bst-lab-view" tabindex="0">
+          <span class="tab-title">🌲 BST Operations Mode</span>
+          <span class="tab-desc">Dynamic Key Insertion, Recursive Search, and In/Pre/Post-Order Traversals</span>
+        </button>
+        <button type="button" class="tree-mode-tab" id="tab-explorer-mode" role="tab" aria-selected="false" aria-controls="type-explorer-view" tabindex="-1">
+          <span class="tab-title">🔍 Tree Type Explorer</span>
+          <span class="tab-desc">Interactive Full, Complete, Perfect, Balanced &amp; Degenerate Trees</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         MODE 1: BST OPERATIONS (Preserved 100%)
+         ====================================================================== -->
+    <div id="bst-lab-view" role="tabpanel" aria-labelledby="tab-bst-mode">
+      <section class="section-container" id="visualizer-section">
+        <div class="visualizer-container">
+          
+          <!-- Header -->
+          <div class="visualizer-header">
+            <div class="visualizer-title-area">
+              <h3>Hierarchical Binary Search Tree Stage</h3>
+              <span class="visualizer-meta-tag">BST Traversal &amp; Search Engine</span>
+            </div>
+
+            <div class="visualizer-speed-control">
+              <span>Speed</span>
+              <input type="range" id="tree-speed-slider" class="speed-slider" min="1" max="5" value="3">
+            </div>
+          </div>
+
+          <!-- Controls Toolbar (Unified Control Dock) -->
+          <div class="lab-control-dock">
+            <!-- Row 1: Insert, Search & Reset -->
+            <div class="control-row">
+              <div class="control-group">
+                <span class="control-group-label">Node Value:</span>
+                <input type="number" id="tree-val-input" class="viz-input tree-input" placeholder="Value" value="45" style="width: 90px;">
+                <button class="viz-btn viz-btn-primary tree-btn" id="tree-insert-btn">
+                  + Insert Node
+                </button>
+                <button class="viz-btn viz-btn-secondary tree-btn" id="tree-search-btn">
+                  🔍 Search Key
+                </button>
+              </div>
+
+              <div class="control-group" style="margin-left: auto;">
+                <button class="viz-btn viz-btn-reset" id="tree-reset-btn">
+                  🔄 Reset Tree
+                </button>
+              </div>
+            </div>
+
+            <!-- Row 2: Traversals -->
+            <div class="control-row">
+              <div class="control-group">
+                <span class="control-group-label">Traversals:</span>
+                <button class="viz-btn viz-btn-secondary tree-btn" id="tree-inorder-btn">
+                  ▶ In-Order (Sorted)
+                </button>
+                <button class="viz-btn viz-btn-secondary tree-btn" id="tree-preorder-btn">
+                  ▶ Pre-Order (Root First)
+                </button>
+                <button class="viz-btn viz-btn-secondary tree-btn" id="tree-postorder-btn">
+                  ▶ Post-Order (Bottom Up)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tree Canvas Stage -->
+          <div class="tree-stage" id="tree-stage">
+            <!-- Rendered dynamically by tree-lab.js -->
+          </div>
+
+          <!-- Traversal Stream Output Bar -->
+          <div style="padding: 0.65rem 1.4rem; background: var(--surface-raised); border-top: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;">
+            <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+              <span style="color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; font-weight: 700;">Traversal Stream:</span>
+              <div class="tree-stream-display" id="tree-traversal-stream" style="color: var(--brand); font-weight: 700;">
+                <span>Ready — Select a traversal button above</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Telemetry Dock -->
+          <div class="lab-telemetry-strip">
+            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+              <div>Total Nodes: <strong id="tree-node-count" style="color: var(--brand);">7 Nodes</strong></div>
+              <div>Tree Height: <strong id="tree-height-val" style="color: var(--success);">Height: 3</strong></div>
+            </div>
+            <div>Status: <span id="tree-log-status" class="speed-pill instant" style="font-size: 0.72rem;">Ready</span></div>
+          </div>
+
+        </div>
+
+        <!-- Execution Log Card -->
+        <div class="lab-execution-log">
+          <div class="lab-log-header">
+            <span>Live Tree Algorithm Telemetry Log</span>
+            <span id="tree-log-step" style="color: var(--brand); font-weight: 700;">Idle</span>
+          </div>
+          <div id="tree-log-msg" class="lab-log-content">
+            Binary Search Tree initialized with 7 balanced nodes. Click Animate In-Order to watch sorted traversal or Insert to add a new node.
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ======================================================================
+         MODE 2: FIVE-TYPE BINARY TREE EXPLORER
+         ====================================================================== -->
+    <div id="type-explorer-view" role="tabpanel" aria-labelledby="tab-explorer-mode" style="display: none;">
+      <section class="section-container" id="type-explorer-section">
+        <div class="visualizer-container">
+
+          <!-- Header -->
+          <div class="visualizer-header">
+            <div class="visualizer-title-area">
+              <h3>Five Fundamental Binary Tree Types</h3>
+              <span class="visualizer-meta-tag">Structural Property Inspector &amp; Step-Engine</span>
+            </div>
+          </div>
+
+          <!-- 1. Five Tree Type Selector Bar -->
+          <div style="padding: 1rem 1.4rem 0 1.4rem;">
+            <div class="tree-type-selector" role="tablist" aria-label="Binary Tree Types">
+              <button type="button" class="tree-type-btn active" data-type="full" role="tab" aria-selected="true" tabindex="0">
+                <span>🌲 Full Tree</span>
+              </button>
+              <button type="button" class="tree-type-btn" data-type="complete" role="tab" aria-selected="false" tabindex="-1">
+                <span>📦 Complete Tree</span>
+              </button>
+              <button type="button" class="tree-type-btn" data-type="perfect" role="tab" aria-selected="false" tabindex="-1">
+                <span>⭐ Perfect Tree</span>
+              </button>
+              <button type="button" class="tree-type-btn" data-type="balanced" role="tab" aria-selected="false" tabindex="-1">
+                <span>⚖️ Balanced Tree</span>
+              </button>
+              <button type="button" class="tree-type-btn" data-type="degenerate" role="tab" aria-selected="false" tabindex="-1">
+                <span>⛓️ Degenerate / Skewed</span>
+              </button>
+            </div>
+
+            <!-- 2. Property Summary Card -->
+            <div class="tree-summary-card" id="type-property-summary">
+              <div class="tree-summary-header">
+                <span class="tree-summary-title" id="type-card-title">Full Binary Tree (Strict / Proper)</span>
+                <span class="tree-status-pill pill-valid" id="type-status-badge">✓ Valid Full Tree</span>
+              </div>
+              <div class="tree-summary-body">
+                <div><strong>Definition &amp; Purpose:</strong> <span id="type-card-purpose">Foundational in Huffman compression trees, expression trees, and tournament trees.</span></div>
+                <div style="margin-top: 0.35rem;"><strong>Structural Invariant:</strong> <span class="tree-summary-rule" id="type-card-rule">Every node has either 0 children (leaf) or exactly 2 children (internal). No node has exactly 1 child.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Interactive Controls Toolbar -->
+          <div class="lab-control-dock" style="border-top: 1px solid var(--border);">
+            
+            <!-- Row 1: Common Step Engine & Validation Controls -->
+            <div class="control-row">
+              <div class="control-group" style="flex-wrap: wrap;">
+                <span class="control-group-label">Property Check:</span>
+                <button class="viz-btn viz-btn-primary" id="type-validate-btn">
+                  🔍 Validate Structure
+                </button>
+                <button class="viz-btn viz-btn-secondary" id="step-prev-btn" disabled>
+                  ⏮ Prev Step
+                </button>
+                <button class="viz-btn viz-btn-secondary" id="step-play-btn">
+                  ▶ Play
+                </button>
+                <button class="viz-btn viz-btn-secondary" id="step-next-btn">
+                  ⏭ Next Step
+                </button>
+                <button class="viz-btn viz-btn-secondary" id="step-reset-btn">
+                  🔄 Reset Check
+                </button>
+              </div>
+
+              <div class="control-group" style="margin-left: auto;">
+                <button class="viz-btn viz-btn-reset" id="type-reset-example-btn">
+                  🔄 Reset Example
+                </button>
+              </div>
+            </div>
+
+            <!-- Row 2: Type-Specific Action Docks -->
+            
+            <!-- A. Full Tree Controls -->
+            <div class="control-row type-controls-dock" data-type="full">
+              <div class="control-group" style="flex-wrap: wrap;">
+                <span class="control-group-label">Full Tree Ops:</span>
+                <button class="viz-btn viz-btn-secondary type-action-btn" id="full-add-pair-btn">
+                  + Add Child Pair
+                </button>
+                <button class="viz-btn viz-btn-secondary type-action-btn" id="full-rem-pair-btn">
+                  &minus; Remove Leaf Pair
+                </button>
+                <button class="viz-btn viz-btn-danger type-action-btn" id="full-violate-btn">
+                  ⚡ Demonstrate 1-Child Violation
+                </button>
+                <button class="viz-btn viz-btn-success type-action-btn" id="full-restore-btn">
+                  🛡️ Restore Valid Tree
+                </button>
+              </div>
+            </div>
+
+            <!-- B. Complete Tree Controls -->
+            <div class="control-row type-controls-dock" data-type="complete" style="display: none;">
+              <div class="control-group" style="flex-wrap: wrap;">
+                <span class="control-group-label">Complete Tree Ops:</span>
+                <button class="viz-btn viz-btn-secondary type-action-btn" id="complete-add-btn">
+                  + Add Next Node
+                </button>
+                <button class="viz-btn viz-btn-secondary type-action-btn" id="complete-rem-btn">
+                  &minus; Remove Last Node
+                </button>
+                <button class="viz-btn viz-btn-danger type-action-btn" id="complete-violate-btn">
+                  ⚡ Demonstrate Gap Violation
+                </button>
+                <button class="viz-btn viz-btn-success type-action-btn" id="complete-restore-btn">
+                  🛡️ Restore Valid Tree
+                </button>
+              </div>
+            </div>
+
+            <!-- C. Perfect Tree Controls -->
+            <div class="control-row type-controls-dock" data-type="perfect" style="display: none;">
+              <div class="control-group" style="flex-wrap: wrap;">
+                <span class="control-group-label">Perfect Tree Ops:</span>
+                <button class="viz-btn viz-btn-secondary type-action-btn" id="perfect-grow-btn">
+                  + Grow Level (Max 3)
+                </button>
+                <button class="viz-btn viz-btn-secondary type-action-btn" id="perfect-shrink-btn">
+                  &minus; Shrink Level
+                </button>
+                <button class="viz-btn viz-btn-danger type-action-btn" id="perfect-violate-btn">
+                  ⚡ Demonstrate Missing Leaf
+                </button>
+                <button class="viz-btn viz-btn-success type-action-btn" id="perfect-restore-btn">
+                  🛡️ Restore Valid Tree
+                </button>
+              </div>
+            </div>
+
+            <!-- D. Balanced Tree Controls -->
+            <div class="control-row type-controls-dock" data-type="balanced" style="display: none;">
+              <div class="control-group" style="flex-wrap: wrap;">
+                <span class="control-group-label">Balanced Tree Ops:</span>
+                <input type="number" id="balanced-val-input" class="viz-input" placeholder="Val" value="45" style="width: 85px;">
+                <button class="viz-btn viz-btn-primary type-action-btn" id="balanced-insert-btn">
+                  + Insert Node
+                </button>
+                <button class="viz-btn viz-btn-danger type-action-btn" id="balanced-violate-btn">
+                  ⚡ Demonstrate Imbalance (Skew)
+                </button>
+                <button class="viz-btn viz-btn-success type-action-btn" id="balanced-restore-btn">
+                  🛡️ Restore Balanced Tree
+                </button>
+              </div>
+            </div>
+
+            <!-- E. Degenerate Tree Controls -->
+            <div class="control-row type-controls-dock" data-type="degenerate" style="display: none;">
+              <div class="control-group" style="flex-wrap: wrap;">
+                <span class="control-group-label">Degenerate Tree Ops:</span>
+                <button class="viz-btn viz-btn-secondary type-action-btn active" id="degen-dir-left">
+                  ⬅️ Left-Skewed
+                </button>
+                <button class="viz-btn viz-btn-secondary type-action-btn" id="degen-dir-right">
+                  ➡️ Right-Skewed
+                </button>
+                <button class="viz-btn viz-btn-secondary type-action-btn" id="degen-add-btn">
+                  + Add Node
+                </button>
+                <button class="viz-btn viz-btn-secondary type-action-btn" id="degen-rem-btn">
+                  &minus; Remove Node
+                </button>
+                <button class="viz-btn viz-btn-danger type-action-btn" id="degen-violate-btn">
+                  ⚡ Demonstrate Branching (Breaks Skew)
+                </button>
+                <button class="viz-btn viz-btn-success type-action-btn" id="degen-restore-btn">
+                  🛡️ Restore Skewed Chain
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 4. Permanent Color Legend (Text + Color) -->
+          <div style="padding: 0.85rem 1.4rem; background: var(--surface-raised); border-top: 1px solid var(--border); display: flex; gap: 1.25rem; justify-content: center; flex-wrap: wrap; font-family: 'JetBrains Mono', monospace; font-size: 0.76rem;">
+            <div style="display: flex; align-items: center; gap: 0.4rem;">
+              <span style="width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--brand); background: rgba(56, 189, 248, 0.2); display: inline-block;"></span>
+              <span style="color: var(--text-primary);">Cyan &bull; Root / Active</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.4rem;">
+              <span style="width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--concept); background: rgba(167, 139, 250, 0.2); display: inline-block;"></span>
+              <span style="color: var(--text-primary);">Purple &bull; Internal Node</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.4rem;">
+              <span style="width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--success); background: rgba(52, 211, 153, 0.2); display: inline-block;"></span>
+              <span style="color: var(--text-primary);">Green &bull; Leaf / Valid</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.4rem;">
+              <span style="width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--warning); background: rgba(251, 191, 36, 0.25); display: inline-block;"></span>
+              <span style="color: var(--text-primary);">Amber &bull; Property Checked</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.4rem;">
+              <span style="width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--danger); background: rgba(251, 113, 133, 0.3); display: inline-block;"></span>
+              <span style="color: var(--text-primary);">Rose &bull; Violated Node</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.4rem;">
+              <span style="width: 18px; height: 2.5px; background: var(--border-strong); display: inline-block;"></span>
+              <span style="color: var(--text-primary);">Edge &bull; Normal</span>
+            </div>
+          </div>
+
+          <!-- 5. Visualization Stage (Scalable SVG) -->
+          <div class="tree-explorer-stage" id="tree-explorer-svg-stage">
+            <!-- Rendered dynamically by tree-type-explorer.js -->
+          </div>
+
+          <!-- 6. Complete Tree Contiguous Array Strip (Displayed only for Complete Tree) -->
+          <div id="complete-array-strip-container" class="complete-array-strip" style="display: none;">
+            <!-- Rendered dynamically -->
+          </div>
+
+          <!-- 7. Perfect Tree Metrics Strip (Displayed only for Perfect Tree) -->
+          <div id="perfect-metrics-strip" class="tree-metrics-strip" style="display: none;">
+            <!-- Rendered dynamically -->
+          </div>
+
+          <!-- 8. Degenerate Tree Metrics Strip (Displayed only for Degenerate Tree) -->
+          <div id="degenerate-metrics-strip" class="tree-metrics-strip" style="display: none;">
+            <!-- Rendered dynamically -->
+          </div>
+
+          <!-- 9. Balanced Tree Notice Strip -->
+          <div id="balanced-notice-strip" style="display: none; padding: 0.75rem 1.4rem; background: var(--surface-raised); border-top: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--text-secondary);">
+            <strong style="color: var(--warning);">Educational Notice:</strong> Height-balance requires |height(left) - height(right)| &le; 1 at EVERY node. Balance is a purely structural property separate from BST key ordering!
+          </div>
+
+          <!-- 10. Telemetry Dock -->
+          <div class="lab-telemetry-strip">
+            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center;">
+              <div>Validation Progress: <strong id="explorer-log-step" style="color: var(--brand);">Idle</strong></div>
+            </div>
+            <div>Status: <span id="explorer-log-status" class="speed-pill instant" style="font-size: 0.72rem;">Ready</span></div>
+          </div>
+
+        </div>
+
+        <!-- Execution & Explanation Log Card -->
+        <div class="lab-execution-log" style="margin-top: 1.25rem;">
+          <div class="lab-log-header">
+            <span>Tree Property Evaluation Telemetry Log</span>
+            <span style="color: var(--brand); font-weight: 700;">Live Algorithm Insights</span>
+          </div>
+          <div id="explorer-log-msg" class="lab-log-content" aria-live="polite">
+            Select an action above or click 'Validate Structure' to begin step-by-step examination of the tree properties.
+          </div>
+        </div>
+
+        <!-- ==================================================================
+             PART G — FIVE BINARY TREE TYPES COMPARISON TABLE
+             ================================================================== -->
+        <div style="margin-top: 3.5rem;">
+          <div class="section-header">
+            <div class="section-header-left">
+              <h2 class="section-title">Five Binary Tree Types: <span>Technical Comparison Reference</span></h2>
+              <p class="section-subtitle">Exhaustive classification criteria tested in university data structure semester papers</p>
+            </div>
+            <span class="speed-pill instant">Curriculum Core</span>
+          </div>
+
+          <div class="tree-comparison-container">
+            <table class="tree-comparison-table">
+              <thead>
+                <tr>
+                  <th>Tree Type</th>
+                  <th>Structural Rule</th>
+                  <th>Leaf Requirement</th>
+                  <th>Typical Height</th>
+                  <th>Key Identification Test</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong style="color: var(--brand);">Full Binary Tree</strong><br><span style="font-size: 0.74rem; color: var(--text-muted);">(Strict / Proper)</span></td>
+                  <td>Every node has either <strong>0 or exactly 2</strong> children. No node can have 1 child.</td>
+                  <td>Leaves may appear at different levels. Leaves do not require uniform depth.</td>
+                  <td>log<sub>2</sub>(N+1) - 1 &le; h &le; (N-1)/2</td>
+                  <td>Scan for any node with degree == 1. If none exists, it is Full.</td>
+                </tr>
+                <tr>
+                  <td><strong style="color: var(--brand);">Complete Binary Tree</strong></td>
+                  <td>All levels are fully filled except possibly the last level, which fills strictly from <strong>left to right</strong> without gaps.</td>
+                  <td>Leaves reside only on the last two levels (h - 1 and h); bottom leaves are left-aligned.</td>
+                  <td>h = &lfloor;log<sub>2</sub> N&rfloor; (Guaranteed compact depth)</td>
+                  <td>Level-order traversal: once a NULL child is encountered, no subsequent non-NULL node may follow.</td>
+                </tr>
+                <tr>
+                  <td><strong style="color: var(--brand);">Perfect Binary Tree</strong></td>
+                  <td>Every internal node has exactly 2 children, AND all levels are <strong>100% full</strong>.</td>
+                  <td><strong>All leaves must reside at the exact same depth/level</strong>.</td>
+                  <td>h = log<sub>2</sub>(N+1) - 1<br><span style="font-size: 0.75rem; color: var(--success);">Nodes = 2<sup>h+1</sup> - 1</span></td>
+                  <td>Verify both that the tree is Full AND all leaves have identical depth.</td>
+                </tr>
+                <tr>
+                  <td><strong style="color: var(--brand);">Balanced Binary Tree</strong><br><span style="font-size: 0.74rem; color: var(--text-muted);">(Height-Balanced)</span></td>
+                  <td>For every node, the height difference between left and right subtrees is at most 1: <strong>|BF| &le; 1</strong>.</td>
+                  <td>Leaves need not share a level; height variance is constrained across branches.</td>
+                  <td>O(log N)<br><span style="font-size: 0.75rem; color: var(--concept);">h &le; 1.44 log<sub>2</sub> N (AVL)</span></td>
+                  <td>Calculate balance factor BF = h(Left) - h(Right) at every node. All BF values must lie in {-1, 0, 1}.</td>
+                </tr>
+                <tr>
+                  <td><strong style="color: var(--brand);">Degenerate / Skewed</strong><br><span style="font-size: 0.74rem; color: var(--text-muted);">(Left / Right Skewed)</span></td>
+                  <td>Every internal node has <strong>exactly one child</strong>. Behavers structurally like a Singly Linked List.</td>
+                  <td>Exactly one single leaf exists at the very terminus of the chain.</td>
+                  <td>h = N - 1<br><span style="font-size: 0.75rem; color: var(--danger);">Worst-case linear height</span></td>
+                  <td>Verify every non-leaf node has degree == 1. All edges branch in one continuous linear chain.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ==================================================================
+             PART H — C CODE CONNECTION SECTION
+             ================================================================== -->
+        <div style="margin-top: 3.5rem;">
+          <div class="section-header">
+            <div class="section-header-left">
+              <h2 class="section-title">C Implementation Connection: <span>Property Verification Functions</span></h2>
+              <p class="section-subtitle">Textbook C algorithms for identifying and verifying each binary tree type</p>
+            </div>
+          </div>
+
+          <div class="card-glass blue-accent">
+            <!-- 5-Tab C Code Switcher -->
+            <div class="c-code-tabs-nav" role="tablist" aria-label="C Verification Algorithms">
+              <button type="button" class="c-code-tab-btn active" data-type="full" role="tab" aria-selected="true">
+                1. isFullTree()
+              </button>
+              <button type="button" class="c-code-tab-btn" data-type="complete" role="tab" aria-selected="false">
+                2. isCompleteTree()
+              </button>
+              <button type="button" class="c-code-tab-btn" data-type="perfect" role="tab" aria-selected="false">
+                3. isPerfect()
+              </button>
+              <button type="button" class="c-code-tab-btn" data-type="balanced" role="tab" aria-selected="false">
+                4. isBalanced()
+              </button>
+              <button type="button" class="c-code-tab-btn" data-type="degenerate" role="tab" aria-selected="false">
+                5. isDegenerate()
+              </button>
+            </div>
+
+            <!-- Snippet 1: Full Tree Check -->
+            <div class="c-code-tab-panel" data-type="full">
+              <div class="code-card">
+                <div class="code-header">
+                  <span class="code-title">C Function: Full Binary Tree Validation</span>
+                  <button class="copy-code-btn" data-target="code-full-tree">📋 Copy Code</button>
+                </div>
+                <pre class="code-block"><code id="code-full-tree">#include &lt;stdbool.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct TreeNode {
+    int data;
+    struct TreeNode *left;
+    struct TreeNode *right;
+};
+
+/* Checks if every node has either 0 or 2 children */
+bool isFullTree(struct TreeNode* root) {
+    /* Base case: an empty tree is full by definition */
+    if (root == NULL)
+        return true;
+
+    /* If leaf node (degree 0): valid! */
+    if (root-&gt;left == NULL &amp;&amp; root-&gt;right == NULL)
+        return true;
+
+    /* If both children exist (degree 2): recursively check both subtrees */
+    if (root-&gt;left != NULL &amp;&amp; root-&gt;right != NULL)
+        return isFullTree(root-&gt;left) &amp;&amp; isFullTree(root-&gt;right);
+
+    /* If exactly one child exists (degree 1): Full property is violated! */
+    return false;
+}</code></pre>
+              </div>
+            </div>
+
+            <!-- Snippet 2: Complete Tree Check -->
+            <div class="c-code-tab-panel" data-type="complete" style="display: none;">
+              <div class="code-card">
+                <div class="code-header">
+                  <span class="code-title">C Function: Complete Binary Tree Validation (Level-Order Queue)</span>
+                  <button class="copy-code-btn" data-target="code-complete-tree">📋 Copy Code</button>
+                </div>
+                <pre class="code-block"><code id="code-complete-tree">#include &lt;stdbool.h&gt;
+#include &lt;stdlib.h&gt;
+#define MAX_QUEUE 1000
+
+struct TreeNode {
+    int data;
+    struct TreeNode *left;
+    struct TreeNode *right;
+};
+
+/* Checks level-order contiguousness: once a NULL is seen, no node may follow */
+bool isCompleteTree(struct TreeNode* root) {
+    if (root == NULL) return true;
+
+    struct TreeNode* queue[MAX_QUEUE];
+    int front = 0, rear = 0;
+    bool seenNull = false;
+
+    queue[rear++] = root;
+    while (front &lt; rear) {
+        struct TreeNode* curr = queue[front++];
+
+        if (curr == NULL) {
+            /* First gap detected */
+            seenNull = true;
+        } else {
+            /* If a valid node appears after an empty gap, tree is NOT complete */
+            if (seenNull) return false;
+
+            /* Push both child pointers (even if NULL) into the queue */
+            queue[rear++] = curr-&gt;left;
+            queue[rear++] = curr-&gt;right;
+        }
+    }
+    return true;
+}</code></pre>
+              </div>
+            </div>
+
+            <!-- Snippet 3: Perfect Tree Check -->
+            <div class="c-code-tab-panel" data-type="perfect" style="display: none;">
+              <div class="code-card">
+                <div class="code-header">
+                  <span class="code-title">C Function: Perfect Binary Tree Validation</span>
+                  <button class="copy-code-btn" data-target="code-perfect-tree">📋 Copy Code</button>
+                </div>
+                <pre class="code-block"><code id="code-perfect-tree">#include &lt;stdbool.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct TreeNode {
+    int data;
+    struct TreeNode *left;
+    struct TreeNode *right;
+};
+
+/* Helper: Finds the depth of the leftmost leaf */
+int findLeftmostDepth(struct TreeNode* node) {
+    int d = 0;
+    while (node != NULL) {
+        d++;
+        node = node-&gt;left;
+    }
+    return d;
+}
+
+/* Recursive check: All leaves at depth d, all internal nodes have degree 2 */
+bool isPerfectRec(struct TreeNode* root, int d, int level) {
+    if (root == NULL) return true;
+
+    /* Leaf node check: must equal the leftmost depth */
+    if (root-&gt;left == NULL &amp;&amp; root-&gt;right == NULL)
+        return (d == level + 1);
+
+    /* Internal node must have exactly 2 children */
+    if (root-&gt;left == NULL || root-&gt;right == NULL)
+        return false;
+
+    return isPerfectRec(root-&gt;left, d, level + 1) &amp;&amp;
+           isPerfectRec(root-&gt;right, d, level + 1);
+}
+
+bool isPerfect(struct TreeNode* root) {
+    int d = findLeftmostDepth(root);
+    return isPerfectRec(root, d, 0);
+}</code></pre>
+              </div>
+            </div>
+
+            <!-- Snippet 4: Height-Balanced Check -->
+            <div class="c-code-tab-panel" data-type="balanced" style="display: none;">
+              <div class="code-card">
+                <div class="code-header">
+                  <span class="code-title">C Function: Height-Balanced Validation</span>
+                  <button class="copy-code-btn" data-target="code-balanced-tree">📋 Copy Code</button>
+                </div>
+                <pre class="code-block"><code id="code-balanced-tree">#include &lt;stdbool.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct TreeNode {
+    int data;
+    struct TreeNode *left;
+    struct TreeNode *right;
+};
+
+/* Checks if tree is height-balanced in O(N) single-pass post-order */
+bool isBalancedHelper(struct TreeNode* root, int* height) {
+    if (root == NULL) {
+        *height = 0;
+        return true;
+    }
+
+    int leftHeight = 0, rightHeight = 0;
+    bool leftBal = isBalancedHelper(root-&gt;left, &amp;leftHeight);
+    bool rightBal = isBalancedHelper(root-&gt;right, &amp;rightHeight);
+
+    *height = 1 + (leftHeight &gt; rightHeight ? leftHeight : rightHeight);
+
+    /* Balance Factor = height(left) - height(right) */
+    int bf = leftHeight - rightHeight;
+    if (bf &lt; -1 || bf &gt; 1)
+        return false;
+
+    return leftBal &amp;&amp; rightBal;
+}
+
+bool isBalanced(struct TreeNode* root) {
+    int height = 0;
+    return isBalancedHelper(root, &amp;height);
+}</code></pre>
+              </div>
+            </div>
+
+            <!-- Snippet 5: Degenerate Tree Check -->
+            <div class="c-code-tab-panel" data-type="degenerate" style="display: none;">
+              <div class="code-card">
+                <div class="code-header">
+                  <span class="code-title">C Function: Degenerate / Skewed Tree Validation</span>
+                  <button class="copy-code-btn" data-target="code-degenerate-tree">📋 Copy Code</button>
+                </div>
+                <pre class="code-block"><code id="code-degenerate-tree">#include &lt;stdbool.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct TreeNode {
+    int data;
+    struct TreeNode *left;
+    struct TreeNode *right;
+};
+
+/* Checks that every internal node has strictly one child */
+bool isDegenerate(struct TreeNode* root) {
+    if (root == NULL) return true;
+
+    /* Terminal leaf node: valid end of chain */
+    if (root-&gt;left == NULL &amp;&amp; root-&gt;right == NULL)
+        return true;
+
+    /* Internal node branching into 2 children: NOT degenerate! */
+    if (root-&gt;left != NULL &amp;&amp; root-&gt;right != NULL)
+        return false;
+
+    /* Recurse down the single active child link */
+    if (root-&gt;left != NULL)
+        return isDegenerate(root-&gt;left);
+    else
+        return isDegenerate(root-&gt;right);
+}</code></pre>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+    </div>
+
+    <!-- CALL TO ACTION NAVIGATION -->
+    <section class="section-container" style="margin-top: 3.5rem;">
+      <div style="background: var(--gradient-aurora); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; color: #080a0f;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem;">Test your Tree knowledge in the Practice Hub!</h2>
+        <p style="font-size: 1.05rem; font-weight: 600; max-width: 600px; margin: 0 auto 1.5rem;">
+          Solve coding challenges on Tree height, BST validation, and test your exam readiness with the interactive quiz.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="practice.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Practice Questions &amp; Quiz &rarr;
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Trees Core</a>
+        <a href="traversals.html" style="color: var(--accent-primary-text); text-decoration: none;">Traversals</a>
+        <a href="bst.html" style="color: var(--accent-primary-text); text-decoration: none;">Binary Search Tree</a>
+        <a href="interactive-lab.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="practice.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/bundle.js"></script>
+  <script src="../assets/js/tree-lab.js"></script>
+  <script src="../assets/js/tree-type-explorer.js"></script>
+</body>
+</html>

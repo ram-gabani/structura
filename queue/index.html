@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Queue Core & FIFO Architecture — Structura</title>
+  <meta name="description" content="A beginner-friendly guide to Queues as an Abstract Data Type, FIFO principle, Front and Rear pointers, and Queue Overflow & Underflow in C for Data Structures in C.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body class="topic-page topic-queue" data-dsa-topic="queue">
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Queue Storage Model &bull; ⏱️ 6 min read</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link active">Queue Core</a>
+        <a href="types.html" class="nav-link">Types</a>
+        <a href="operations.html" class="nav-link">Operations</a>
+        <a href="interactive-lab.html" class="nav-link">Interactive Lab</a>
+        <a href="practice.html" class="nav-link">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Visual Learning Hub</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb">
+              <span class="thumb-icon-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="thumb-icon-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO SECTION -->
+    <section class="hero-card" id="overview">
+      <div class="hero-badge-row">
+        <span class="section-tag">Linear Data Structure</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">FIFO Protocol</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">Dual-End Architecture</span>
+      </div>
+
+      <h1 class="hero-title">What is a <span>Queue</span>?</h1>
+      <p class="hero-description">
+        While a stack restricts operations to one single open end (LIFO), a <strong>Queue</strong> is a two-ended linear data structure where elements are inserted at one end and removed from the opposite end.
+      </p>
+      <p class="hero-description" style="margin-top: 0.75rem; color: var(--text-primary);">
+        New elements join the line at the <strong>REAR</strong> (tail), while existing elements are served and removed from the <strong>FRONT</strong> (head). This guarantees fair ordering: <strong>FIFO (First In, First Out)</strong>.
+      </p>
+
+      <div class="concept-card-grid cols-4" style="margin-top: 1.5rem;">
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header"><span class="concept-badge badge-sky">FIFO Principle</span></div>
+          <div class="concept-title" style="font-size: 1rem;">First In, First Out</div>
+          <div class="concept-body" style="font-size: 0.86rem;">The earliest element inserted at the rear is always the first one eligible for deletion at the front.</div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header"><span class="concept-badge badge-emerald">FRONT Pointer</span></div>
+          <div class="concept-title" style="font-size: 1rem;">Service &amp; Deletion</div>
+          <div class="concept-body" style="font-size: 0.86rem;">Tracks the head element. Dequeue operations advance the FRONT pointer forward.</div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header"><span class="concept-badge badge-amber">REAR Pointer</span></div>
+          <div class="concept-title" style="font-size: 1rem;">Arrival &amp; Insertion</div>
+          <div class="concept-body" style="font-size: 0.86rem;">Tracks the tail element. Enqueue operations advance the REAR pointer forward.</div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header"><span class="concept-badge badge-purple">⚡ O(1) Speed</span></div>
+          <div class="concept-title" style="font-size: 1rem;">Direct Indexing</div>
+          <div class="concept-body" style="font-size: 0.86rem;">Both enqueue and dequeue operate in constant time without shifting items.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. STRUCTURAL VISUALIZATION -->
+    <section class="section-container" id="visualization">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">The Horizontal Pipeline <span>Structural Anatomy</span></h2>
+          <p class="section-subtitle">Visualizing FRONT deletion end and REAR insertion end</p>
+        </div>
+        <span class="speed-pill instant">Dual Pointers</span>
+      </div>
+
+      <div class="card-glass blue-accent">
+        <!-- Visual Horizontal Queue Pipeline -->
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 2.5rem 1.5rem; overflow-x: auto; margin-bottom: 1.5rem;">
+          <div style="display: flex; align-items: center; justify-content: center; gap: 0.85rem; min-width: 620px; font-family: 'JetBrains Mono';">
+            
+            <!-- DEQUEUE END -->
+            <div style="text-align: center;">
+              <div style="font-size: 0.72rem; color: var(--danger); font-weight: 700; margin-bottom: 0.25rem;">&larr; DEQUEUE (Exit)</div>
+              <span class="speed-pill sequential" style="color: var(--danger); border-color: rgba(251, 113, 133, 0.4);">FRONT</span>
+            </div>
+
+            <!-- Pipeline Tube -->
+            <div style="display: flex; border-top: 3px dashed var(--border-strong); border-bottom: 3px dashed var(--border-strong); padding: 0.75rem 0.5rem; gap: 0.6rem; background: rgba(0,0,0,0.2); border-radius: 4px;">
+              
+              <!-- Slot 0: FRONT -->
+              <div style="width: 75px; height: 60px; background: rgba(56, 189, 248, 0.15); border: 2px solid var(--brand); border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);">
+                <span style="font-size: 0.62rem; color: var(--brand); position: absolute; top: 3px;">FRONT [0]</span>
+                <span style="font-size: 1.15rem; font-weight: 800; color: #fff; margin-top: 8px;">12</span>
+              </div>
+
+              <!-- Slot 1 -->
+              <div style="width: 75px; height: 60px; background: var(--surface-raised); border: 1px solid var(--border); border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <span style="font-size: 0.62rem; color: var(--text-muted);">Slot [1]</span>
+                <span style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary);">27</span>
+              </div>
+
+              <!-- Slot 2: REAR -->
+              <div style="width: 75px; height: 60px; background: rgba(251, 191, 36, 0.15); border: 2px solid var(--warning); border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; box-shadow: 0 0 12px rgba(251, 191, 36, 0.35);">
+                <span style="font-size: 0.62rem; color: var(--warning); position: absolute; top: 3px;">REAR [2]</span>
+                <span style="font-size: 1.15rem; font-weight: 800; color: #fff; margin-top: 8px;">45</span>
+              </div>
+
+              <!-- Slot 3: Empty -->
+              <div style="width: 75px; height: 60px; border: 1px dashed var(--border-subtle); border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); opacity: 0.5;">
+                <span style="font-size: 0.62rem;">Slot [3]</span>
+                <span style="font-size: 0.9rem;">—</span>
+              </div>
+
+              <!-- Slot 4: Empty -->
+              <div style="width: 75px; height: 60px; border: 1px dashed var(--border-subtle); border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); opacity: 0.4;">
+                <span style="font-size: 0.62rem;">Slot [4]</span>
+                <span style="font-size: 0.9rem;">—</span>
+              </div>
+
+            </div>
+
+            <!-- ENQUEUE END -->
+            <div style="text-align: center;">
+              <div style="font-size: 0.72rem; color: var(--brand); font-weight: 700; margin-bottom: 0.25rem;">ENQUEUE (Entry) &rarr;</div>
+              <span class="speed-pill instant" style="color: var(--brand);">REAR</span>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="key-takeaway-banner">
+          <div class="key-takeaway-header">💡 The Pointer Movement Rules</div>
+          <ul class="key-takeaway-list">
+            <li><strong>Enqueue:</strong> Increments <code>rear</code> forward (<code>rear++</code>) and stores the new value at <code>arr[rear]</code>.</li>
+            <li><strong>Dequeue:</strong> Extracts the value at <code>arr[front]</code> and increments <code>front</code> forward (<code>front++</code>).</li>
+            <li><strong>Empty Queue Condition:</strong> When initially created, <code>front = -1</code> and <code>rear = -1</code> (or <code>front > rear</code> after all items are removed).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. REAL-LIFE ANALOGIES -->
+    <section class="section-container" id="analogies">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Real-Life Analogies: <span>Fair FIFO Service</span></h2>
+          <p class="section-subtitle">Real-world systems where cutting the line is strictly forbidden</p>
+        </div>
+      </div>
+
+      <div class="concept-card-grid cols-3">
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-sky">🎟️ Movie Theater</span></div>
+          <div class="concept-title">Cinema Ticket Counter</div>
+          <div class="concept-body">
+            The first moviegoer to arrive stands at the front of the window and gets served first. Late arrivals join the tail of the line. Nobody in the middle gets tickets ahead of those in front.
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-emerald">🖨️ OS Print Spooler</span></div>
+          <div class="concept-title">Network Printer Queue</div>
+          <div class="concept-body">
+            When 10 students send PDF lab reports to the university shared printer simultaneously, the print spooler executes documents in the exact order they arrived over the network.
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-purple">🚗 Single-Lane Highway</span></div>
+          <div class="concept-title">Toll Booth Lane</div>
+          <div class="concept-body">
+            Cars enter a narrow one-lane toll plaza. The car that reached the toll gate first pays and departs first. Overtaking inside the lane is physically impossible.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA NAVIGATION -->
+    <section class="section-container">
+      <div style="background: var(--gradient-aurora); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; color: #080a0f;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem;">Next: Explore Queue Types &amp; The Circular Solution</h2>
+        <p style="font-size: 1.05rem; font-weight: 600; max-width: 600px; margin: 0 auto 1.5rem;">
+          Discover why Linear Queues suffer from "False Overflow" and how the Circular Queue solves memory wastage using modulo arithmetic!
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="types.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Explore Queue Types &rarr;
+          </a>
+          <a href="operations.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Queue Operations &amp; Modulo Math &rarr;
+          </a>
+          <a href="interactive-lab.html" class="btn-primary" style="background: #ffffff; color: #080a0f; text-decoration: none;">
+            Open Interactive Lab
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Queue Core</a>
+        <a href="types.html" style="color: var(--accent-primary-text); text-decoration: none;">Types</a>
+        <a href="operations.html" style="color: var(--accent-primary-text); text-decoration: none;">Operations</a>
+        <a href="interactive-lab.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="practice.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>

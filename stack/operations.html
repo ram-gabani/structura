@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stack Operations & C Implementation — Structura</title>
+  <meta name="description" content="Complete C implementation of Stack operations: push, pop, peek, isEmpty, isFull, overflow, and underflow handling with struct Stack. Data Structures in C.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body class="topic-page topic-stack" data-dsa-topic="stack">
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Stack Operations &bull; ⏱️ 7 min read</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link">Stack Core</a>
+        <a href="operations.html" class="nav-link active">Operations</a>
+        <a href="applications.html" class="nav-link">Applications</a>
+        <a href="interactive-lab.html" class="nav-link">Interactive Lab</a>
+        <a href="practice.html" class="nav-link">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Visual Learning Hub</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb">
+              <span class="thumb-icon-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="thumb-icon-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO -->
+    <section class="hero-card">
+      <div class="hero-badge-row">
+        <span class="section-tag">Operations Specification</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">Standard C Struct</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">O(1) Constant Time</span>
+      </div>
+
+      <h1 class="hero-title">Stack Operations: <span>Push, Pop, Peek &amp; Status</span></h1>
+      <p class="hero-description">
+        Every stack operation executes in strictly \(O(1)\) constant time because all mutations happen at the single memory offset tracked by the <code>top</code> index. Explore clean, compilable C implementations with safety boundary guards.
+      </p>
+    </section>
+
+    <!-- 1. PUSH OPERATION -->
+    <section class="section-container" id="push">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">1. The Push Operation <span>(Insertion)</span></h2>
+          <p class="section-subtitle">Adding an element onto the top of the stack</p>
+        </div>
+        <span class="speed-pill instant">⚡ O(1) Time</span>
+      </div>
+
+      <div class="card-glass blue-accent">
+        <div style="font-size: 0.98rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1rem;">
+          <strong>Algorithmic Steps:</strong>
+          <ol style="padding-left: 1.5rem; margin-top: 0.5rem;">
+            <li><strong>Overflow Check:</strong> Check if <code>top == MAX - 1</code>. If true, the stack is full; display an error message and abort.</li>
+            <li><strong>Increment:</strong> Advance the top pointer: <code>top = top + 1</code>.</li>
+            <li><strong>Store:</strong> Place the new element at the newly incremented index: <code>arr[top] = value</code>.</li>
+          </ol>
+        </div>
+
+        <div class="code-card">
+          <div class="code-header">
+            <span class="code-title">C Push Function</span>
+            <button class="copy-code-btn" data-target="code-push">📋 Copy Code</button>
+          </div>
+          <pre class="code-block"><code id="code-push">void push(struct Stack *s, int value) {
+    /* 1. Check for Stack Overflow */
+    if (s-&gt;top == MAX - 1) {
+        printf("Error: Stack Overflow! Cannot push %d.\n", value);
+        return;
+    }
+    /* 2. Increment top and store value */
+    s-&gt;top++;
+    s-&gt;arr[s-&gt;top] = value;
+    printf("Pushed %d onto stack (top = %d).\n", value, s-&gt;top);
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. POP OPERATION -->
+    <section class="section-container" id="pop">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">2. The Pop Operation <span>(Deletion)</span></h2>
+          <p class="section-subtitle">Extracting and removing the topmost element</p>
+        </div>
+        <span class="speed-pill instant">⚡ O(1) Time</span>
+      </div>
+
+      <div class="card-glass emerald-accent">
+        <div style="font-size: 0.98rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1rem;">
+          <strong>Algorithmic Steps:</strong>
+          <ol style="padding-left: 1.5rem; margin-top: 0.5rem;">
+            <li><strong>Underflow Check:</strong> Check if <code>top == -1</code>. If true, the stack contains zero elements; display error and abort.</li>
+            <li><strong>Retrieve:</strong> Copy the element sitting at <code>arr[top]</code>.</li>
+            <li><strong>Decrement:</strong> Move the top pointer down: <code>top = top - 1</code>.</li>
+            <li><strong>Return:</strong> Return the retrieved value.</li>
+          </ol>
+        </div>
+
+        <div class="code-card">
+          <div class="code-header">
+            <span class="code-title">C Pop Function</span>
+            <button class="copy-code-btn" data-target="code-pop">📋 Copy Code</button>
+          </div>
+          <pre class="code-block"><code id="code-pop">int pop(struct Stack *s) {
+    /* 1. Check for Stack Underflow */
+    if (s-&gt;top == -1) {
+        printf("Error: Stack Underflow! Stack is empty.\n");
+        return -1; /* Sentinel error value */
+    }
+    /* 2. Retrieve top item and decrement pointer */
+    int poppedVal = s-&gt;arr[s-&gt;top];
+    s-&gt;top--;
+    return poppedVal;
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. PEEK AND STATUS OPERATIONS -->
+    <section class="section-container" id="peek-status">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">3. Peek, isEmpty &amp; isFull</h2>
+          <p class="section-subtitle">Inspection utilities that do not modify stack contents</p>
+        </div>
+      </div>
+
+      <div class="concept-card-grid cols-3">
+        
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-sky">Inspect Top</span></div>
+          <div class="concept-title">peek() / top()</div>
+          <div class="concept-body">
+            Returns <code>arr[top]</code> without decrementing <code>top</code>. Stack size remains unchanged.
+            <pre class="code-block" style="font-size: 0.78rem; margin-top: 0.65rem;"><code>int peek(struct Stack *s) {
+    if (s-&gt;top == -1) return -1;
+    return s-&gt;arr[s-&gt;top];
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-emerald">Empty Guard</span></div>
+          <div class="concept-title">isEmpty()</div>
+          <div class="concept-body">
+            Returns <code>1</code> (true) if <code>top == -1</code>; returns <code>0</code> otherwise.
+            <pre class="code-block" style="font-size: 0.78rem; margin-top: 0.65rem;"><code>int isEmpty(struct Stack *s) {
+    return (s-&gt;top == -1);
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-rose">Capacity Guard</span></div>
+          <div class="concept-title">isFull()</div>
+          <div class="concept-body">
+            Returns <code>1</code> (true) if <code>top == MAX - 1</code>; returns <code>0</code> otherwise.
+            <pre class="code-block" style="font-size: 0.78rem; margin-top: 0.65rem;"><code>int isFull(struct Stack *s) {
+    return (s-&gt;top == MAX - 1);
+}</code></pre>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. COMPLETE COMPILABLE C PROGRAM -->
+    <section class="section-container" id="complete-program">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Complete Compilable C Program</h2>
+          <p class="section-subtitle">Self-contained C99 code encapsulating struct Stack and all operations</p>
+        </div>
+      </div>
+
+      <div class="code-card">
+        <div class="code-header">
+          <div class="code-title">
+            <span class="code-lang-badge">C99</span>
+            <span>stack_implementation.c</span>
+          </div>
+          <button class="copy-code-btn" data-target="code-full-stack">📋 Copy Complete Program</button>
+        </div>
+
+        <pre class="code-block"><code id="code-full-stack">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#define MAX 5   /* Fixed maximum stack capacity */
+
+/* Stack Structure Definition */
+struct Stack {
+    int arr[MAX];
+    int top;
+};
+
+/* Initialize Stack */
+void initStack(struct Stack *s) {
+    s-&gt;top = -1;
+}
+
+/* Push an item onto stack */
+void push(struct Stack *s, int val) {
+    if (s-&gt;top == MAX - 1) {
+        printf("Stack Overflow! Cannot push %d.\n", val);
+        return;
+    }
+    s-&gt;arr[++(s-&gt;top)] = val;
+    printf("Pushed: %d\n", val);
+}
+
+/* Pop the top item */
+int pop(struct Stack *s) {
+    if (s-&gt;top == -1) {
+        printf("Stack Underflow! Stack is empty.\n");
+        return -1;
+    }
+    return s-&gt;arr[(s-&gt;top)--];
+}
+
+/* Peek top element */
+int peek(struct Stack *s) {
+    if (s-&gt;top == -1) {
+        printf("Stack is empty.\n");
+        return -1;
+    }
+    return s-&gt;arr[s-&gt;top];
+}
+
+/* Display Stack contents from TOP down to BASE */
+void display(struct Stack *s) {
+    if (s-&gt;top == -1) {
+        printf("Stack is empty.\n");
+        return;
+    }
+    printf("STACK (TOP to BOTTOM): ");
+    for (int i = s-&gt;top; i &gt;= 0; i--) {
+        printf("[%d] ", s-&gt;arr[i]);
+    }
+    printf("\n");
+}
+
+int main(void) {
+    struct Stack myStack;
+    initStack(&amp;myStack);
+
+    push(&amp;myStack, 10);
+    push(&amp;myStack, 25);
+    push(&amp;myStack, 40);
+    display(&amp;myStack);
+
+    printf("Peek Top: %d\n", peek(&amp;myStack));
+
+    printf("Popped: %d\n", pop(&amp;myStack));
+    display(&amp;myStack);
+
+    return 0;
+}</code></pre>
+      </div>
+
+      <div class="card-glass" style="margin-top: 1rem; border-left: 3px solid var(--success);">
+        <div style="font-family: 'JetBrains Mono'; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.35rem;">PROGRAM CONSOLE OUTPUT:</div>
+        <pre style="font-family: 'JetBrains Mono'; font-size: 0.9rem; color: var(--success); margin: 0; line-height: 1.5;">Pushed: 10
+Pushed: 25
+Pushed: 40
+STACK (TOP to BOTTOM): [40] [25] [10] 
+Peek Top: 40
+Popped: 40
+STACK (TOP to BOTTOM): [25] [10]</pre>
+      </div>
+    </section>
+
+    <!-- CTA NAVIGATION -->
+    <section class="section-container">
+      <div style="background: var(--gradient-aurora); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; color: #080a0f;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem;">Next: Real-World Applications of Stacks</h2>
+        <p style="font-size: 1.05rem; font-weight: 600; max-width: 600px; margin: 0 auto 1.5rem;">
+          Learn how compilers evaluate arithmetic expressions (Infix to Postfix), match parentheses, and manage recursive function calls!
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="applications.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Explore Applications Guide &rarr;
+          </a>
+          <a href="interactive-lab.html" class="btn-primary" style="background: #ffffff; color: #080a0f; text-decoration: none;">
+            Open Interactive Lab
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Stack Core</a>
+        <a href="operations.html" style="color: var(--accent-primary-text); text-decoration: none;">Operations</a>
+        <a href="applications.html" style="color: var(--accent-primary-text); text-decoration: none;">Applications</a>
+        <a href="interactive-lab.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="practice.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>

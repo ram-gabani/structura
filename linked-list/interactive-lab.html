@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Linked List Visualizer Lab — Structura</title>
+  <meta name="description" content="Hands-on interactive Linked List visualizer. Simulate node allocation, insertions, deletions, linear searches, and pointer rewiring in real-time. Data Structures in C.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body class="topic-page topic-linked-list" data-dsa-topic="linked-list">
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Interactive Lab &bull; Visualizer</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link">Linked List Core</a>
+        <a href="types.html" class="nav-link">Types</a>
+        <a href="operations.html" class="nav-link">Operations</a>
+        <a href="interactive-lab.html" class="nav-link active">Interactive Lab</a>
+        <a href="practice.html" class="nav-link">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Visual Learning Hub</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb">
+              <span class="thumb-icon-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="thumb-icon-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO -->
+    <section class="hero-card">
+      <div class="hero-badge-row">
+        <span class="section-tag">Interactive Simulation</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">Heap Memory Pointers</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">Tactile Controls</span>
+      </div>
+
+      <h1 class="hero-title">Linked List <span>Interactive Lab</span></h1>
+      <p class="hero-description">
+        Manipulate pointers dynamically in real-time. Watch how nodes are allocated in memory, rewired during insertion and deletion, and scanned during searches with instant visual feedback and step-by-step logs.
+      </p>
+    </section>
+
+    <!-- VISUALIZER CONTAINER -->
+    <section class="section-container" id="visualizer-section">
+      <div class="visualizer-container">
+        
+        <!-- Header -->
+        <div class="visualizer-header">
+          <div class="visualizer-title-area">
+            <h3>Singly Linked List Memory Stage</h3>
+            <span class="visualizer-meta-tag">Heap Allocation Simulation</span>
+          </div>
+
+          <div class="visualizer-speed-control">
+            <span>Speed</span>
+            <input type="range" id="ll-speed-slider" class="speed-slider" min="1" max="5" value="3">
+          </div>
+        </div>
+
+        <!-- Controls Toolbar (Unified Control Dock) -->
+        <div class="lab-control-dock">
+          <!-- Row 1: Insertions -->
+          <div class="control-row">
+            <div class="control-group">
+              <span class="control-group-label">Value:</span>
+              <input type="number" id="ll-val-input" class="viz-input ll-input" placeholder="Value" value="99" style="width: 100px;">
+              <button class="viz-btn viz-btn-primary ll-control-btn" id="ll-insert-beg-btn">
+                + Prepend (Front)
+              </button>
+              <button class="viz-btn viz-btn-primary ll-control-btn" id="ll-insert-end-btn">
+                + Append (End)
+              </button>
+            </div>
+            
+            <div class="control-group">
+              <span class="control-group-label">Position:</span>
+              <input type="number" id="ll-pos-input" class="viz-input ll-input" placeholder="Pos" value="2" min="1" max="10" style="width: 70px;">
+              <button class="viz-btn viz-btn-secondary ll-control-btn" id="ll-insert-pos-btn">
+                Insert at Pos
+              </button>
+            </div>
+          </div>
+
+          <!-- Row 2: Deletions, Search & Reset -->
+          <div class="control-row">
+            <div class="control-group">
+              <span class="control-group-label">Delete:</span>
+              <button class="viz-btn viz-btn-danger ll-control-btn" id="ll-del-beg-btn">
+                &times; Front
+              </button>
+              <button class="viz-btn viz-btn-danger ll-control-btn" id="ll-del-end-btn">
+                &times; End
+              </button>
+              <button class="viz-btn viz-btn-danger ll-control-btn" id="ll-del-pos-btn">
+                &times; at Pos
+              </button>
+            </div>
+
+            <!-- Search & Reset Group -->
+            <div class="control-group" style="margin-left: auto;">
+              <span class="control-group-label">Search:</span>
+              <input type="number" id="ll-search-input" class="viz-input ll-input" placeholder="Val" value="38" style="width: 90px;">
+              <button class="viz-btn viz-btn-secondary ll-control-btn" id="ll-search-btn">
+                🔍 Search
+              </button>
+              <button class="viz-btn viz-btn-reset" id="ll-reset-btn">
+                🔄 Reset
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stage Canvas -->
+        <div class="linked-list-stage" id="ll-stage">
+          <!-- Populated by linked-list-lab.js -->
+        </div>
+
+        <!-- Telemetry Dock -->
+        <div class="lab-telemetry-strip">
+          <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+            <div>List Length: <strong id="ll-node-count" style="color: var(--brand);">4 Nodes</strong></div>
+            <div>HEAD Points To: <strong id="ll-head-addr" style="color: var(--success);">0x3010</strong></div>
+          </div>
+          <div>Status: <span id="ll-log-status" class="speed-pill instant" style="font-size: 0.72rem;">Ready</span></div>
+        </div>
+
+      </div>
+
+      <!-- Real-Time Tracing Log Card -->
+      <div class="lab-execution-log">
+        <div class="lab-log-header">
+          <span>Live Algorithm Execution Log</span>
+          <span id="ll-log-step" style="color: var(--brand); font-weight: 700;">Idle</span>
+        </div>
+        <div id="ll-log-msg" class="lab-log-content">
+          Linked list initialized with 4 default nodes. Select an operation from the toolbar above to watch pointer manipulation.
+        </div>
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION NAVIGATION -->
+    <section class="section-container">
+      <div style="background: var(--gradient-aurora); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; color: #080a0f;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem;">Ready to test your Linked List mastery?</h2>
+        <p style="font-size: 1.05rem; font-weight: 600; max-width: 600px; margin: 0 auto 1.5rem;">
+          Take the self-assessment knowledge check and practice coding challenges with expandable C solutions.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="practice.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Practice Questions &amp; Quiz &rarr;
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Linked List Core</a>
+        <a href="types.html" style="color: var(--accent-primary-text); text-decoration: none;">Types</a>
+        <a href="operations.html" style="color: var(--accent-primary-text); text-decoration: none;">Operations</a>
+        <a href="interactive-lab.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="practice.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/bundle.js"></script>
+  <script src="../assets/js/linked-list-lab.js"></script>
+</body>
+</html>

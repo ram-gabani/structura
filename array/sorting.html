@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorting Algorithms: Bubble, Selection, Insertion & Radix Sort — Structura</title>
+  <meta name="description" content="Beginner-friendly visual guide to Bubble Sort, Selection Sort, Insertion Sort, and Radix Sort with analogies, digit buckets, and C code.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <!-- Instant Theme Setup (Prevents theme flash) -->
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body>
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Sorting Guide &bull; ⏱️ 8 min read</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link">Array Core</a>
+        <a href="searching.html" class="nav-link">Searching</a>
+        <a href="sorting.html" class="nav-link active">Sorting</a>
+        <a href="visualizer.html" class="nav-link">Interactive Lab</a>
+        <a href="questions.html" class="nav-link">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Data Structures in C</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb"></span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO SECTION -->
+    <section class="hero-card">
+      <div class="hero-badge-row">
+        <span class="section-tag">Algorithm Deep Dive</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">4 Classic Sorters</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">Plain English</span>
+      </div>
+
+      <h1 class="hero-title">Putting Chaos in Order: <span>Sorting Algorithms</span></h1>
+      <p class="hero-description">
+        A <strong>Sorting Algorithm</strong> rearranges a list of elements into ascending (smallest to largest) or descending order based on a comparison operator. In this guide, we break down Bubble Sort, Selection Sort, Insertion Sort, and Radix Sort with intuitive real-world metaphors and step-by-step traces.
+      </p>
+
+      <div class="concept-card-grid cols-4" style="margin-top: 1.5rem;">
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-rose">Bubble Sort</span>
+          </div>
+          <div class="concept-title" style="font-size: 1rem;">Neighbor Swaps</div>
+          <div class="concept-body" style="font-size: 0.86rem;">
+            Repeatedly compares and swaps adjacent pairs, bubbling maximums to the right.
+          </div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-amber">Selection Sort</span>
+          </div>
+          <div class="concept-title" style="font-size: 1rem;">Minimum Picker</div>
+          <div class="concept-body" style="font-size: 0.86rem;">
+            Scans for the champion minimum and places it first; performs at most <code>n-1</code> swaps.
+          </div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-emerald">Insertion Sort</span>
+          </div>
+          <div class="concept-title" style="font-size: 1rem;">Card Slide</div>
+          <div class="concept-body" style="font-size: 0.86rem;">
+            Slides items into a sorted hand; achieves lightning-fast <code>O(n)</code> on nearly-sorted data.
+          </div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-sky">Radix Sort</span>
+          </div>
+          <div class="concept-title" style="font-size: 1rem;">Bucket Sorter</div>
+          <div class="concept-body" style="font-size: 0.86rem;">
+            Non-comparative digit-by-digit bucketing with linear-proportional <code>O(n &times; k)</code> time.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1. BUBBLE SORT -->
+    <section class="section-container" id="bubble-sort">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">1. Bubble Sort: <span>"Bubbling the Largest to the End"</span></h2>
+          <p class="section-subtitle">Repeatedly comparing and swapping adjacent neighbor elements</p>
+        </div>
+        <span class="speed-pill multi">🔄 Neighbor Swap</span>
+      </div>
+
+      <div class="card-glass rose-accent">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; align-items: center;">
+          <div>
+            <h4 style="color: var(--accent-rose-text); font-size: 1.1rem; margin-bottom: 0.5rem;">🫧 Real-Life Metaphor:</h4>
+            <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem;">
+              Imagine air bubbles rising in water. The largest bubbles float upward to the surface fastest. Similarly, in Bubble Sort, adjacent elements are compared and swapped if out of order, bubbling the largest value to the end in each pass!
+            </p>
+            <div style="background: var(--bg-surface-subtle); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-default);">
+              <span style="font-weight: 700; color: var(--text-primary);">When to use:</span>
+              <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.2rem;">
+                When simplicity and short code are preferred, or for educational demonstrations.
+              </p>
+            </div>
+          </div>
+
+          <div style="background: var(--bg-app); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 1.25rem;">
+            <div style="font-size: 0.85rem; font-weight: 800; color: var(--accent-rose-text); margin-bottom: 0.75rem; text-transform: uppercase;">
+              Bubble Sort Pass 1: [5, 1, 4, 2]
+            </div>
+
+            <div class="algo-step-container">
+              <div class="algo-step-card">
+                <div class="step-num-badge">1</div>
+                <div class="step-content">
+                  <div class="step-title">Compare (5, 1) &rarr; Swap!</div>
+                  <div class="step-desc">5 &gt; 1. Swap them! Array: [1, 5, 4, 2]</div>
+                </div>
+              </div>
+
+              <div class="algo-step-card">
+                <div class="step-num-badge">2</div>
+                <div class="step-content">
+                  <div class="step-title">Compare (5, 4) &rarr; Swap!</div>
+                  <div class="step-desc">5 &gt; 4. Swap them! Array: [1, 4, 5, 2]</div>
+                </div>
+              </div>
+
+              <div class="algo-step-card">
+                <div class="step-num-badge">3</div>
+                <div class="step-content">
+                  <div class="step-title">Compare (5, 2) &rarr; Swap!</div>
+                  <div class="step-desc">5 &gt; 2. Swap! End of Pass 1: [1, 4, 2, <strong>5 (Locked)</strong>]</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="concept-card-grid cols-3" style="margin-top: 1.5rem;">
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-rose">Time Complexity</span>
+            </div>
+            <div class="concept-title">Best: O(n) &bull; Worst: O(n²)</div>
+            <div class="concept-body">Early break flag enables linear time on sorted input. Worst case requires full comparisons across passes.</div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-emerald">Space Complexity</span>
+            </div>
+            <div class="concept-title">O(1) Auxiliary Space</div>
+            <div class="concept-body">Performs completely in-place sorting with zero auxiliary dynamic memory allocations.</div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-sky">Stability</span>
+            </div>
+            <div class="concept-title">Stable Algorithm</div>
+            <div class="concept-body">Preserves the relative order of duplicate values since only strictly greater items are swapped.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. SELECTION SORT -->
+    <section class="section-container" id="selection-sort">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">2. Selection Sort: <span>"Finding the Champion Minimum"</span></h2>
+          <p class="section-subtitle">Scanning for the minimum element and placing it at the front</p>
+        </div>
+        <span class="speed-pill multi">🏆 Minimum Picker</span>
+      </div>
+
+      <div class="card-glass amber-accent">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; align-items: center;">
+          <div>
+            <h4 style="color: var(--accent-amber-text); font-size: 1.1rem; margin-bottom: 0.5rem;">🛒 Real-Life Metaphor:</h4>
+            <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem;">
+              Imagine picking fruits in a store: you scan the entire basket for the <strong>cheapest fruit</strong> and put it first in your basket. Then you scan the rest for the next cheapest and place it second.
+            </p>
+            <div style="background: var(--bg-surface-subtle); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-default);">
+              <span style="font-weight: 700; color: var(--text-primary);">When to use:</span>
+              <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.2rem;">
+                When write memory writes are expensive (e.g. EEPROM / Flash memory) because Selection Sort makes at most <code>O(n)</code> swaps.
+              </p>
+            </div>
+          </div>
+
+          <div style="background: var(--bg-app); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 1.25rem;">
+            <div style="font-size: 0.85rem; font-weight: 800; color: var(--accent-amber-text); margin-bottom: 0.75rem; text-transform: uppercase;">
+              Selection Sort: [20, 12, 10, 15, 2]
+            </div>
+
+            <div class="algo-step-container">
+              <div class="algo-step-card">
+                <div class="step-num-badge">1</div>
+                <div class="step-content">
+                  <div class="step-title">Round 1: Find Smallest in Entire Array</div>
+                  <div class="step-desc">Minimum is <strong>2</strong>. Swap with index 0 (20). Array: [<strong>2</strong>, 12, 10, 15, 20]</div>
+                </div>
+              </div>
+
+              <div class="algo-step-card">
+                <div class="step-num-badge">2</div>
+                <div class="step-content">
+                  <div class="step-title">Round 2: Find Smallest in [12, 10, 15, 20]</div>
+                  <div class="step-desc">Minimum is <strong>10</strong>. Swap with 12. Array: [<strong>2, 10</strong>, 12, 15, 20]</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="concept-card-grid cols-3" style="margin-top: 1.5rem;">
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-amber">Time Complexity</span>
+            </div>
+            <div class="concept-title">O(n²) in All Cases</div>
+            <div class="concept-body">Best, Worst, and Average cases are all <code>O(n²)</code> since it always scans the remaining unsorted subarray.</div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-emerald">Minimal Swaps</span>
+            </div>
+            <div class="concept-title">Max n-1 Swaps</div>
+            <div class="concept-body">Performs at most <code>n - 1</code> swaps total, making it ideal for devices where write operations are costly.</div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-purple">Stability</span>
+            </div>
+            <div class="concept-title">Unstable by Default</div>
+            <div class="concept-body">Long-distance swaps can alter the original relative positions of duplicate equal elements.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. INSERTION SORT -->
+    <section class="section-container" id="insertion-sort">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">3. Insertion Sort: <span>"Sorting Playing Cards in Hand"</span></h2>
+          <p class="section-subtitle">How human card players naturally organize their hand</p>
+        </div>
+        <span class="speed-pill fast">🃏 Card Slide</span>
+      </div>
+
+      <div class="card-glass emerald-accent">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; align-items: center;">
+          <div>
+            <h4 style="color: var(--accent-emerald-text); font-size: 1.1rem; margin-bottom: 0.5rem;">🃏 Real-Life Metaphor:</h4>
+            <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem;">
+              When dealt cards in a game, you keep your sorted cards in hand. Each time a new card arrives, you slide it backward until it fits in its exact sorted slot!
+            </p>
+            <div style="background: rgba(52, 211, 153, 0.1); padding: 1rem; border-radius: var(--radius-md); border: 1px solid rgba(52, 211, 153, 0.25);">
+              <span style="font-weight: 800; color: var(--accent-emerald-text);">⚡ Superpower:</span>
+              <p style="font-size: 0.88rem; color: var(--text-secondary); margin-top: 0.2rem;">
+                If data is already mostly sorted, Insertion Sort runs in lightning-fast <code>O(n)</code> linear time.
+              </p>
+            </div>
+          </div>
+
+          <div style="background: var(--bg-app); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 1.25rem;">
+            <div style="font-size: 0.85rem; font-weight: 800; color: var(--accent-emerald-text); margin-bottom: 0.75rem; text-transform: uppercase;">
+              Inserting 3 into Hand [1, 4, 7]
+            </div>
+
+            <div class="algo-step-container">
+              <div class="algo-step-card">
+                <div class="step-num-badge">1</div>
+                <div class="step-content">
+                  <div class="step-title">Extract Key = 3. Compare with 7</div>
+                  <div class="step-desc">7 &gt; 3 &rarr; Slide 7 right. Hand: [1, 4, _, 7]</div>
+                </div>
+              </div>
+
+              <div class="algo-step-card">
+                <div class="step-num-badge">2</div>
+                <div class="step-content">
+                  <div class="step-title">Compare with 4</div>
+                  <div class="step-desc">4 &gt; 3 &rarr; Slide 4 right. Hand: [1, _, 4, 7]</div>
+                </div>
+              </div>
+
+              <div class="algo-step-card">
+                <div class="step-num-badge">3</div>
+                <div class="step-content">
+                  <div class="step-title">Compare with 1 &rarr; Insert!</div>
+                  <div class="step-desc">1 &lt; 3 &rarr; Drop 3 into empty slot! Hand: [<strong>1, 3, 4, 7</strong>]</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="concept-card-grid cols-3" style="margin-top: 1.5rem;">
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-emerald">Adaptive Speed</span>
+            </div>
+            <div class="concept-title">Best: O(n) &bull; Worst: O(n²)</div>
+            <div class="concept-body">Requires only 1 comparison per element when input is already sorted or nearly sorted.</div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-sky">Stability</span>
+            </div>
+            <div class="concept-title">Stable In-Place</div>
+            <div class="concept-body">Maintains original relative order of equal items and operates with <code>O(1)</code> space.</div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-amber">Online Processing</span>
+            </div>
+            <div class="concept-title">Stream Friendly</div>
+            <div class="concept-body">Can sort a list as it receives new elements in real-time without needing the whole array upfront.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. RADIX SORT -->
+    <section class="section-container" id="radix-sort">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">4. Radix Sort: <span>"Digit-by-Digit Bucket Sorter"</span></h2>
+          <p class="section-subtitle">Non-comparative sorting using Least Significant Digit (LSD) to Most Significant Digit (MSD)</p>
+        </div>
+        <span class="speed-pill logarithmic">⚡ O(n &times; k) Non-Comparative</span>
+      </div>
+
+      <div class="card-glass blue-accent">
+        <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.25rem;">
+          Unlike Bubble or Selection Sort which compare two elements at a time, <strong>Radix Sort</strong> is a <strong>non-comparative algorithm</strong>. It sorts numbers digit by digit starting from the <strong>Least Significant Digit (Units digit &rarr; Tens digit &rarr; Hundreds digit)</strong> using 10 buckets (0 to 9).
+        </p>
+
+        <!-- Worked Example -->
+        <div style="background: var(--bg-app); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1.5rem;">
+          <div style="font-size: 0.85rem; font-family: 'JetBrains Mono'; color: var(--accent-cyan-text); font-weight: 700; margin-bottom: 0.75rem; text-transform: uppercase;">
+            Worked Example: Sorting [170, 45, 75, 90, 802, 24, 2, 66]
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div style="background: var(--bg-surface); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-default);">
+              <div style="font-weight: 700; color: var(--accent-primary-text); font-size: 0.92rem; margin-bottom: 0.3rem;">
+                Step 1: Sort by Units Digit (LSD):
+              </div>
+              <div style="font-family: 'JetBrains Mono'; font-size: 0.88rem; color: var(--text-secondary);">
+                170(<strong>0</strong>), 90(<strong>0</strong>), 802(<strong>2</strong>), 2(<strong>2</strong>), 24(<strong>4</strong>), 45(<strong>5</strong>), 75(<strong>5</strong>), 66(<strong>6</strong>)<br>
+                &rarr; List: <code>[170, 90, 802, 2, 24, 45, 75, 66]</code>
+              </div>
+            </div>
+
+            <div style="background: var(--bg-surface); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-default);">
+              <div style="font-weight: 700; color: var(--accent-emerald-text); font-size: 0.92rem; margin-bottom: 0.3rem;">
+                Step 2: Sort by Tens Digit:
+              </div>
+              <div style="font-family: 'JetBrains Mono'; font-size: 0.88rem; color: var(--text-secondary);">
+                802(<strong>0</strong>), 2(<strong>0</strong>), 24(<strong>2</strong>), 45(<strong>4</strong>), 66(<strong>6</strong>), 170(<strong>7</strong>), 75(<strong>7</strong>), 90(<strong>9</strong>)<br>
+                &rarr; List: <code>[802, 2, 24, 45, 66, 170, 75, 90]</code>
+              </div>
+            </div>
+
+            <div style="background: var(--bg-surface); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-default);">
+              <div style="font-weight: 700; color: var(--accent-cyan-text); font-size: 0.92rem; margin-bottom: 0.3rem;">
+                Step 3: Sort by Hundreds Digit (MSD):
+              </div>
+              <div style="font-family: 'JetBrains Mono'; font-size: 0.88rem; color: var(--text-secondary);">
+                2(<strong>0</strong>), 24(<strong>0</strong>), 45(<strong>0</strong>), 66(<strong>0</strong>), 75(<strong>0</strong>), 90(<strong>0</strong>), 170(<strong>1</strong>), 802(<strong>8</strong>)<br>
+                &rarr; Final Sorted Output: <strong style="color: var(--accent-emerald-text);">[2, 24, 45, 66, 75, 90, 170, 802]</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="concept-card-grid cols-3">
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-sky">Linear-Bound Time</span>
+            </div>
+            <div class="concept-title">Time: O(n &times; k)</div>
+            <div class="concept-body">Runs in linear-proportional time where <code>k</code> is the digit count of the largest number.</div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-emerald">Non-Comparative</span>
+            </div>
+            <div class="concept-title">No Comparisons</div>
+            <div class="concept-body">Bypasses the theoretical <code>O(n log n)</code> comparison limit by utilizing positional digit buckets.</div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-header">
+              <span class="concept-badge badge-purple">Subroutine</span>
+            </div>
+            <div class="concept-title">Stable Sub-Sort</div>
+            <div class="concept-body">Employs stable counting sort internally per digit position to retain previous digit hierarchy.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPLETE C CODE IMPLEMENTATION -->
+    <section class="section-container" id="c-code">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Clean C Implementation: <span>Bubble Sort</span></h2>
+          <p class="section-subtitle">Beginner-friendly C function with early-exit optimization</p>
+        </div>
+        <button class="copy-code-btn" data-target="c-code-sort">
+          <span>📋</span> Copy Code
+        </button>
+      </div>
+
+      <div class="annotated-code-container">
+        <div class="annotated-code-header">
+          <div class="ide-window-dots">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+          </div>
+          <div class="annotated-code-title">
+            <span>📄</span> bubble_sort.c
+          </div>
+        </div>
+
+        <div class="code-annotation-grid">
+          <div class="chalkboard-code-area">
+            <pre><code id="c-code-sort"><span class="syn-macro">#include</span> <span class="syn-str">&lt;stdio.h&gt;</span>
+
+<span class="syn-type">void</span> <span class="syn-fn">bubbleSort</span>(<span class="syn-type">int</span> <span class="syn-var">arr</span>[], <span class="syn-type">int</span> <span class="syn-var">n</span>) {
+    <span class="syn-kw">for</span> (<span class="syn-type">int</span> <span class="syn-var">i</span> = <span class="syn-num">0</span>; <span class="syn-var">i</span> &lt; <span class="syn-num">n</span> - <span class="syn-num">1</span>; <span class="syn-var">i</span>++) {
+        <span class="syn-type">int</span> <span class="syn-var">swapped</span> = <span class="syn-num">0</span>; <span class="syn-cm">// Track if any swaps occurred</span>
+
+        <span class="syn-kw">for</span> (<span class="syn-type">int</span> <span class="syn-var">j</span> = <span class="syn-num">0</span>; <span class="syn-var">j</span> &lt; <span class="syn-num">n</span> - <span class="syn-num">i</span> - <span class="syn-num">1</span>; <span class="syn-var">j</span>++) {
+            <span class="syn-kw">if</span> (<span class="syn-var">arr</span>[<span class="syn-var">j</span>] &gt; <span class="syn-var">arr</span>[<span class="syn-var">j</span> + <span class="syn-num">1</span>]) {
+                <span class="syn-cm">// Swap neighbor pairs</span>
+                <span class="syn-type">int</span> <span class="syn-var">temp</span> = <span class="syn-var">arr</span>[<span class="syn-var">j</span>];
+                <span class="syn-var">arr</span>[<span class="syn-var">j</span>] = <span class="syn-var">arr</span>[<span class="syn-var">j</span> + <span class="syn-num">1</span>];
+                <span class="syn-var">arr</span>[<span class="syn-var">j</span> + <span class="syn-num">1</span>] = <span class="syn-var">temp</span>;
+                <span class="syn-var">swapped</span> = <span class="syn-num">1</span>;
+            }
+        }
+        <span class="syn-cm">// If no swaps occurred, the list is already sorted!</span>
+        <span class="syn-kw">if</span> (<span class="syn-var">swapped</span> == <span class="syn-num">0</span>) <span class="syn-kw">break</span>;
+    }
+}
+
+<span class="syn-type">int</span> <span class="syn-fn">main</span>() {
+    <span class="syn-type">int</span> <span class="syn-var">data</span>[] = {<span class="syn-num">64</span>, <span class="syn-num">34</span>, <span class="syn-num">25</span>, <span class="syn-num">12</span>, <span class="syn-num">22</span>, <span class="syn-num">11</span>, <span class="syn-num">90</span>};
+    <span class="syn-type">int</span> <span class="syn-var">n</span> = <span class="syn-kw">sizeof</span>(<span class="syn-var">data</span>) / <span class="syn-kw">sizeof</span>(<span class="syn-var">data</span>[<span class="syn-num">0</span>]);
+
+    <span class="syn-fn">bubbleSort</span>(<span class="syn-var">data</span>, <span class="syn-var">n</span>);
+
+    <span class="syn-fn">printf</span>(<span class="syn-str">"Sorted Array:\n"</span>);
+    <span class="syn-kw">for</span> (<span class="syn-type">int</span> <span class="syn-var">i</span> = <span class="syn-num">0</span>; <span class="syn-var">i</span> &lt; <span class="syn-num">n</span>; <span class="syn-var">i</span>++) {
+        <span class="syn-fn">printf</span>(<span class="syn-str">"%d "</span>, <span class="syn-var">data</span>[<span class="syn-var">i</span>]);
+    }
+    <span class="syn-fn">printf</span>(<span class="syn-str">"\n"</span>);
+    <span class="syn-kw">return</span> <span class="syn-num">0</span>;
+}</code></pre>
+          </div>
+
+          <div class="step-breakdown-panel">
+            <div class="step-breakdown-header">
+              <span>👨‍🏫</span> Code Highlights
+            </div>
+
+            <div class="step-card">
+              <div class="step-card-header">
+                <span class="step-line-pill line-badge rose">Line 7: j &lt; n - i - 1</span>
+              </div>
+              <div class="step-card-title step-title">Shrinking Inner Boundary</div>
+              <div class="step-card-body step-text">
+                Because the largest elements are already locked at the back in earlier passes, we avoid re-checking them!
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div class="step-card-header">
+                <span class="step-line-pill line-badge emerald">Line 17: Early Break Flag</span>
+              </div>
+              <div class="step-card-title step-title">Adaptive Early Exit</div>
+              <div class="step-card-body step-text">
+                If an entire pass completes without a single swap, the computer terminates early in <span class="pill-highlight">O(n)</span> time.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION NAVIGATION -->
+    <section class="section-container">
+      <div style="background: var(--gradient-aurora); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; color: #080a0f;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem;">Test your skills with Practice Questions &amp; Quiz!</h2>
+        <p style="font-size: 1.05rem; font-weight: 600; max-width: 600px; margin: 0 auto 1.5rem;">
+          Solve real coding challenges with hints and take the self-assessment quiz to test your memory.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="questions.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Go to Practice &amp; Quiz &rarr;
+          </a>
+          <a href="visualizer.html" class="btn-primary" style="background: #ffffff; color: #080a0f; text-decoration: none;">
+            Try the Interactive Lab
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Array Core</a>
+        <a href="searching.html" style="color: var(--accent-primary-text); text-decoration: none;">Searching</a>
+        <a href="sorting.html" style="color: var(--accent-primary-text); text-decoration: none;">Sorting</a>
+        <a href="visualizer.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="questions.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>

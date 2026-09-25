@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graph Practice Hub, Pitfalls & Quiz — Structura</title>
+  <meta name="description" content="Graph coding challenges with expandable C solutions, cycle detection, common graph pitfalls, and an interactive self-check quiz for Data Structures in C.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body class="topic-page topic-graphs" data-dsa-topic="graphs">
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Practice &bull; Self-Check</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link">Graphs Core</a>
+        <a href="representation.html" class="nav-link">Representation</a>
+        <a href="traversals.html" class="nav-link">Traversals</a>
+        <a href="interactive-lab.html" class="nav-link">Interactive Lab</a>
+        <a href="practice.html" class="nav-link active">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Visual Learning Hub</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb">
+              <span class="thumb-icon-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="thumb-icon-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO -->
+    <section class="hero-card">
+      <div class="hero-badge-row">
+        <span class="section-tag">Practice &amp; Assessment</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">Exam Challenges</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">Interactive Quiz</span>
+      </div>
+
+      <h1 class="hero-title">Graph Practice &amp; <span>Self-Assessment</span></h1>
+      <p class="hero-description">
+        Solve classic university exam coding challenges on cycle detection and connectivity, master C graph algorithms with expandable code solutions, avoid common network pitfalls, and test your understanding with the quiz.
+      </p>
+    </section>
+
+    <!-- SECTION 1: CODING CHALLENGES -->
+    <section class="section-container" id="challenges">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">1. Curated Coding Challenges in C</h2>
+          <p class="section-subtitle">Core exam and interview problems with step-by-step solutions</p>
+        </div>
+        <span class="speed-pill instant">Graph Algorithms</span>
+      </div>
+
+      <!-- Challenge 1 -->
+      <div class="card-glass" style="margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.75rem;">
+          <div>
+            <span class="concept-badge badge-sky" style="margin-bottom: 0.5rem; display: inline-block;">Problem 01</span>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin: 0;">Detect a Cycle in an Undirected Graph using DFS</h3>
+          </div>
+          <span class="speed-pill instant">O(V + E) Time</span>
+        </div>
+        <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
+          Write a C function using Depth-First Search to detect if an undirected graph contains any cycles. When visiting an adjacent neighbor that is already marked as visited, how do you distinguish between a genuine cycle and simply looking back at the immediate parent vertex?
+        </p>
+
+        <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem;">
+          <button class="btn-hint" data-hint="hint-graph-1">💡 Reveal Hint</button>
+        </div>
+
+        <div class="hint-drawer" id="hint-graph-1" style="display: none; background: rgba(56, 189, 248, 0.08); border-left: 3px solid var(--brand); padding: 0.75rem 1rem; border-radius: var(--radius-sm); margin-bottom: 1rem; font-size: 0.88rem; color: var(--text-secondary);">
+          <strong>Hint:</strong> Pass a <code>parent</code> parameter into your DFS function. If neighbor <code>v</code> is already visited AND <code>v != parent</code>, you have found a back-edge and a cycle exists!
+        </div>
+
+        <details class="code-details">
+          <summary class="btn-secondary-link" style="cursor: pointer; display: inline-block; padding: 0.4rem 0.8rem; font-size: 0.85rem;">View Complete C Solution &darr;</summary>
+          <div style="margin-top: 1rem; position: relative;">
+            <button class="copy-code-btn" data-target="sol-graph-1" style="position: absolute; right: 0.75rem; top: 0.75rem;">Copy</button>
+            <pre class="code-block" id="sol-graph-1"><code>#include &lt;stdio.h&gt;
+#include &lt;stdbool.h&gt;
+#define V 5
+
+bool isCyclicDFS(int adj[V][V], int v, bool visited[], int parent) {
+    visited[v] = true;
+
+    for (int neighbor = 0; neighbor &lt; V; neighbor++) {
+        if (adj[v][neighbor] == 1) {
+            // If neighbor not visited, recurse
+            if (!visited[neighbor]) {
+                if (isCyclicDFS(adj, neighbor, visited, v))
+                    return true;
+            }
+            // If visited and not parent of current vertex, cycle found!
+            else if (neighbor != parent) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool hasCycle(int adj[V][V]) {
+    bool visited[V] = {false};
+    // Check all components in case graph is disconnected
+    for (int i = 0; i &lt; V; i++) {
+        if (!visited[i]) {
+            if (isCyclicDFS(adj, i, visited, -1))
+                return true;
+        }
+    }
+    return false;
+}</code></pre>
+          </div>
+        </details>
+      </div>
+
+      <!-- Challenge 2 -->
+      <div class="card-glass" style="margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.75rem;">
+          <div>
+            <span class="concept-badge badge-emerald" style="margin-bottom: 0.5rem; display: inline-block;">Problem 02</span>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin: 0;">Check if an Undirected Graph is Connected</h3>
+          </div>
+          <span class="speed-pill instant">O(V + E) Time</span>
+        </div>
+        <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
+          Write a C function to determine whether an undirected graph is connected. A graph is connected if every vertex is reachable from vertex 0.
+        </p>
+
+        <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem;">
+          <button class="btn-hint" data-hint="hint-graph-2">💡 Reveal Hint</button>
+        </div>
+
+        <div class="hint-drawer" id="hint-graph-2" style="display: none; background: rgba(56, 189, 248, 0.08); border-left: 3px solid var(--brand); padding: 0.75rem 1rem; border-radius: var(--radius-sm); margin-bottom: 1rem; font-size: 0.88rem; color: var(--text-secondary);">
+          <strong>Hint:</strong> Run BFS or DFS starting from vertex 0. Afterwards, scan the <code>visited</code> array. If any vertex remains unvisited (0), the graph is disconnected!
+        </div>
+
+        <details class="code-details">
+          <summary class="btn-secondary-link" style="cursor: pointer; display: inline-block; padding: 0.4rem 0.8rem; font-size: 0.85rem;">View Complete C Solution &darr;</summary>
+          <div style="margin-top: 1rem; position: relative;">
+            <button class="copy-code-btn" data-target="sol-graph-2" style="position: absolute; right: 0.75rem; top: 0.75rem;">Copy</button>
+            <pre class="code-block" id="sol-graph-2"><code>#include &lt;stdio.h&gt;
+#include &lt;stdbool.h&gt;
+#define V 4
+
+void bfsExplore(int adj[V][V], int start, bool visited[]) {
+    int queue[V];
+    int front = 0, rear = 0;
+
+    visited[start] = true;
+    queue[rear++] = start;
+
+    while (front &lt; rear) {
+        int u = queue[front++];
+        for (int v = 0; v &lt; V; v++) {
+            if (adj[u][v] == 1 &amp;&amp; !visited[v]) {
+                visited[v] = true;
+                queue[rear++] = v;
+            }
+        }
+    }
+}
+
+bool isConnected(int adj[V][V]) {
+    bool visited[V] = {false};
+    bfsExplore(adj, 0, visited);
+
+    // If any vertex was not reached from 0, graph is disconnected
+    for (int i = 0; i &lt; V; i++) {
+        if (!visited[i]) return false;
+    }
+    return true;
+}</code></pre>
+          </div>
+        </details>
+      </div>
+
+      <!-- Challenge 3 -->
+      <div class="card-glass">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.75rem;">
+          <div>
+            <span class="concept-badge badge-purple" style="margin-bottom: 0.5rem; display: inline-block;">Problem 03</span>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin: 0;">Calculate Degree of Vertices from an Adjacency Matrix</h3>
+          </div>
+          <span class="speed-pill instant">O(V&sup2;) Time</span>
+        </div>
+        <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
+          Write a concise C function that prints the degree of every vertex in an undirected graph given its Adjacency Matrix.
+        </p>
+
+        <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem;">
+          <button class="btn-hint" data-hint="hint-graph-3">💡 Reveal Hint</button>
+        </div>
+
+        <div class="hint-drawer" id="hint-graph-3" style="display: none; background: rgba(56, 189, 248, 0.08); border-left: 3px solid var(--brand); padding: 0.75rem 1rem; border-radius: var(--radius-sm); margin-bottom: 1rem; font-size: 0.88rem; color: var(--text-secondary);">
+          <strong>Hint:</strong> In an undirected adjacency matrix, the degree of vertex <code>i</code> is simply the sum of all 1s in row <code>i</code>!
+        </div>
+
+        <details class="code-details">
+          <summary class="btn-secondary-link" style="cursor: pointer; display: inline-block; padding: 0.4rem 0.8rem; font-size: 0.85rem;">View Complete C Solution &darr;</summary>
+          <div style="margin-top: 1rem; position: relative;">
+            <button class="copy-code-btn" data-target="sol-graph-3" style="position: absolute; right: 0.75rem; top: 0.75rem;">Copy</button>
+            <pre class="code-block" id="sol-graph-3"><code>#include &lt;stdio.h&gt;
+#define V 4
+
+void printDegrees(int adj[V][V]) {
+    for (int i = 0; i &lt; V; i++) {
+        int degree = 0;
+        for (int j = 0; j &lt; V; j++) {
+            if (adj[i][j] == 1) degree++;
+        }
+        printf("Vertex %d: Degree = %d\n", i, degree);
+    }
+}</code></pre>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- SECTION 2: COMMON PITFALLS -->
+    <section class="section-container" id="pitfalls">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">2. Common Graph Programming Pitfalls in C</h2>
+          <p class="section-subtitle">Bugs that crash student programs in lab examinations</p>
+        </div>
+      </div>
+
+      <div class="concept-card-grid cols-3">
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-rose">Pitfall 01</span></div>
+          <div class="concept-title">Omitting Visited Array</div>
+          <div class="concept-body">
+            Calling DFS without checking <code>visited[neighbor]</code> triggers infinite recursive stack overflow because cycles bounce back and forth forever between vertices!
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-amber">Pitfall 02</span></div>
+          <div class="concept-title">Ignoring Disconnected Graphs</div>
+          <div class="concept-body">
+            Starting BFS only at vertex 0 fails to discover vertices in disconnected components. Always use a loop over all <code>0 to V-1</code> for full graph coverage.
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-purple">Pitfall 03</span></div>
+          <div class="concept-title">One-Way Undirected Edge</div>
+          <div class="concept-body">
+            Setting only <code>adj[u][v] = 1</code> without setting <code>adj[v][u] = 1</code> turns an undirected graph into a directed graph, producing wrong traversal paths.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: INTERACTIVE SELF-CHECK QUIZ -->
+    <section class="section-container" id="quiz">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">3. Self-Assessment Knowledge Check</h2>
+          <p class="section-subtitle">Test your mastery of graph representations, BFS, DFS, and topological theory</p>
+        </div>
+      </div>
+
+      <div id="quiz-container">
+        <!-- Managed dynamically by QuizController in bundle.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Graphs Core</a>
+        <a href="representation.html" style="color: var(--accent-primary-text); text-decoration: none;">Representation</a>
+        <a href="traversals.html" style="color: var(--accent-primary-text); text-decoration: none;">Traversals</a>
+        <a href="interactive-lab.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="practice.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Topic Quiz Dataset for bundle.js QuizController -->
+  <script>
+    window.topicQuizData = [
+      {
+        id: 1,
+        question: "What is the mathematical definition of a Graph G?",
+        options: [
+          "G = (V, E) where V is a non-empty set of vertices and E is a set of edges",
+          "G = (Root, Leaves)",
+          "G = (Rows, Columns)",
+          "G = (Front, Rear)"
+        ],
+        correctIndex: 0,
+        explanation: "Correct! A graph is formally defined as an ordered pair G = (V, E) comprising a set V of vertices and a set E of edges."
+      },
+      {
+        id: 2,
+        question: "According to the Handshaking Theorem, what does the sum of degrees of all vertices in an undirected graph equal?",
+        options: [
+          "|V| * |E|",
+          "2 * |E|",
+          "|E| / 2",
+          "|V| - 1"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! Every undirected edge connects two vertices, contributing exactly 1 to the degree count of each endpoint. Therefore, the sum of all degrees is 2 * |E|."
+      },
+      {
+        id: 3,
+        question: "What is the memory space complexity of storing a graph of V vertices using an Adjacency Matrix?",
+        options: [
+          "O(V)",
+          "O(V + E)",
+          "O(V^2)",
+          "O(E^2)"
+        ],
+        correctIndex: 2,
+        explanation: "Correct! An adjacency matrix requires a 2D array of size V x V, consuming O(V^2) memory regardless of how many edges exist."
+      },
+      {
+        id: 4,
+        question: "What is the memory space complexity of storing a graph of V vertices and E edges using an Adjacency List?",
+        options: [
+          "O(V^2)",
+          "O(V + E)",
+          "O(E^2)",
+          "O(V * E)"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! An adjacency list allocates an array of V head pointers plus 2 * E total node objects (for undirected graphs), giving optimal O(V + E) space."
+      },
+      {
+        id: 5,
+        question: "Which auxiliary data structure does Breadth-First Search (BFS) utilize to manage discovered vertices?",
+        options: [
+          "LIFO Stack",
+          "FIFO Queue",
+          "Binary Search Tree",
+          "Priority Hash Map"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! BFS explores vertices in concentric level order; earlier discovered vertices must be visited first, which requires a FIFO Queue."
+      },
+      {
+        id: 6,
+        question: "Which mechanism is used by Depth-First Search (DFS) to explore paths deeply and then backtrack?",
+        options: [
+          "FIFO Queue",
+          "LIFO Stack (or the runtime function recursion call stack)",
+          "Double-ended Queue",
+          "Circular Array"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! DFS follows a path down to its end and backtracks to previous decision points using a LIFO Stack or recursive function frames."
+      },
+      {
+        id: 7,
+        question: "Why is a 'Visited Array' strictly necessary in Graph traversals, but not typically needed in standard Binary Tree traversals?",
+        options: [
+          "Graphs contain cycles and multiple routes; without tracking visited vertices, traversals loop infinitely",
+          "Trees cannot store integers",
+          "Graphs are always larger than trees",
+          "C compilers require arrays for graph functions"
+        ],
+        correctIndex: 0,
+        explanation: "Correct! Unlike trees which have a unique acyclic path from root to every node, graphs can contain cycles. The visited array prevents revisiting vertices."
+      },
+      {
+        id: 8,
+        question: "Why is BFS guaranteed to find the shortest path between two vertices in an unweighted graph?",
+        options: [
+          "Because it sorts edges before searching",
+          "Because it explores vertices in order of increasing distance (1 hop, then 2 hops, then 3 hops) from the start",
+          "Because it visits vertices in reverse order",
+          "Because it uses O(1) memory"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! BFS visits all vertices at distance k before any vertex at distance k+1. Thus, the first time target T is reached, the shortest path is found."
+      },
+      {
+        id: 9,
+        question: "In a Directed Graph (Digraph), what is the 'In-Degree' of a vertex?",
+        options: [
+          "The number of outgoing edges leaving that vertex",
+          "The number of incoming edges pointing towards that vertex",
+          "The total number of vertices in the graph",
+          "The memory address of the vertex"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! In-Degree counts arrows pointing into the vertex, while Out-Degree counts arrows pointing out."
+      },
+      {
+        id: 10,
+        question: "What is an undirected graph called if there exists a valid path between every pair of vertices?",
+        options: [
+          "Disconnected Graph",
+          "Connected Graph",
+          "Complete Bipartite Graph",
+          "Skewed Graph"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! A graph is connected if you can travel from any vertex to any other vertex through a sequence of edges."
+      },
+      {
+        id: 11,
+        question: "When is an Adjacency Matrix preferred over an Adjacency List?",
+        options: [
+          "When the graph is extremely sparse (|E| is very small)",
+          "When the graph is dense (|E| is close to |V|^2) and O(1) edge existence queries are critical",
+          "When memory space is severely limited",
+          "When implementing recursive DFS"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! In dense graphs, nearly all matrix cells contain edges, so O(V^2) space is well utilized, and O(1) instant lookup gives maximum speed."
+      },
+      {
+        id: 12,
+        question: "How many edges are in a connected undirected Acyclic Graph (a Free Tree) with V vertices?",
+        options: [
+          "V edges",
+          "V - 1 edges",
+          "V + 1 edges",
+          "2V edges"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! Any connected acyclic graph with V vertices is a tree and contains exactly |V| - 1 edges."
+      },
+      {
+        id: 13,
+        question: "Code Reading: In an undirected adjacency matrix, why does this function divide sum by 2?<br><code>int countEdges(int adj[V][V]) {<br>&nbsp;&nbsp;int sum = 0;<br>&nbsp;&nbsp;for(int i=0; i&lt;V; i++)<br>&nbsp;&nbsp;&nbsp;&nbsp;for(int j=0; j&lt;V; j++) sum += adj[i][j];<br>&nbsp;&nbsp;return sum / 2;<br>}</code>",
+        options: [
+          "Because each edge (u, v) is stored twice: once at adj[u][v] and once at adj[v][u]",
+          "To convert bits into bytes",
+          "Because half the matrix contains garbage memory",
+          "To prevent integer overflow"
+        ],
+        correctIndex: 0,
+        explanation: "Correct! An undirected edge is symmetric, so an edge between 1 and 2 marks both adj[1][2]=1 and adj[2][1]=1. Dividing by 2 gives the true edge count."
+      },
+      {
+        id: 14,
+        question: "Code Reading: What does this function return if the graph has an isolated vertex with no edges?<br><code>int isConnected(int adj[V][V]) {<br>&nbsp;&nbsp;int visited[V] = {0};<br>&nbsp;&nbsp;BFS(adj, 0, visited);<br>&nbsp;&nbsp;for(int i=0; i&lt;V; i++) if(!visited[i]) return 0;<br>&nbsp;&nbsp;return 1;<br>}</code>",
+        options: [
+          "1 (Connected)",
+          "0 (Disconnected)",
+          "-1",
+          "Compiler error"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! The isolated vertex cannot be reached from vertex 0, so its visited entry remains 0, causing the function to return 0 (disconnected)."
+      },
+      {
+        id: 15,
+        question: "Code Reading: In a directed adjacency matrix, what does row u count?<br><code>int getCount(int adj[V][V], int u) {<br>&nbsp;&nbsp;int count = 0;<br>&nbsp;&nbsp;for(int j=0; j&lt;V; j++) if(adj[u][j] == 1) count++;<br>&nbsp;&nbsp;return count;<br>}</code>",
+        options: [
+          "In-Degree of vertex u",
+          "Out-Degree of vertex u",
+          "Total cycles in graph",
+          "Total number of vertices"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! Row u in a directed adjacency matrix contains 1s for all directed edges originating at u and pointing to j, representing the Out-Degree of u."
+      },
+      {
+        id: 16,
+        question: "Visual Trace: Triangle graph has vertices {A, B, C} with edges (A,B), (B,C), (A,C). Running BFS from A with alphabetical neighbor ordering yields what visit sequence?",
+        options: [
+          "A &rarr; B &rarr; C",
+          "A &rarr; C &rarr; B",
+          "B &rarr; C &rarr; A",
+          "C &rarr; B &rarr; A"
+        ],
+        correctIndex: 0,
+        explanation: "Correct! Starting at A: enqueue A. Dequeue A, enqueue neighbors B and C. Dequeue B (C is already queued). Dequeue C. Traversal order: A &rarr; B &rarr; C."
+      },
+      {
+        id: 17,
+        question: "Visual Trace: Line graph A - B - C - D. Running DFS from A (exploring smallest unvisited neighbor first) produces which path before any backtracking?",
+        options: [
+          "A &rarr; B &rarr; C &rarr; D",
+          "A &rarr; D &rarr; C &rarr; B",
+          "A &rarr; B &rarr; D &rarr; C",
+          "A &rarr; C &rarr; B &rarr; D"
+        ],
+        correctIndex: 0,
+        explanation: "Correct! DFS follows the connected line as deeply as possible: A &rarr; B &rarr; C &rarr; D, reaching dead-end D before unwinding."
+      },
+      {
+        id: 18,
+        question: "Visual Trace: In a 4-vertex graph (0 to 3), row 2 of the adjacency matrix is [1, 0, 0, 1]. Which vertices are adjacent neighbors of vertex 2?",
+        options: [
+          "Vertices 1 and 2",
+          "Vertices 0 and 3",
+          "Vertices 0, 1, 2, 3",
+          "No vertices are adjacent"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! Row 2 contains 1 at index 0 and index 3, which indicates that vertex 2 has undirected edges connecting to vertex 0 and vertex 3."
+      }
+    ];
+  </script>
+
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>

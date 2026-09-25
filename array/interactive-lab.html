@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Array & Search Visualizer Lab — Structura</title>
+  <meta name="description" content="Hands-on interactive array visualizer simulating memory offsets, linear scan, binary split, and element shifting with video guides.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <!-- Instant Theme Setup (Prevents theme flash) -->
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body>
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Interactive Lab &bull; Visualizer</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link">Array Core</a>
+        <a href="searching.html" class="nav-link">Searching</a>
+        <a href="sorting.html" class="nav-link">Sorting</a>
+        <a href="visualizer.html" class="nav-link active">Interactive Lab</a>
+        <a href="questions.html" class="nav-link">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Data Structures in C</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb"></span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO SECTION -->
+    <section class="hero-card">
+      <div class="hero-badge-row">
+        <span class="section-tag">Interactive Practice Lab</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">Live Simulation</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">Tactile Controls</span>
+      </div>
+
+      <h1 class="hero-title">Comprehensive <span>Interactive Sorting Lab</span></h1>
+      <p class="hero-description">
+        Run, step through, and compare Bubble, Selection, Insertion, Merge, and Quick Sort in real-time. Inspect live comparisons, swaps, time-travel steps, active code line highlights, and dual algorithm race comparisons.
+      </p>
+    </section>
+
+    <!-- LAB MODE SWITCHER TABS -->
+    <div class="lab-mode-tabs">
+      <button class="lab-mode-tab active" data-mode="sorting">
+        <span>📊</span> Sorting Laboratory
+      </button>
+      <button class="lab-mode-tab" data-mode="race">
+        <span>⚡</span> Multi-Algorithm Race Mode
+      </button>
+      <button class="lab-mode-tab" data-mode="array-ops">
+        <span>🧱</span> Array &amp; Search Operations
+      </button>
+    </div>
+
+    <!-- 1. SORTING LABORATORY MODULE -->
+    <section class="section-container" id="sorting-lab-section">
+      <div class="visualizer-container">
+        
+        <!-- Header: Title & Meta -->
+        <div class="visualizer-header">
+          <div class="visualizer-title-area">
+            <h3>Algorithm Laboratory Workspace</h3>
+            <span class="visualizer-meta-tag">Step-by-Step Tracing &bull; Real-Time Telemetry</span>
+          </div>
+
+          <div class="view-mode-toggle-group">
+            <button class="view-toggle-btn active" id="view-mode-bars">📊 Bar Chart View</button>
+            <button class="view-toggle-btn" id="view-mode-cells">🧱 RAM Cells View</button>
+          </div>
+        </div>
+
+        <div style="padding: 1.25rem 1.5rem 0.5rem;">
+          <!-- Algorithm Selector Tab Pills (4 Syllabus Algorithms) -->
+          <div class="algo-selector-row">
+            <button class="algo-pill-btn active" data-algo="bubble">🫧 Bubble Sort</button>
+            <button class="algo-pill-btn" data-algo="selection">🎯 Selection Sort</button>
+            <button class="algo-pill-btn" data-algo="insertion">🃏 Insertion Sort</button>
+            <button class="algo-pill-btn" data-algo="radix">📦 Radix Sort (LSD)</button>
+          </div>
+
+          <!-- Beginner-Friendly Helper Tip Card -->
+          <div class="algo-helper-tip-card" id="sort-algo-tip">
+            💡 <strong>How it works:</strong> Compares neighbors and swaps them until the biggest numbers float to the end.
+          </div>
+
+          <!-- Dataset Presets & Controls Toolbar -->
+          <div class="sort-config-toolbar">
+            <div class="config-group">
+              <span class="config-label">Preset List:</span>
+              <button class="preset-btn active" data-preset="random">🎲 Random List</button>
+              <button class="preset-btn" data-preset="nearly-sorted">📈 Nearly Sorted</button>
+              <button class="preset-btn" data-preset="reversed">📉 Reverse Order (Worst Case)</button>
+              <button class="preset-btn" data-preset="few-unique">👯 Duplicates</button>
+              <button class="preset-btn" id="sort-custom-btn">✏️ Custom List</button>
+            </div>
+
+            <div class="config-group">
+              <span class="config-label">List Size: <strong id="sort-size-val" style="color: var(--accent-primary-text);">12 items</strong></span>
+              <input type="range" id="sort-size-slider" class="speed-slider" min="5" max="25" value="12" style="width: 80px;">
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Sorting Canvas Stage -->
+        <div class="sort-canvas-container" id="sort-stage">
+          <!-- Populated dynamically by bundle.js -->
+        </div>
+
+        <!-- Playback Controls Dock -->
+        <div class="sort-playback-dock">
+          <div class="playback-btn-cluster">
+            <button class="play-action-btn primary" id="sort-play-btn">
+              <span>▶</span> Play Animation
+            </button>
+            <button class="play-action-btn" id="sort-prev-btn" title="Step Backward">
+              <span>⏮</span> Step Back
+            </button>
+            <button class="play-action-btn" id="sort-next-btn" title="Execute Next Step">
+              <span>⏭</span> Next Step &rarr;
+            </button>
+            <button class="play-action-btn" id="sort-reset-btn" title="Reset Dataset to Start">
+              <span>🔄</span> Start Over
+            </button>
+          </div>
+
+          <div class="visualizer-speed-control">
+            <span>Animation Speed</span>
+            <input type="range" id="sort-speed-slider" class="speed-slider" min="0.25" max="3.0" step="0.25" value="1.0">
+            <span id="sort-speed-label" style="color: var(--accent-primary-text); min-width: 32px;">1.0x</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Real-Time Intelligence: Step Breakdown Card & Active Code Sync -->
+      <div class="sort-intel-grid">
+        <!-- Left: Live Step Reasoning & Telemetry -->
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div class="step-card" id="sort-step-explanation" style="min-height: 120px;">
+            <div class="step-card-header">
+              <span class="line-badge sky">Step 1 of 1</span>
+              <span class="line-badge emerald">Ready</span>
+            </div>
+            <div class="step-card-title">Bubble Sort Action</div>
+            <div class="step-card-body">List ready. Click "Play Animation" or "Next Step &rarr;" to watch how Bubble Sort sorts the items!</div>
+          </div>
+
+          <!-- Real-Time Telemetry Metrics -->
+          <div class="telemetry-grid">
+            <div class="telemetry-card">
+              <span class="telemetry-card-label">Checks &amp; Comparisons</span>
+              <span class="telemetry-card-val" id="tel-comparisons" style="color: #fbbf24;">0</span>
+            </div>
+            <div class="telemetry-card">
+              <span class="telemetry-card-label">Swaps &amp; Moves</span>
+              <span class="telemetry-card-val" id="tel-swaps" style="color: #f87171;">0</span>
+            </div>
+            <div class="telemetry-card">
+              <span class="telemetry-card-label">Best Speed</span>
+              <span class="telemetry-card-val" id="tel-best" style="color: #34d399; font-size: 0.85rem;">O(N)</span>
+            </div>
+            <div class="telemetry-card">
+              <span class="telemetry-card-label">Avg Speed</span>
+              <span class="telemetry-card-val" id="tel-avg" style="color: #38bdf8; font-size: 0.85rem;">O(N²)</span>
+            </div>
+            <div class="telemetry-card">
+              <span class="telemetry-card-label">Worst Speed</span>
+              <span class="telemetry-card-val" id="tel-worst" style="color: #a78bfa; font-size: 0.85rem;">O(N²)</span>
+            </div>
+            <div class="telemetry-card">
+              <span class="telemetry-card-label">Extra Memory</span>
+              <span class="telemetry-card-val" id="tel-space" style="font-size: 0.85rem;">None (In-Place)</span>
+            </div>
+            <div class="telemetry-card">
+              <span class="telemetry-card-label">Keeps Equal Items in Order</span>
+              <span class="telemetry-card-val emerald" id="tel-stable" style="font-size: 0.85rem;">Yes (Stable)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Active C Implementation Code Highlighting -->
+        <div class="code-sync-panel">
+          <div class="code-sync-header">
+            <span>📄 Behind the Scenes: C Code in Action</span>
+            <span class="line-badge sky">Live Line Sync</span>
+          </div>
+          <div class="code-sync-body" id="sort-code-sync">
+            <!-- Populated dynamically by bundle.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. MULTI-ALGORITHM RACE ARENA MODULE -->
+    <section class="section-container" id="race-mode-section" style="display: none;">
+      <div class="visualizer-container">
+        
+        <div class="visualizer-header">
+          <div class="visualizer-title-area">
+            <h3>⚡ Multi-Algorithm Race Mode</h3>
+            <span class="visualizer-meta-tag">Side-by-Side Asymptotic Comparison</span>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem; align-items: center;">
+            <button class="play-action-btn primary" id="race-start-btn">
+              <span>🏁</span> Start Race
+            </button>
+            <button class="play-action-btn" id="race-reset-btn">
+              <span>🔄</span> Reset
+            </button>
+          </div>
+        </div>
+
+        <div style="padding: 1.5rem;">
+          <!-- Dual Comparison Grid -->
+          <div class="race-arena-wrapper">
+            
+            <!-- Left Competitor -->
+            <div class="race-arena-column">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label style="font-weight: 700; color: #38bdf8; font-size: 0.9rem; font-family: 'JetBrains Mono';">Algorithm 1:</label>
+                <select id="race-algo-1-select" class="viz-input" style="width: 170px;">
+                  <option value="bubble" selected>Bubble Sort (O(N²))</option>
+                  <option value="selection">Selection Sort (O(N²))</option>
+                  <option value="insertion">Insertion Sort (O(N²))</option>
+                  <option value="radix">Radix Sort (O(d·(N+k)))</option>
+                </select>
+              </div>
+
+              <div class="sort-canvas-container" id="race-stage-1" style="min-height: 200px; padding: 1rem;">
+                <!-- Populated dynamically -->
+              </div>
+
+              <div class="telemetry-grid">
+                <div class="telemetry-card">
+                  <span class="telemetry-card-label">Comparisons</span>
+                  <span class="telemetry-card-val" id="race-comp-1" style="color: #fbbf24;">0</span>
+                </div>
+                <div class="telemetry-card">
+                  <span class="telemetry-card-label">Swaps/Shifts</span>
+                  <span class="telemetry-card-val" id="race-swap-1" style="color: #f87171;">0</span>
+                </div>
+                <div class="telemetry-card">
+                  <span class="telemetry-card-label">Step Count</span>
+                  <span class="telemetry-card-val" id="race-step-1">0</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Competitor -->
+            <div class="race-arena-column">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label style="font-weight: 700; color: #34d399; font-size: 0.9rem; font-family: 'JetBrains Mono';">Algorithm 2:</label>
+                <select id="race-algo-2-select" class="viz-input" style="width: 170px;">
+                  <option value="bubble">Bubble Sort (O(N²))</option>
+                  <option value="selection">Selection Sort (O(N²))</option>
+                  <option value="insertion">Insertion Sort (O(N²))</option>
+                  <option value="radix" selected>Radix Sort (O(d·(N+k)))</option>
+                </select>
+              </div>
+
+              <div class="sort-canvas-container" id="race-stage-2" style="min-height: 200px; padding: 1rem;">
+                <!-- Populated dynamically -->
+              </div>
+
+              <div class="telemetry-grid">
+                <div class="telemetry-card">
+                  <span class="telemetry-card-label">Comparisons</span>
+                  <span class="telemetry-card-val" id="race-comp-2" style="color: #fbbf24;">0</span>
+                </div>
+                <div class="telemetry-card">
+                  <span class="telemetry-card-label">Swaps/Shifts</span>
+                  <span class="telemetry-card-val" id="race-swap-2" style="color: #f87171;">0</span>
+                </div>
+                <div class="telemetry-card">
+                  <span class="telemetry-card-label">Step Count</span>
+                  <span class="telemetry-card-val" id="race-step-2">0</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Live Winner Declaration Banner -->
+          <div class="race-winner-banner" id="race-winner-banner" style="display: none;">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. ARRAY & SEARCH OPERATIONS MODULE -->
+    <section class="section-container" id="array-ops-section" style="display: none;">
+      <div class="visualizer-container">
+        
+        <!-- Header: Title & Speed Control -->
+        <div class="visualizer-header">
+          <div class="visualizer-title-area">
+            <h3>RAM Array Workspace</h3>
+            <span class="visualizer-meta-tag">6 Elements &bull; 0-Indexed</span>
+          </div>
+
+          <div class="visualizer-speed-control">
+            <span>Speed</span>
+            <input type="range" id="speed-slider" class="speed-slider" min="1" max="5" value="3" title="Adjust Animation Speed">
+          </div>
+        </div>
+
+        <!-- Dynamic Visualizer Canvas -->
+        <div class="visualizer-canvas" id="viz-canvas">
+          <!-- Populated by bundle.js -->
+        </div>
+
+        <!-- Controls Dock -->
+        <div class="visualizer-controls">
+          <div class="controls-button-group">
+            
+            <!-- Direct Access -->
+            <div class="inputs-row">
+              <input type="number" id="access-idx-input" class="viz-input" placeholder="Index" value="2" min="0" max="7" title="Slot Index (0 to 5)">
+              <button class="op-btn" id="op-access-btn">
+                <span>&rarr;</span> Access [ i ]
+              </button>
+            </div>
+
+            <!-- Linear Search -->
+            <div class="inputs-row">
+              <input type="number" id="search-val-input" class="viz-input" placeholder="Value" value="57" title="Target Number to Search">
+              <button class="op-btn" id="op-search-btn">
+                <span>🔍</span> Linear Scan
+              </button>
+            </div>
+
+            <!-- Binary Search (Half Split) -->
+            <div class="inputs-row">
+              <input type="number" id="binary-search-val-input" class="viz-input" placeholder="Value" value="73" title="Target Number for Binary Search">
+              <button class="op-btn" id="op-binary-search-btn" style="border-color: var(--accent-primary); color: var(--accent-primary-text);">
+                <span>✂️</span> Binary Split
+              </button>
+            </div>
+
+            <!-- Insert -->
+            <div class="inputs-row">
+              <input type="number" id="insert-idx-input" class="viz-input" placeholder="Idx" value="2" style="width: 60px;">
+              <input type="number" id="insert-val-input" class="viz-input" placeholder="Val" value="99" style="width: 60px;">
+              <button class="op-btn" id="op-insert-btn">
+                <span>+</span> Insert &amp; Shift
+              </button>
+            </div>
+
+            <!-- Delete -->
+            <div class="inputs-row">
+              <input type="number" id="delete-idx-input" class="viz-input" placeholder="Index" value="3" min="0" max="7" style="width: 70px;">
+              <button class="op-btn danger" id="op-delete-btn">
+                <span>&minus;</span> Delete &amp; Shift
+              </button>
+            </div>
+
+            <!-- Reset -->
+            <button class="op-btn" id="op-reset-btn" style="margin-left: auto;">
+              <span>&#x21bb;</span> Reset Canvas
+            </button>
+          </div>
+
+          <!-- Live Log Console -->
+          <div class="visualizer-log">
+            <div class="log-message" id="log-message">Ready. Choose an operation above to simulate direct access, search scans, or element shifting.</div>
+            <div style="display: flex; gap: 0.75rem; align-items: center;">
+              <span class="log-step-badge" id="log-step">Idle</span>
+              <span class="log-speed-badge" id="log-speed">⚡ Instant 1-Step</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- VIDEO WALKTHROUGH & HOW TO PRACTICE GUIDE -->
+    <section class="section-container" id="video-guide">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Video Walkthrough: <span>Array Mechanics &amp; Edge Cases</span></h2>
+          <p class="section-subtitle">Dual-language video lectures with live demonstrations of memory addressing, search algorithms, and shifting physics</p>
+        </div>
+      </div>
+
+      <div class="video-walkthrough-card">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; align-items: flex-start;">
+          <div>
+            <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.75rem;">
+              Mastering Array Operations in 3 Minutes
+            </h3>
+            <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.25rem;">
+              Watch practical demonstrations of <strong>Direct Offset Jumps</strong>, <strong>Linear 1-by-1 Scans</strong>, and <strong>Element Shifting</strong> with beginner-friendly teacher explanations.
+            </p>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+              <div class="concept-card" style="padding: 0.85rem 1rem;">
+                <div class="concept-card-header" style="margin-bottom: 0.35rem;">
+                  <span class="concept-badge badge-sky">Experiment 01</span>
+                </div>
+                <div class="concept-title" style="font-size: 0.95rem; margin-bottom: 0.2rem;">Test Direct Access</div>
+                <div class="concept-body" style="font-size: 0.85rem;">Enter slot <code>4</code> to see an instant <code>O(1)</code> RAM memory offset jump without scanning.</div>
+              </div>
+
+              <div class="concept-card" style="padding: 0.85rem 1rem;">
+                <div class="concept-card-header" style="margin-bottom: 0.35rem;">
+                  <span class="concept-badge badge-amber">Experiment 02</span>
+                </div>
+                <div class="concept-title" style="font-size: 0.95rem; margin-bottom: 0.2rem;">Linear vs Binary Search</div>
+                <div class="concept-body" style="font-size: 0.85rem;">Search for value <code>73</code> with both tools to compare sequential scan vs <code>O(log n)</code> half-splits.</div>
+              </div>
+
+              <div class="concept-card" style="padding: 0.85rem 1rem;">
+                <div class="concept-card-header" style="margin-bottom: 0.35rem;">
+                  <span class="concept-badge badge-emerald">Experiment 03</span>
+                </div>
+                <div class="concept-title" style="font-size: 0.95rem; margin-bottom: 0.2rem;">Test Shifting Physics</div>
+                <div class="concept-body" style="font-size: 0.85rem;">Insert at index <code>1</code> to watch contiguous memory elements slide right in <code>O(n)</code> time.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dual-Language Video Player Container -->
+          <div style="background: #111827; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 1.25rem; box-shadow: var(--shadow-card);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+              <span id="video-current-title" style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; color: var(--accent-primary-text);">
+                CS50 Harvard Array Lecture (English)
+              </span>
+
+              <!-- Dual-Language Switcher Row -->
+              <div class="video-lang-switcher-row" style="margin-bottom: 0;">
+                <button class="video-lang-btn active" data-lang="en">
+                  <span>🇬🇧</span> English
+                </button>
+                <button class="video-lang-btn" data-lang="hi">
+                  <span>🇮🇳</span> हिन्दी
+                </button>
+              </div>
+            </div>
+
+            <!-- Responsive 16:9 Video Frame -->
+            <div class="video-responsive-frame" style="margin-top: 0;">
+              <iframe 
+                id="walkthrough-video-frame"
+                src="https://www.youtube-nocookie.com/embed/h5Gc1n8ZuU8?start=4370" 
+                title="Array Data Structure Lecture Video" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+              </iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION NAVIGATION -->
+    <section class="section-container">
+      <div style="background: var(--gradient-aurora); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; color: #080a0f;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem;">Ready to solve coding questions?</h2>
+        <p style="font-size: 1.05rem; font-weight: 600; max-width: 600px; margin: 0 auto 1.5rem;">
+          Head to the Practice Hub for curated problems with hints, solutions, and a self-check quiz.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="questions.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Practice Questions &amp; Quiz &rarr;
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Array Core</a>
+        <a href="searching.html" style="color: var(--accent-primary-text); text-decoration: none;">Searching</a>
+        <a href="sorting.html" style="color: var(--accent-primary-text); text-decoration: none;">Sorting</a>
+        <a href="visualizer.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="questions.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>

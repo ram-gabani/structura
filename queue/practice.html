@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Queue Practice Hub, Pitfalls & Quiz — Structura</title>
+  <meta name="description" content="Coding challenges with expandable C solutions, queue pitfalls, and an interactive self-check quiz for Queues. Data Structures in C.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body class="topic-page topic-queue" data-dsa-topic="queue">
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Practice &bull; Self-Check</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link">Queue Core</a>
+        <a href="types.html" class="nav-link">Types</a>
+        <a href="operations.html" class="nav-link">Operations</a>
+        <a href="interactive-lab.html" class="nav-link">Interactive Lab</a>
+        <a href="practice.html" class="nav-link active">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Visual Learning Hub</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb">
+              <span class="thumb-icon-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="thumb-icon-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO -->
+    <section class="hero-card">
+      <div class="hero-badge-row">
+        <span class="section-tag">Practice &amp; Assessment</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">Exam Challenges</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">Interactive Quiz</span>
+      </div>
+
+      <h1 class="hero-title">Queue <span>Practice Hub &amp; Quiz</span></h1>
+      <p class="hero-description">
+        Solve classic university exam coding problems on queues, analyze critical false-overflow traps, and test your exam readiness with the interactive knowledge quiz.
+      </p>
+    </section>
+
+    <!-- SECTION 1: CODING CHALLENGES -->
+    <section class="section-container" id="challenges">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">1. Essential Queue Coding Challenges</h2>
+          <p class="section-subtitle">Practical data structure problems frequently asked in technical examinations</p>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        
+        <!-- Challenge 1 -->
+        <div class="card-glass blue-accent">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+            <h3 style="font-size: 1.15rem; color: var(--text-primary);">Challenge 1: Implement a Queue using Two Stacks</h3>
+            <span class="speed-pill instant">Classic Interview Problem</span>
+          </div>
+          <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
+            How can you construct a FIFO Queue using only two standard LIFO Stacks (<code>stack1</code> and <code>stack2</code>)?
+          </p>
+
+          <details style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.75rem 1rem;">
+            <summary style="font-weight: 700; color: var(--brand); cursor: pointer; font-size: 0.88rem;">
+              💡 Reveal 2-Stack Transfer Technique &amp; C Solution
+            </summary>
+            <div style="margin-top: 1rem;">
+              <p style="font-size: 0.86rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.75rem;">
+                <strong>Strategy:</strong> <code>stack1</code> handles arrivals (enqueue always pushes onto stack1). When dequeue is called, if <code>stack2</code> is empty, pop all elements from <code>stack1</code> and push them into <code>stack2</code> (reversing their order to FIFO!). Then pop from <code>stack2</code>.
+              </p>
+              <pre class="code-block" style="font-size: 0.82rem;"><code>/* Enqueue: Always push onto s1 */
+void myQueueEnqueue(struct Stack *s1, int x) {
+    push(s1, x);
+}
+
+/* Dequeue: Pop from s2; transfer if s2 empty */
+int myQueueDequeue(struct Stack *s1, struct Stack *s2) {
+    if (isEmpty(s2)) {
+        while (!isEmpty(s1)) {
+            push(s2, pop(s1)); /* Reverse order */
+        }
+    }
+    if (isEmpty(s2)) {
+        printf("Queue is Empty!\n");
+        return -1;
+    }
+    return pop(s2);
+}</code></pre>
+            </div>
+          </details>
+        </div>
+
+        <!-- Challenge 2 -->
+        <div class="card-glass emerald-accent">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+            <h3 style="font-size: 1.15rem; color: var(--text-primary);">Challenge 2: Generate Binary Numbers 1 to N using Queue</h3>
+            <span class="speed-pill logarithmic">BFS Generation</span>
+          </div>
+          <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
+            Print the binary representation of all numbers from 1 to N (e.g. 1 &rarr; 1, 10, 11, 100, 101, ...) in \(O(N)\) time using a string queue.
+          </p>
+
+          <details style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.75rem 1rem;">
+            <summary style="font-weight: 700; color: var(--success); cursor: pointer; font-size: 0.88rem;">
+              💡 Reveal String Append Queue Technique
+            </summary>
+            <div style="margin-top: 1rem;">
+              <p style="font-size: 0.86rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.75rem;">
+                <strong>Strategy:</strong> Enqueue <code>"1"</code>. For each turn, dequeue current string <code>s</code>, print it, and enqueue <code>s + "0"</code> and <code>s + "1"</code>. This executes an elegant level-order Breadth-First tree generation of binary digits!
+              </p>
+            </div>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 2: TOP COMMON PITFALLS -->
+    <section class="section-container" id="pitfalls">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">2. Common Queue Pitfalls in C</h2>
+          <p class="section-subtitle">Avoid these 3 frequent mistakes in practical tests</p>
+        </div>
+      </div>
+
+      <div class="concept-card-grid cols-3">
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-rose">Pitfall 01</span></div>
+          <div class="concept-title">False Overflow in Linear Queue</div>
+          <div class="concept-body">
+            Assuming <code>rear == MAX - 1</code> means the queue is full even after multiple dequeues. In a linear queue, front slots are wasted!
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-amber">Pitfall 02</span></div>
+          <div class="concept-title">Missing Empty Reset on Last Item</div>
+          <div class="concept-body">
+            When popping the very last item in a circular queue (<code>front == rear</code>), you must reset <code>front = -1; rear = -1;</code> instead of advancing via modulo!
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-purple">Pitfall 03</span></div>
+          <div class="concept-title">Modulo Operator Precedence</div>
+          <div class="concept-body">
+            Writing <code>rear + 1 % MAX</code> calculates <code>rear + (1 % MAX)</code>! Always use parentheses: <code>(rear + 1) % MAX</code>.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: INTERACTIVE SELF-CHECK QUIZ -->
+    <section class="section-container" id="quiz">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">3. Self-Assessment Knowledge Check</h2>
+          <p class="section-subtitle">Test your understanding with instant grading and explanation feedback</p>
+        </div>
+      </div>
+
+      <div id="quiz-container">
+        <!-- Managed dynamically by QuizController in bundle.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Queue Core</a>
+        <a href="types.html" style="color: var(--accent-primary-text); text-decoration: none;">Types</a>
+        <a href="operations.html" style="color: var(--accent-primary-text); text-decoration: none;">Operations</a>
+        <a href="interactive-lab.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="practice.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Topic Quiz Dataset for bundle.js QuizController -->
+  <script>
+    window.topicQuizData = [
+      {
+        id: 1,
+        question: "Which end of the queue is used for element insertion and which is used for element deletion?",
+        options: [
+          "Insertion at FRONT, Deletion at REAR",
+          "Insertion at REAR, Deletion at FRONT",
+          "Both at FRONT",
+          "Both at REAR"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! In FIFO queues, new arrivals enter at the REAR and serviced elements depart from the FRONT."
+      },
+      {
+        id: 2,
+        question: "What is 'False Overflow' in a standard Linear Queue implemented using a fixed-size array?",
+        options: [
+          "When the computer runs out of RAM.",
+          "When REAR reaches the end of the array, but vacant empty slots exist at the front due to prior dequeues.",
+          "When elements are deleted faster than inserted.",
+          "When FRONT becomes negative."
+        ],
+        correctIndex: 1,
+        explanation: "Correct! In linear queues, once REAR hits MAX-1, no more insertions are accepted even if slots [0] to [front-1] are completely empty."
+      },
+      {
+        id: 3,
+        question: "What is the condition for a Circular Queue of size MAX to be completely FULL?",
+        options: [
+          "rear == MAX - 1",
+          "(rear + 1) % MAX == front",
+          "front == rear",
+          "front == -1"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! In a circular queue, if incrementing rear by 1 modulo MAX reaches front, the queue is full."
+      },
+      {
+        id: 4,
+        question: "What should front and rear be set to when the last remaining element of a Circular Queue is dequeued?",
+        options: [
+          "front = 0; rear = 0;",
+          "front = -1; rear = -1;",
+          "front = MAX; rear = MAX;",
+          "front = front + 1; rear = rear + 1;"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! When front == rear, removing that single item empties the queue, so both pointers must be reset to -1."
+      },
+      {
+        id: 5,
+        question: "What is an 'Input-Restricted Deque'?",
+        options: [
+          "Insertion allowed only at Rear, but Deletion allowed at both Front and Rear.",
+          "Deletion allowed only at Rear, but Insertion allowed at both ends.",
+          "No insertions allowed at all.",
+          "Elements are sorted before insertion."
+        ],
+        correctIndex: 0,
+        explanation: "Correct! An input-restricted deque restricts insertion to one end (typically REAR) while permitting deletion from both FRONT and REAR."
+      },
+      {
+        id: 6,
+        question: "In a Priority Queue, what determines the order of item removal?",
+        options: [
+          "Strict FIFO arrival order.",
+          "The priority value associated with each element.",
+          "Random selection.",
+          "Alphabetical ordering of variable names."
+        ],
+        correctIndex: 1,
+        explanation: "Correct! Elements with higher priority are dequeued ahead of lower-priority elements regardless of when they arrived."
+      },
+      {
+        id: 7,
+        question: "In a Circular Queue of size MAX, how does modulo arithmetic solve the false overflow problem?",
+        options: [
+          "It automatically expands the physical memory array",
+          "When rear reaches MAX - 1, (rear + 1) % MAX evaluates to 0, wrapping around to recycle empty front slots",
+          "It deletes all elements once full",
+          "It converts the array into a hash map"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! Modulo arithmetic causes indices to cycle: (MAX-1 + 1) % MAX = 0. This reuses vacant slots freed by previous dequeues."
+      },
+      {
+        id: 8,
+        question: "What is the time complexity of enqueue and dequeue operations in a Circular Queue?",
+        options: [
+          "O(n) for both",
+          "O(log n) for enqueue, O(1) for dequeue",
+          "O(1) for both",
+          "O(n) for dequeue due to element shifting"
+        ],
+        correctIndex: 2,
+        explanation: "Correct! Circular queues update only index numbers (front and rear) using modulo arithmetic in O(1) constant time without shifting elements."
+      },
+      {
+        id: 9,
+        question: "What is an 'Output-Restricted Deque'?",
+        options: [
+          "Deletion allowed only at FRONT, but insertion allowed at both FRONT and REAR",
+          "Insertion allowed only at FRONT, deletion allowed at both ends",
+          "Queue where items can never be deleted",
+          "A queue that prints output to terminal only once"
+        ],
+        correctIndex: 0,
+        explanation: "Correct! An output-restricted double-ended queue permits deletion at one end only (FRONT) while allowing insertions at both ends."
+      },
+      {
+        id: 10,
+        question: "What condition represents Underflow in an array-based Circular Queue?",
+        options: [
+          "front == -1",
+          "front == rear + 1",
+          "rear == MAX",
+          "front == 0"
+        ],
+        correctIndex: 0,
+        explanation: "Correct! By standard convention, front == -1 signals an empty queue. Attempting to dequeue when front == -1 is an Underflow error."
+      },
+      {
+        id: 11,
+        question: "Which computer system component is most commonly implemented using a Circular Queue?",
+        options: [
+          "CPU Round-Robin process scheduling and hardware keyboard input buffers",
+          "Compiling recursive mathematical expressions",
+          "Browser back button history",
+          "Binary Search Tree rebalancing"
+        ],
+        correctIndex: 0,
+        explanation: "Correct! Continuous circular event streams (like CPU time-slice round-robin and keyboard keystroke ring buffers) are textbook circular queues."
+      },
+      {
+        id: 12,
+        question: "In a Linked List implementation of a Queue, why do we maintain both FRONT and REAR pointers?",
+        options: [
+          "To allow O(1) enqueue at REAR and O(1) dequeue at FRONT without traversal",
+          "Because C pointers cannot store data without a companion pointer",
+          "To enable binary search on the queue",
+          "To prevent compiler optimization warnings"
+        ],
+        correctIndex: 0,
+        explanation: "Correct! Maintaining REAR allows O(1) appending of new nodes, while FRONT allows O(1) removal of the head node."
+      },
+      {
+        id: 13,
+        question: "Code Reading: What is the final value of q.rear after three consecutive modulo updates?<br><code>int MAX = 5; q.rear = 2;<br>q.rear = (q.rear + 1) % MAX; // step 1<br>q.rear = (q.rear + 1) % MAX; // step 2<br>q.rear = (q.rear + 1) % MAX; // step 3</code>",
+        options: [
+          "5",
+          "0",
+          "1",
+          "4"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! Step 1: (2+1)%5 = 3. Step 2: (3+1)%5 = 4. Step 3: (4+1)%5 = 5%5 = 0. The pointer smoothly wraps around to slot 0!"
+      },
+      {
+        id: 14,
+        question: "Code Reading: In a linear queue, 10, 20, 30 are enqueued, then one dequeue() is called. What does peek() return?<br><code>int peek(struct Queue *q) {<br>&nbsp;&nbsp;if(q->front == -1 || q->front > q->rear) return -1;<br>&nbsp;&nbsp;return q->arr[q->front];<br>}</code>",
+        options: [
+          "10",
+          "20",
+          "30",
+          "-1"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! 10 was at front (index 0). dequeue() incremented front to index 1 (holding 20). peek() reads arr[front] which is 20."
+      },
+      {
+        id: 15,
+        question: "Code Reading: In a circular queue of MAX = 6 with front = 4 and rear = 1, how many elements are currently in the queue?<br><code>count = (rear - front + MAX) % MAX + 1;</code>",
+        options: [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        correctIndex: 2,
+        explanation: "Correct! (1 - 4 + 6) % 6 + 1 = (3 % 6) + 1 = 3 + 1 = 4 elements (occupying slots 4, 5, 0, and 1)."
+      },
+      {
+        id: 16,
+        question: "Visual Trace: Queue of size 4 is initially empty (-1). We run: enqueue(10); enqueue(20); dequeue(); enqueue(30); What is front index and front value?",
+        options: [
+          "front index = 0, value = 10",
+          "front index = 1, value = 20",
+          "front index = 2, value = 30",
+          "front index = -1, queue empty"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! enqueue(10) sets front=0. enqueue(20) sets rear=1. dequeue() increments front to 1 (value 20). enqueue(30) sets rear to 2. front is index 1 with value 20."
+      },
+      {
+        id: 17,
+        question: "Visual Trace: Circular queue capacity 4 has slots [0: empty, 1: 50, 2: 60, 3: 70] with front=1, rear=3. An enqueue(80) executes. Where is 80 placed and what is the new rear?",
+        options: [
+          "Placed in slot [0], new rear = 0",
+          "Placed in slot [4], new rear = 4",
+          "Overflow error occurs",
+          "Placed in slot [1], replacing 50"
+        ],
+        correctIndex: 0,
+        explanation: "Correct! (rear + 1) % 4 = (3 + 1) % 4 = 0. Slot [0] is vacant and available, so 80 is placed at slot [0] and rear becomes 0."
+      },
+      {
+        id: 18,
+        question: "Visual Trace: In circular queue capacity 4, front = 2 and rear = 1 (all 4 slots filled: 2, 3, 0, 1). If an enqueue(99) is called, what happens?",
+        options: [
+          "Item 99 overwrites slot 2",
+          "Overflow error: (rear + 1) % 4 == front",
+          "rear advances to 2 and front advances to 3",
+          "Queue size increases to 8"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! (rear + 1) % MAX is (1 + 1) % 4 = 2. Since 2 equals front, the full condition is met and an Overflow error is triggered."
+      }
+    ];
+  </script>
+
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>

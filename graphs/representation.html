@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graph Representation: Adjacency Matrix vs Adjacency List — Structura</title>
+  <meta name="description" content="In-depth comparison of Graph representation in C: 2D Adjacency Matrix vs Dynamic Adjacency List pointer chains, space/time trade-offs, and C code for Data Structures in C.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body class="topic-page topic-graphs" data-dsa-topic="graphs">
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Memory Representation &bull; ⏱️ 7 min read</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link">Graphs Core</a>
+        <a href="representation.html" class="nav-link active">Representation</a>
+        <a href="traversals.html" class="nav-link">Traversals</a>
+        <a href="interactive-lab.html" class="nav-link">Interactive Lab</a>
+        <a href="practice.html" class="nav-link">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Visual Learning Hub</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb">
+              <span class="thumb-icon-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="thumb-icon-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Application Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO SECTION -->
+    <section class="hero-card">
+      <div class="hero-badge-row">
+        <span class="section-tag">Memory Modeling</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">2D Matrix vs Linked Lists</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">C Implementation</span>
+      </div>
+
+      <h1 class="hero-title">Graph Representation in <span>C Memory</span></h1>
+      <p class="hero-description">
+        How does a computer represent a graph of vertices and edges in RAM? Because graphs are non-linear, we cannot simply use a single 1D array. Computer scientists use two primary techniques: the <strong>Adjacency Matrix</strong> (a 2D lookup grid) and the <strong>Adjacency List</strong> (an array of dynamic pointer chains).
+      </p>
+    </section>
+
+    <!-- EXAMPLE REFERENCE GRAPH -->
+    <section class="section-container" id="reference-graph">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Our Benchmark <span>4-Vertex Graph</span></h2>
+          <p class="section-subtitle">We will represent this exact undirected graph using both methods</p>
+        </div>
+      </div>
+
+      <div class="card-glass blue-accent">
+        <div style="display: flex; align-items: center; justify-content: space-around; flex-wrap: wrap; gap: 2rem; padding: 1rem;">
+          <!-- SVG Mini Diagram -->
+          <svg width="220" height="180" viewBox="0 0 220 180">
+            <!-- Edges -->
+            <line x1="50" y1="40" x2="170" y2="40" stroke="var(--brand)" stroke-width="2.5" />
+            <line x1="50" y1="40" x2="50" y2="140" stroke="var(--brand)" stroke-width="2.5" />
+            <line x1="50" y1="40" x2="170" y2="140" stroke="var(--brand)" stroke-width="2.5" />
+            <line x1="170" y1="40" x2="170" y2="140" stroke="var(--brand)" stroke-width="2.5" />
+            <line x1="50" y1="140" x2="170" y2="140" stroke="var(--brand)" stroke-width="2.5" />
+
+            <!-- Vertices 0, 1, 2, 3 -->
+            <circle cx="50" cy="40" r="20" fill="var(--surface-raised)" stroke="var(--brand)" stroke-width="2.5" />
+            <text x="50" y="46" fill="var(--text-primary)" font-family="JetBrains Mono" font-weight="900" font-size="14" text-anchor="middle">0</text>
+
+            <circle cx="170" cy="40" r="20" fill="var(--surface-raised)" stroke="var(--brand)" stroke-width="2.5" />
+            <text x="170" y="46" fill="var(--text-primary)" font-family="JetBrains Mono" font-weight="900" font-size="14" text-anchor="middle">1</text>
+
+            <circle cx="50" cy="140" r="20" fill="var(--surface-raised)" stroke="var(--brand)" stroke-width="2.5" />
+            <text x="50" y="146" fill="var(--text-primary)" font-family="JetBrains Mono" font-weight="900" font-size="14" text-anchor="middle">2</text>
+
+            <circle cx="170" cy="140" r="20" fill="var(--surface-raised)" stroke="var(--brand)" stroke-width="2.5" />
+            <text x="170" y="146" fill="var(--text-primary)" font-family="JetBrains Mono" font-weight="900" font-size="14" text-anchor="middle">3</text>
+          </svg>
+
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.8;">
+            <div>Vertices: <code>V = { 0, 1, 2, 3 } (|V| = 4)</code></div>
+            <div>Edges: <code>(0,1), (0,2), (0,3), (1,3), (2,3) (|E| = 5)</code></div>
+            <div>Note: Edge <code>(0,3)</code> crosses diagonally across the center.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1. ADJACENCY MATRIX -->
+    <section class="section-container" id="matrix">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">1. Adjacency Matrix <span>(2D Array)</span></h2>
+          <p class="section-subtitle">A V &times; V boolean grid where adj[u][v] = 1 indicates an edge</p>
+        </div>
+        <span class="speed-pill instant">⚡ O(1) Edge Lookup</span>
+      </div>
+
+      <div class="card-glass">
+        <p style="font-size: 0.98rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1.25rem;">
+          In an <strong>Adjacency Matrix</strong>, we declare a 2D array <code>int adj[V][V]</code>. If an edge exists between vertex <code>i</code> and vertex <code>j</code>, we store <code>adj[i][j] = 1</code>. If no edge exists, we store <code>0</code>. For undirected graphs, the matrix is always symmetric across the main diagonal (i.e. <code>adj[i][j] == adj[j][i]</code>).
+        </p>
+
+        <!-- Visual Table Grid -->
+        <div class="analogy-table-wrapper" style="max-width: 480px; margin: 0 auto 1.5rem;">
+          <table class="analogy-table" style="text-align: center;">
+            <thead>
+              <tr>
+                <th style="color: var(--brand);">adj[i][j]</th>
+                <th>Vertex 0</th>
+                <th>Vertex 1</th>
+                <th>Vertex 2</th>
+                <th>Vertex 3</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong style="color: var(--brand);">Vertex 0</strong></td>
+                <td>0</td>
+                <td style="color: var(--success); font-weight: 800;">1</td>
+                <td style="color: var(--success); font-weight: 800;">1</td>
+                <td style="color: var(--success); font-weight: 800;">1</td>
+              </tr>
+              <tr>
+                <td><strong style="color: var(--brand);">Vertex 1</strong></td>
+                <td style="color: var(--success); font-weight: 800;">1</td>
+                <td>0</td>
+                <td>0</td>
+                <td style="color: var(--success); font-weight: 800;">1</td>
+              </tr>
+              <tr>
+                <td><strong style="color: var(--brand);">Vertex 2</strong></td>
+                <td style="color: var(--success); font-weight: 800;">1</td>
+                <td>0</td>
+                <td>0</td>
+                <td style="color: var(--success); font-weight: 800;">1</td>
+              </tr>
+              <tr>
+                <td><strong style="color: var(--brand);">Vertex 3</strong></td>
+                <td style="color: var(--success); font-weight: 800;">1</td>
+                <td style="color: var(--success); font-weight: 800;">1</td>
+                <td style="color: var(--success); font-weight: 800;">1</td>
+                <td>0</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- C Code for Matrix -->
+        <div style="position: relative;">
+          <button class="copy-code-btn" data-target="code-adj-matrix" style="position: absolute; right: 0.75rem; top: 0.75rem;">Copy</button>
+          <pre class="code-block" id="code-adj-matrix"><code>#include &lt;stdio.h&gt;
+#define V 4
+
+// Initialize all slots to 0 (no edges)
+void initMatrix(int adj[V][V]) {
+    for (int i = 0; i &lt; V; i++)
+        for (int j = 0; j &lt; V; j++)
+            adj[i][j] = 0;
+}
+
+// Add an undirected edge (u &lt;-&gt; v)
+void addEdgeMatrix(int adj[V][V], int u, int v) {
+    adj[u][v] = 1;
+    adj[v][u] = 1; // Symmetric for undirected graph
+}
+
+// Check if edge exists in O(1) time
+int hasEdge(int adj[V][V], int u, int v) {
+    return adj[u][v] == 1;
+}
+
+void printMatrix(int adj[V][V]) {
+    printf("Adjacency Matrix:\n");
+    for (int i = 0; i &lt; V; i++) {
+        for (int j = 0; j &lt; V; j++) {
+            printf("%d ", adj[i][j]);
+        }
+        printf("\n");
+    }
+}</code></pre>
+        </div>
+
+        <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 240px; background: rgba(52, 211, 153, 0.08); border-left: 3px solid var(--success); padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.88rem;">
+            <strong style="color: var(--success);">Advantages:</strong> Instant O(1) edge lookup <code>adj[u][v]</code>. Adding or removing an edge takes O(1) time. Extremely simple to code in C.
+          </div>
+          <div style="flex: 1; min-width: 240px; background: rgba(251, 113, 133, 0.08); border-left: 3px solid var(--danger); padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.88rem;">
+            <strong style="color: var(--danger);">Limitations:</strong> Requires <code>O(V&sup2;)</code> physical RAM regardless of how few edges exist! For 100,000 vertices, a matrix requires 40 Gigabytes of RAM even if there are only 5 edges.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. ADJACENCY LIST -->
+    <section class="section-container" id="list">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">2. Adjacency List <span>(Array of Linked Lists)</span></h2>
+          <p class="section-subtitle">An array of head pointers where each vertex points to a linked list of its neighbors</p>
+        </div>
+        <span class="speed-pill instant">🚀 O(V + E) Space Optimal</span>
+      </div>
+
+      <div class="card-glass">
+        <p style="font-size: 0.98rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1.25rem;">
+          In an <strong>Adjacency List</strong>, we declare an array of linked list head pointers <code>struct Node* adjList[V]</code>. Each slot <code>i</code> stores the memory address of the first neighbor of vertex <code>i</code>. If vertex <code>i</code> has 3 neighbors, its linked list contains exactly 3 nodes.
+        </p>
+
+        <!-- Visual Pointer Chains -->
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; line-height: 2; margin-bottom: 1.5rem; overflow-x: auto;">
+          <div><strong style="color: var(--brand);">adjList[0]</strong> &rarr; [ 1 | * ] &rarr; [ 2 | * ] &rarr; [ 3 | NULL ]</div>
+          <div><strong style="color: var(--brand);">adjList[1]</strong> &rarr; [ 0 | * ] &rarr; [ 3 | NULL ]</div>
+          <div><strong style="color: var(--brand);">adjList[2]</strong> &rarr; [ 0 | * ] &rarr; [ 3 | NULL ]</div>
+          <div><strong style="color: var(--brand);">adjList[3]</strong> &rarr; [ 0 | * ] &rarr; [ 1 | * ] &rarr; [ 2 | NULL ]</div>
+        </div>
+
+        <!-- C Code for Adjacency List -->
+        <div style="position: relative;">
+          <button class="copy-code-btn" data-target="code-adj-list" style="position: absolute; right: 0.75rem; top: 0.75rem;">Copy</button>
+          <pre class="code-block" id="code-adj-list"><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+// Node in neighbor linked list
+struct Node {
+    int dest;
+    struct Node* next;
+};
+
+// Graph structure: array of head pointers
+struct Graph {
+    int numVertices;
+    struct Node** adjList;
+};
+
+struct Node* createNode(int v) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->dest = v;
+    newNode->next = NULL;
+    return newNode;
+}
+
+struct Graph* createGraph(int vertices) {
+    struct Graph* graph = (struct Graph*)malloc(sizeof(struct Graph));
+    graph->numVertices = vertices;
+    graph->adjList = (struct Node**)malloc(vertices * sizeof(struct Node*));
+    for (int i = 0; i &lt; vertices; i++)
+        graph->adjList[i] = NULL;
+    return graph;
+}
+
+// Prepend neighbor node to head of list in O(1) time
+void addEdgeList(struct Graph* graph, int src, int dest) {
+    // Add edge from src to dest
+    struct Node* newNode = createNode(dest);
+    newNode->next = graph->adjList[src];
+    graph->adjList[src] = newNode;
+
+    // For undirected graph, add reverse edge dest to src
+    newNode = createNode(src);
+    newNode->next = graph->adjList[dest];
+    graph->adjList[dest] = newNode;
+}</code></pre>
+        </div>
+
+        <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 240px; background: rgba(52, 211, 153, 0.08); border-left: 3px solid var(--success); padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.88rem;">
+            <strong style="color: var(--success);">Advantages:</strong> Highly space-efficient: consumes only <code>O(V + E)</code> bytes. Traversing all neighbors of vertex <code>u</code> takes <code>O(degree(u))</code> time instead of scanning V empty slots.
+          </div>
+          <div style="flex: 1; min-width: 240px; background: rgba(251, 113, 133, 0.08); border-left: 3px solid var(--danger); padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.88rem;">
+            <strong style="color: var(--danger);">Limitations:</strong> Checking if edge <code>(u, v)</code> exists is not O(1); it requires traversing vertex <code>u</code>'s linked list in <code>O(deg(u))</code> time.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. COMPREHENSIVE COMPARISON TABLE -->
+    <section class="section-container" id="comparison">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Matrix vs List: <span>Decision Matrix</span></h2>
+          <p class="section-subtitle">Side-by-side technical trade-offs for examinations</p>
+        </div>
+      </div>
+
+      <div class="analogy-table-wrapper">
+        <table class="analogy-table">
+          <thead>
+            <tr>
+              <th>Feature / Metric</th>
+              <th>Adjacency Matrix</th>
+              <th>Adjacency List</th>
+              <th>Architectural Rationale</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>RAM Memory Space</strong></td>
+              <td><code>O(V&sup2;)</code></td>
+              <td><span class="speed-pill instant">⚡ O(V + E)</span></td>
+              <td>Matrix allocates space for every possible edge; List stores only existing edges</td>
+            </tr>
+            <tr>
+              <td><strong>Check if Edge (u,v) Exists</strong></td>
+              <td><span class="speed-pill instant">⚡ O(1)</span></td>
+              <td><code>O(degree(u))</code></td>
+              <td>Matrix directly indexes <code>adj[u][v]</code>; List must traverse pointer chain</td>
+            </tr>
+            <tr>
+              <td><strong>Find All Neighbors of Vertex u</strong></td>
+              <td><code>O(V)</code></td>
+              <td><span class="speed-pill instant">⚡ O(degree(u))</span></td>
+              <td>Matrix must iterate through all V columns; List visits only adjacent neighbor nodes</td>
+            </tr>
+            <tr>
+              <td><strong>Add a New Edge (u, v)</strong></td>
+              <td><code>O(1)</code></td>
+              <td><code>O(1)</code></td>
+              <td>Matrix updates cell; List prepends new node to head of <code>adjList[u]</code></td>
+            </tr>
+            <tr>
+              <td><strong>Best Suited For</strong></td>
+              <td><strong>Dense Graphs</strong> (|E| &approx; |V|&sup2;)</td>
+              <td><strong>Sparse Graphs</strong> (|E| &ll; |V|&sup2;)</td>
+              <td>Almost all real-world networks (roads, web, social) are sparse graphs</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION NAVIGATION -->
+    <section class="section-container">
+      <div style="background: var(--gradient-aurora); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; color: #080a0f;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem;">Next: Graph Traversals (BFS &amp; DFS)</h2>
+        <p style="font-size: 1.05rem; font-weight: 600; max-width: 600px; margin: 0 auto 1.5rem;">
+          Learn how Breadth-First Search (Queue) and Depth-First Search (Recursion/Stack) systematically navigate every vertex in a network!
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="traversals.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Explore BFS &amp; DFS Traversals &rarr;
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Graphs Core</a>
+        <a href="representation.html" style="color: var(--accent-primary-text); text-decoration: none;">Representation</a>
+        <a href="traversals.html" style="color: var(--accent-primary-text); text-decoration: none;">Traversals</a>
+        <a href="interactive-lab.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="practice.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>

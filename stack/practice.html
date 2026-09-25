@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stack Practice Hub, Pitfalls & Quiz — Structura</title>
+  <meta name="description" content="Coding challenges with expandable C solutions, stack pitfalls, and an interactive self-check quiz for Stacks. Data Structures in C.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body class="topic-page topic-stack" data-dsa-topic="stack">
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Practice &bull; Self-Check</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link">Stack Core</a>
+        <a href="operations.html" class="nav-link">Operations</a>
+        <a href="applications.html" class="nav-link">Applications</a>
+        <a href="interactive-lab.html" class="nav-link">Interactive Lab</a>
+        <a href="practice.html" class="nav-link active">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Visual Learning Hub</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb">
+              <span class="thumb-icon-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="thumb-icon-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO -->
+    <section class="hero-card">
+      <div class="hero-badge-row">
+        <span class="section-tag">Practice &amp; Assessment</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">Exam Challenges</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">Interactive Quiz</span>
+      </div>
+
+      <h1 class="hero-title">Stack <span>Practice Hub &amp; Quiz</span></h1>
+      <p class="hero-description">
+        Solve classic university exam coding challenges, inspect common boundary pitfalls, and test your conceptual mastery with the instant-feedback knowledge quiz.
+      </p>
+    </section>
+
+    <!-- SECTION 1: CODING CHALLENGES -->
+    <section class="section-container" id="challenges">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">1. Essential Stack Challenges</h2>
+          <p class="section-subtitle">Core exam problems with expandable C implementations</p>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        
+        <!-- Challenge 1 -->
+        <div class="card-glass blue-accent">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+            <h3 style="font-size: 1.15rem; color: var(--text-primary);">Challenge 1: Reverse a String using Stack</h3>
+            <span class="speed-pill instant">LIFO Reversal</span>
+          </div>
+          <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
+            Given a string (e.g. <code>"ANTIGRAVITY"</code>), reverse its characters in-place using a character stack.
+          </p>
+
+          <details style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.75rem 1rem;">
+            <summary style="font-weight: 700; color: var(--brand); cursor: pointer; font-size: 0.88rem;">
+              💡 Reveal Push-and-Pop Algorithm &amp; C Solution
+            </summary>
+            <div style="margin-top: 1rem;">
+              <p style="font-size: 0.86rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.75rem;">
+                <strong>Mechanism:</strong> Push all characters onto the stack sequentially from index 0 to n-1. Then pop them one-by-one back into the string. Because a stack is LIFO, the characters naturally emerge reversed!
+              </p>
+              <pre class="code-block" style="font-size: 0.82rem;"><code>#include &lt;string.h&gt;
+
+void reverseString(char *str) {
+    int n = strlen(str);
+    char stack[100];
+    int top = -1;
+
+    /* Push all chars */
+    for (int i = 0; i &lt; n; i++) {
+        stack[++top] = str[i];
+    }
+    /* Pop back into original string */
+    for (int i = 0; i &lt; n; i++) {
+        str[i] = stack[top--];
+    }
+}</code></pre>
+            </div>
+          </details>
+        </div>
+
+        <!-- Challenge 2 -->
+        <div class="card-glass emerald-accent">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+            <h3 style="font-size: 1.15rem; color: var(--text-primary);">Challenge 2: Implement Two Stacks in a Single Array</h3>
+            <span class="speed-pill logarithmic">Memory Optimization</span>
+          </div>
+          <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
+            How can you implement two independent stacks in an array of size <code>MAX</code> such that neither stack overflows unless the total number of elements exceeds <code>MAX</code>?
+          </p>
+
+          <details style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.75rem 1rem;">
+            <summary style="font-weight: 700; color: var(--success); cursor: pointer; font-size: 0.88rem;">
+              💡 Reveal Opposite Ends Technique &amp; C Solution
+            </summary>
+            <div style="margin-top: 1rem;">
+              <p style="font-size: 0.86rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.75rem;">
+                <strong>Strategy:</strong> Start Stack 1 from the leftmost slot (<code>top1 = -1</code>) and grow rightwards. Start Stack 2 from the rightmost slot (<code>top2 = MAX</code>) and grow leftwards. Overflow occurs only when <code>top1 + 1 == top2</code>!
+              </p>
+              <pre class="code-block" style="font-size: 0.82rem;"><code>struct TwoStacks {
+    int arr[100];
+    int top1;
+    int top2;
+};
+
+void initTwoStacks(struct TwoStacks *ts) {
+    ts-&gt;top1 = -1;
+    ts-&gt;top2 = 100;
+}
+
+void push1(struct TwoStacks *ts, int x) {
+    if (ts-&gt;top1 &lt; ts-&gt;top2 - 1) {
+        ts-&gt;arr[++(ts-&gt;top1)] = x;
+    } else {
+        printf("Stack 1 Overflow!\n");
+    }
+}
+
+void push2(struct TwoStacks *ts, int x) {
+    if (ts-&gt;top1 &lt; ts-&gt;top2 - 1) {
+        ts-&gt;arr[--(ts-&gt;top2)] = x;
+    } else {
+        printf("Stack 2 Overflow!\n");
+    }
+}</code></pre>
+            </div>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 2: TOP COMMON PITFALLS -->
+    <section class="section-container" id="pitfalls">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">2. Common Stack Bugs in C</h2>
+          <p class="section-subtitle">Avoid these 3 common mistakes in laboratory practical examinations</p>
+        </div>
+      </div>
+
+      <div class="concept-card-grid cols-3">
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-rose">Pitfall 01</span></div>
+          <div class="concept-title">Popping Without Underflow Check</div>
+          <div class="concept-body">
+            Calling <code>stack[top--]</code> when <code>top == -1</code> reads <code>stack[-1]</code> (illegal negative array indexing)!
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-amber">Pitfall 02</span></div>
+          <div class="concept-title">Off-by-One Full Condition</div>
+          <div class="concept-body">
+            An array of size <code>MAX</code> has valid indices up to <code>MAX - 1</code>. Checking <code>top == MAX</code> allows one extra push and corrupts memory!
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-purple">Pitfall 03</span></div>
+          <div class="concept-title">Peek Decrementing Top</div>
+          <div class="concept-body">
+            Accidentally using <code>top--</code> inside <code>peek()</code> inadvertently destroys the topmost element instead of just inspecting it.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: INTERACTIVE SELF-CHECK QUIZ -->
+    <section class="section-container" id="quiz">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">3. Self-Assessment Knowledge Check</h2>
+          <p class="section-subtitle">Verify your understanding with instant grading and explanation feedback</p>
+        </div>
+      </div>
+
+      <div id="quiz-container">
+        <!-- Managed dynamically by QuizController in bundle.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Stack Core</a>
+        <a href="operations.html" style="color: var(--accent-primary-text); text-decoration: none;">Operations</a>
+        <a href="applications.html" style="color: var(--accent-primary-text); text-decoration: none;">Applications</a>
+        <a href="interactive-lab.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="practice.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Topic Quiz Dataset for bundle.js QuizController -->
+  <script>
+    window.topicQuizData = [
+      {
+        id: 1,
+        question: "What is the physical meaning of a stack's 'top' variable having the value -1 in an array-based implementation?",
+        options: [
+          "The stack has exactly one element at slot 0.",
+          "The stack is completely empty.",
+          "The stack has experienced an overflow.",
+          "The stack pointer is corrupted."
+        ],
+        correctIndex: 1,
+        explanation: "Correct! Because array indexing in C begins at index 0, an empty stack is signified by top = -1."
+      },
+      {
+        id: 2,
+        question: "What is the time complexity of pushing an element onto an array-based stack?",
+        options: [
+          "O(n)",
+          "O(log n)",
+          "O(1)",
+          "O(n^2)"
+        ],
+        correctIndex: 2,
+        explanation: "Correct! Pushing simply increments the integer index 'top' and assigns arr[top] = val in O(1) constant time."
+      },
+      {
+        id: 3,
+        question: "In parentheses matching, what should happen when a closing bracket ')' is encountered?",
+        options: [
+          "Push it onto the stack immediately.",
+          "Pop the top character from the stack and verify that it is a matching '(' opening bracket.",
+          "Clear the entire stack.",
+          "Increment the top pointer."
+        ],
+        correctIndex: 1,
+        explanation: "Correct! Closing brackets must match and cancel the most recent unclosed opening bracket on top of the stack."
+      },
+      {
+        id: 4,
+        question: "What is the equivalent Postfix expression for the Infix expression (A + B) * C?",
+        options: [
+          "A B + C *",
+          "+ A B * C",
+          "A B C + *",
+          "* + A B C"
+        ],
+        correctIndex: 0,
+        explanation: "Correct! In Postfix (Reverse Polish), (A + B) becomes 'A B +', which is then multiplied by C: 'A B + C *'."
+      },
+      {
+        id: 5,
+        question: "What condition indicates that a fixed-size stack of capacity MAX has experienced an Overflow?",
+        options: [
+          "top == 0",
+          "top == -1",
+          "top == MAX - 1",
+          "top == MAX"
+        ],
+        correctIndex: 2,
+        explanation: "Correct! In a 0-indexed array of size MAX, the highest valid index is MAX - 1. When top reaches this index, no more slots are available."
+      },
+      {
+        id: 6,
+        question: "How does the OS Call Stack handle recursive function returns?",
+        options: [
+          "It clears all frames at once.",
+          "It pops the top activation record and resumes execution at the saved return instruction address.",
+          "It moves the base frame to the top.",
+          "It allocates a new heap block."
+        ],
+        correctIndex: 1,
+        explanation: "Correct! Each return statement pops the topmost stack frame, restoring local variables and program counter to the caller."
+      },
+      {
+        id: 7,
+        question: "What is the key difference between the peek() and pop() operations on a stack?",
+        options: [
+          "peek() modifies the top pointer, pop() does not",
+          "peek() reads the top value without removing it, while pop() removes and returns it",
+          "peek() works only when the stack is full",
+          "pop() has O(n) complexity while peek() has O(1)"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! peek() inspects arr[top] without changing top. pop() retrieves the value and decrements top by 1."
+      },
+      {
+        id: 8,
+        question: "What occurs if you attempt to pop() an element when top == -1?",
+        options: [
+          "Stack Overflow",
+          "Stack Underflow",
+          "Segmentation fault at compile time",
+          "Stack automatically doubles its size"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! Attempting to remove an item from an empty stack is an Underflow error."
+      },
+      {
+        id: 9,
+        question: "What is the main advantage of a Linked List implementation of a Stack over an Array implementation?",
+        options: [
+          "Linked List stack uses less total memory per element",
+          "Linked List stack cannot experience fixed-capacity Overflow (grows dynamically)",
+          "Push operation is O(1/n) in a linked list",
+          "Elements are automatically sorted"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! A linked list stack allocates nodes dynamically on the heap, eliminating the fixed array capacity limit and fixed Overflow."
+      },
+      {
+        id: 10,
+        question: "What is the numerical result of evaluating the Postfix expression: 5 3 + 2 * ?",
+        options: [
+          "11",
+          "16",
+          "13",
+          "30"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! 5 and 3 are pushed, '+' computes 5 + 3 = 8. Then 2 is pushed, '*' computes 8 * 2 = 16."
+      },
+      {
+        id: 11,
+        question: "During Infix to Postfix conversion, what happens when an operator is scanned that has lower or equal precedence than the operator currently at top of stack?",
+        options: [
+          "The incoming operator is discarded",
+          "Operators of higher or equal precedence are popped from the stack to output before pushing the incoming operator",
+          "An error is thrown",
+          "The stack is reset"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! Higher and equal precedence operators already waiting on the stack must execute first, so they are popped to the output string."
+      },
+      {
+        id: 12,
+        question: "Why do text editors (like VS Code or Word) implement Undo and Redo using two stacks?",
+        options: [
+          "To format the text into monospace font",
+          "Undone actions popped from the Undo stack can be pushed onto the Redo stack to reverse the decision",
+          "Because queues cannot store characters",
+          "To speed up hard drive writing"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! When an action is undone, it pops from Undo stack and pushes to Redo stack. If the user clicks Redo, it pops from Redo and pushes back to Undo."
+      },
+      {
+        id: 13,
+        question: "Code Reading: What is printed by this C sequence?<br><code>struct Stack s; s.top = -1;<br>push(&amp;s, 10); push(&amp;s, 20); push(&amp;s, 30);<br>pop(&amp;s); push(&amp;s, 40);<br>printf(\"%d\", peek(&amp;s));</code>",
+        options: [
+          "20",
+          "30",
+          "40",
+          "10"
+        ],
+        correctIndex: 2,
+        explanation: "Correct! After pushing 10, 20, 30, pop() removes 30 (leaving top at 20). Then push(40) puts 40 at the top. peek() returns 40."
+      },
+      {
+        id: 14,
+        question: "Code Reading: For mystery(4), how many activation stack frames exist simultaneously at maximum depth?<br><code>int mystery(int n) {<br>&nbsp;&nbsp;if (n &lt;= 1) return 1;<br>&nbsp;&nbsp;return n * mystery(n - 1);<br>}</code>",
+        options: [
+          "1 frame",
+          "2 frames",
+          "4 frames",
+          "8 frames"
+        ],
+        correctIndex: 2,
+        explanation: "Correct! mystery(4) calls mystery(3) &rarr; mystery(2) &rarr; mystery(1). At n=1, all 4 activation records sit stacked together in the call stack."
+      },
+      {
+        id: 15,
+        question: "Code Reading: What does isMatching(\"(()())\") evaluate to?<br><code>int isMatching(char *exp) {<br>&nbsp;&nbsp;int top = -1;<br>&nbsp;&nbsp;for(int i = 0; exp[i]; i++) {<br>&nbsp;&nbsp;&nbsp;&nbsp;if(exp[i] == '(') top++;<br>&nbsp;&nbsp;&nbsp;&nbsp;else if(exp[i] == ')') { if(top &lt; 0) return 0; top--; }<br>&nbsp;&nbsp;}<br>&nbsp;&nbsp;return top == -1;<br>}</code>",
+        options: [
+          "1 (Balanced / True)",
+          "0 (Unbalanced / False)",
+          "-1",
+          "Infinite loop"
+        ],
+        correctIndex: 0,
+        explanation: "Correct! Every opening parenthesis has a corresponding closing parenthesis in valid nested order. At the end of the string, top returns to -1 (balanced)."
+      },
+      {
+        id: 16,
+        question: "Visual Trace: Given an empty stack, elements are pushed in order: A, B, C, D, E. During the sequence, two pops occur after C, and one pop occurs after E. What are the popped elements in order?",
+        options: [
+          "A, B, C",
+          "C, B, E",
+          "C, D, E",
+          "E, D, C"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! Stack after A,B,C is [A,B,C]. 1st pop yields C (stack [A,B]). 2nd pop yields B (stack [A]). Then D, E pushed: [A,D,E]. 3rd pop yields E."
+      },
+      {
+        id: 17,
+        question: "Visual Trace: Trace postfix evaluation for: 8 2 / 3 +. What is the final value remaining on the stack?",
+        options: [
+          "1",
+          "4",
+          "7",
+          "11"
+        ],
+        correctIndex: 2,
+        explanation: "Correct! 8 and 2 pushed &rarr; '/' pops 2 and 8, computes 8 / 2 = 4, pushes 4. Next 3 pushed &rarr; '+' pops 3 and 4, computes 4 + 3 = 7."
+      },
+      {
+        id: 18,
+        question: "Visual Trace: Stack with capacity 4 has [12, 25, 38] (top = 2). We execute: push(50); pop(); push(60); push(75); What is top and does overflow occur?",
+        options: [
+          "top = 2, no overflow",
+          "top = 3, elements [12, 25, 60, 75], no overflow",
+          "Overflow occurs on push(75)",
+          "top = -1, stack underflows"
+        ],
+        correctIndex: 2,
+        explanation: "Correct! After push(50) the stack has 4 items. pop() leaves 3 items [12, 25, 38]. push(60) fills the 4th slot [12, 25, 38, 60]. Attempting to push(75) triggers an Overflow error!"
+      }
+    ];
+  </script>
+
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Graph Visualizer Lab — Structura</title>
+  <meta name="description" content="Hands-on interactive Graph visualizer. Simulate BFS (Queue) and DFS (Stack) traversals in real-time with step-by-step telemetry for Data Structures in C.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body class="topic-page topic-graphs" data-dsa-topic="graphs">
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Interactive Lab &bull; Graphs</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link">Graphs Core</a>
+        <a href="representation.html" class="nav-link">Representation</a>
+        <a href="traversals.html" class="nav-link">Traversals</a>
+        <a href="interactive-lab.html" class="nav-link active">Interactive Lab</a>
+        <a href="practice.html" class="nav-link">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Visual Learning Hub</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb">
+              <span class="thumb-icon-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="thumb-icon-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO -->
+    <section class="hero-card">
+      <div class="hero-badge-row">
+        <span class="section-tag">Interactive Simulation</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">Network Topology</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">BFS &amp; DFS Engine</span>
+      </div>
+
+      <h1 class="hero-title">Graph Interactive <span>Laboratory</span></h1>
+      <p class="hero-description">
+        Watch BFS ripple out level-by-level with a FIFO Queue, and watch DFS dive deeply along paths with a LIFO Stack. Select your starting vertex, follow the visited array transitions, and observe live algorithm telemetry in real-time.
+      </p>
+    </section>
+
+    <!-- VISUALIZER STAGE CONTAINER -->
+    <section class="section-container" id="visualizer-section">
+      <div class="visualizer-container">
+        
+        <!-- Header -->
+        <div class="visualizer-header">
+          <div class="visualizer-title-area">
+            <h3>Undirected Network Stage (6 Vertices, 7 Edges)</h3>
+            <span class="visualizer-meta-tag">Real-Time State Tracing</span>
+          </div>
+
+          <div class="visualizer-speed-control">
+            <label for="graph-speed-slider">Speed:</label>
+            <input type="range" id="graph-speed-slider" min="1" max="5" value="3" aria-label="Animation Speed Control">
+          </div>
+        </div>
+
+        <!-- Controls Toolbar (Unified Control Dock) -->
+        <div class="lab-control-dock">
+          <div class="control-row">
+            <div class="control-group">
+              <label for="graph-start-node" class="control-group-label">Start Vertex:</label>
+              <select id="graph-start-node" class="graph-select viz-input" style="padding: 0 0.8rem; width: 110px;">
+                <option value="A" selected>Vertex A</option>
+                <option value="B">Vertex B</option>
+                <option value="C">Vertex C</option>
+                <option value="D">Vertex D</option>
+                <option value="E">Vertex E</option>
+                <option value="F">Vertex F</option>
+              </select>
+              <button class="viz-btn viz-btn-primary graph-btn" id="graph-bfs-btn">
+                <span>Run BFS (Queue) &rarr;</span>
+              </button>
+              <button class="viz-btn viz-btn-secondary graph-btn" id="graph-dfs-btn">
+                <span>Run DFS (Stack) &rarr;</span>
+              </button>
+            </div>
+
+            <div class="control-group" style="margin-left: auto;">
+              <button class="viz-btn viz-btn-reset" id="graph-reset-btn">
+                <span>Reset Graph</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive SVG Stage (Focal Point) -->
+        <div class="graph-stage" id="graph-stage">
+          <!-- Rendered dynamically by GraphLabEngine -->
+        </div>
+
+        <!-- Traversal Order & Auxiliary Data Structure Bar -->
+        <div style="padding: 0.65rem 1.4rem; background: var(--surface-raised); border-top: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <span style="color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; font-weight: 700;">Traversal Output:</span>
+              <span id="graph-visited-stream" style="color: var(--brand); font-weight: 800; margin-left: 0.5rem;">[ Ready — Select start and click run ]</span>
+            </div>
+            <div>
+              <span style="color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; font-weight: 700;">Auxiliary Buffer:</span>
+              <span id="graph-ds-display" style="color: var(--success); font-weight: 700; margin-left: 0.5rem;">Queue / Stack: [ ]</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Telemetry Status Bar -->
+        <div class="lab-telemetry-strip">
+          <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">
+            <div>Mode: <span style="color: var(--brand); font-weight: 700;">Interactive Network</span></div>
+            <div>Topology: <span style="color: var(--text-primary); font-weight: 700;">Undirected (6 Vertices, 7 Edges)</span></div>
+          </div>
+          <div>Status: <span id="graph-log-status" class="speed-pill instant" style="font-size: 0.72rem;">Ready</span></div>
+        </div>
+
+      </div>
+
+      <!-- Execution Log Card -->
+      <div class="lab-execution-log">
+        <div class="lab-log-header">
+          <span>Live Algorithm Telemetry Log</span>
+          <span id="graph-log-step" style="color: var(--brand); font-weight: 700;">Idle</span>
+        </div>
+        <div id="graph-log-msg" class="lab-log-content">
+          Graph initialized with 6 vertices (A to F) and 7 undirected edges. Select a start vertex and click Run BFS or Run DFS to begin.
+        </div>
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION NAVIGATION -->
+    <section class="section-container">
+      <div style="background: var(--gradient-aurora); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; color: #080a0f;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem;">Ready to test your Graph skills?</h2>
+        <p style="font-size: 1.05rem; font-weight: 600; max-width: 600px; margin: 0 auto 1.5rem;">
+          Take on coding challenges in cycle detection, graph connectivity, and test your exam knowledge with the interactive quiz.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="practice.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Practice Questions &amp; Quiz &rarr;
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Graphs Core</a>
+        <a href="representation.html" style="color: var(--accent-primary-text); text-decoration: none;">Representation</a>
+        <a href="traversals.html" style="color: var(--accent-primary-text); text-decoration: none;">Traversals</a>
+        <a href="interactive-lab.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="practice.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/bundle.js"></script>
+  <script src="../assets/js/graph-lab.js"></script>
+</body>
+</html>

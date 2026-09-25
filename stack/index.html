@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stack Core & LIFO Architecture — Structura</title>
+  <meta name="description" content="A beginner-friendly guide to Stacks as an Abstract Data Type, LIFO principle, Array vs Linked List representation, Stack Overflow, and Underflow in C for Data Structures in C.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body class="topic-page topic-stack" data-dsa-topic="stack">
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Stack Storage Model &bull; ⏱️ 6 min read</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link active">Stack Core</a>
+        <a href="operations.html" class="nav-link">Operations</a>
+        <a href="applications.html" class="nav-link">Applications</a>
+        <a href="interactive-lab.html" class="nav-link">Interactive Lab</a>
+        <a href="practice.html" class="nav-link">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Visual Learning Hub</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb">
+              <span class="thumb-icon-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="thumb-icon-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO SECTION -->
+    <section class="hero-card" id="overview">
+      <div class="hero-badge-row">
+        <span class="section-tag">Restricted Linear Structure</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">LIFO Protocol</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">Single-End Access</span>
+      </div>
+
+      <h1 class="hero-title">What is a <span>Stack</span>?</h1>
+      <p class="hero-description">
+        In an array, you can access any slot freely at random. In contrast, a <strong>Stack</strong> is a disciplined linear data structure where all insertions and deletions are restricted to <strong>one single end</strong>, universally known as the <strong>TOP</strong> of the stack.
+      </p>
+      <p class="hero-description" style="margin-top: 0.75rem; color: var(--text-primary);">
+        Because new items are piled directly on top of older ones, the most recently added item is always the first one to be removed. This behavioral rule is formalized as <strong>LIFO: Last In, First Out</strong>.
+      </p>
+
+      <div class="concept-card-grid cols-4" style="margin-top: 1.5rem;">
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header"><span class="concept-badge badge-sky">LIFO Principle</span></div>
+          <div class="concept-title" style="font-size: 1rem;">Last In, First Out</div>
+          <div class="concept-body" style="font-size: 0.86rem;">The newest item placed on the stack must be removed before any older items beneath it can be accessed.</div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header"><span class="concept-badge badge-emerald">Single Pointer</span></div>
+          <div class="concept-title" style="font-size: 1rem;">TOP Index</div>
+          <div class="concept-body" style="font-size: 0.86rem;">All state is tracked by an integer index <code>top</code>. When empty, <code>top = -1</code>. Increments on push, decrements on pop.</div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header"><span class="concept-badge badge-purple">⚡ O(1) Speed</span></div>
+          <div class="concept-title" style="font-size: 1rem;">Instant Operations</div>
+          <div class="concept-body" style="font-size: 0.86rem;">Pushing, popping, and peeking take strictly constant time because operations occur only at the top index.</div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header"><span class="concept-badge badge-rose">Boundary Guard</span></div>
+          <div class="concept-title" style="font-size: 1rem;">Overflow / Underflow</div>
+          <div class="concept-body" style="font-size: 0.86rem;">Pushing to a full stack triggers <em>Overflow</em>; popping from an empty stack triggers <em>Underflow</em>.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. STRUCTURAL VISUALIZATION -->
+    <section class="section-container" id="visualization">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">The Vertical Stack <span>Structural Anatomy</span></h2>
+          <p class="section-subtitle">Visualizing physical vertical storage, slots, base, and top pointer</p>
+        </div>
+        <span class="speed-pill instant">Vertical Model</span>
+      </div>
+
+      <div class="card-glass blue-accent">
+        <!-- Visual Vertical Stack Canvas -->
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 2.5rem 1.5rem; display: flex; justify-content: center; margin-bottom: 1.5rem;">
+          <div style="display: flex; flex-direction: column; align-items: center; width: 280px;">
+            
+            <div style="font-family: 'JetBrains Mono'; font-size: 0.78rem; color: var(--brand); margin-bottom: 0.75rem; font-weight: 700;">
+              &darr; PUSH ENTRY &bull; POP EXIT &uarr;
+            </div>
+
+            <!-- Vertical Stack Well -->
+            <div style="width: 100%; border-left: 3px solid var(--border-strong); border-right: 3px solid var(--border-strong); border-bottom: 5px solid var(--brand); background: rgba(0,0,0,0.2); border-radius: 0 0 8px 8px; padding: 0.5rem; display: flex; flex-direction: column-reverse; gap: 0.45rem;">
+              
+              <!-- Slot 0: Base -->
+              <div style="height: 42px; background: var(--surface-raised); border: 1px solid var(--border); border-radius: 6px; display: flex; align-items: center; justify-content: space-between; padding: 0 0.85rem; font-family: 'JetBrains Mono'; font-size: 0.85rem;">
+                <span style="color: var(--text-muted); font-size: 0.72rem;">[Slot 0]</span>
+                <span style="font-weight: 800; color: var(--text-primary);">15</span>
+                <span style="font-size: 0.65rem; color: var(--text-muted);">BASE</span>
+              </div>
+
+              <!-- Slot 1 -->
+              <div style="height: 42px; background: var(--surface-raised); border: 1px solid var(--border); border-radius: 6px; display: flex; align-items: center; justify-content: space-between; padding: 0 0.85rem; font-family: 'JetBrains Mono'; font-size: 0.85rem;">
+                <span style="color: var(--text-muted); font-size: 0.72rem;">[Slot 1]</span>
+                <span style="font-weight: 800; color: var(--text-primary);">32</span>
+                <span></span>
+              </div>
+
+              <!-- Slot 2: TOP -->
+              <div style="height: 42px; background: rgba(56, 189, 248, 0.15); border: 2px solid var(--brand); border-radius: 6px; display: flex; align-items: center; justify-content: space-between; padding: 0 0.85rem; font-family: 'JetBrains Mono'; font-size: 0.85rem; box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);">
+                <span style="color: var(--brand); font-size: 0.72rem; font-weight: 700;">[Slot 2]</span>
+                <span style="font-weight: 900; color: #fff;">48</span>
+                <span style="font-size: 0.75rem; color: var(--brand); font-weight: 800;">&larr; TOP</span>
+              </div>
+
+              <!-- Slot 3: Empty -->
+              <div style="height: 40px; border: 1px dashed var(--border-subtle); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-muted); opacity: 0.6;">
+                [Slot 3: Empty]
+              </div>
+
+              <!-- Slot 4: Empty -->
+              <div style="height: 40px; border: 1px dashed var(--border-subtle); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-muted); opacity: 0.4;">
+                [Slot 4: Empty / MAX-1]
+              </div>
+
+            </div>
+
+            <div style="margin-top: 0.5rem; font-family: 'JetBrains Mono'; font-size: 0.72rem; color: var(--text-muted);">
+              STACK BASE (Rigid Sealed Bottom)
+            </div>
+
+          </div>
+        </div>
+
+        <div class="key-takeaway-banner">
+          <div class="key-takeaway-header">💡 Why TOP Starts at -1</div>
+          <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.94rem;">
+            Because C arrays use 0-based indexing (Slot 0 is the first valid physical element), a <code>top</code> value of <code>0</code> means the stack contains <strong>one element</strong> sitting at <code>arr[0]</code>. Therefore, when the stack has zero elements (empty), <code>top</code> must be set to <code>-1</code>!
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. REAL-LIFE ANALOGIES -->
+    <section class="section-container" id="analogy">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Everyday Analogies: <span>LIFO in the Real World</span></h2>
+          <p class="section-subtitle">Real-life mechanisms operating on the exact same physical rules</p>
+        </div>
+      </div>
+
+      <div class="concept-card-grid cols-3">
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-sky">🍽️ Kitchen / Buffet</span></div>
+          <div class="concept-title">Stack of Clean Plates</div>
+          <div class="concept-body">
+            At a university dining hall, clean plates are washed and stacked on top. The next student picks the topmost plate (the last one placed). Accessing the bottom plate requires removing all plates above it.
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-emerald">🎾 Sport Canister</span></div>
+          <div class="concept-title">Tennis Ball Canister</div>
+          <div class="concept-body">
+            A vertical tube with a sealed bottom and one open top. Ball #1 goes to the bottom. Ball #3 sits at the mouth. You cannot take Ball #1 out without first removing Balls #3 and #2.
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-purple">🌐 Browser History</span></div>
+          <div class="concept-title">Browser Back Button</div>
+          <div class="concept-body">
+            Every web page you visit is pushed onto your navigation stack. Clicking the 'Back' button pops the most recent page, returning you to the page visited immediately prior.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. ARRAY VS LINKED LIST STACK REPRESENTATION -->
+    <section class="section-container" id="representations">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Array-Based vs. <span>Linked List Stack</span></h2>
+          <p class="section-subtitle">Comparing the two implementation techniques in standard C</p>
+        </div>
+        <span class="speed-pill instant">Implementation Styles</span>
+      </div>
+
+      <div class="analogy-table-wrapper">
+        <table class="analogy-table">
+          <thead>
+            <tr>
+              <th>Evaluation Criteria</th>
+              <th>Array Implementation</th>
+              <th>Linked List Implementation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Memory Allocation</strong></td>
+              <td>Fixed, contiguous block declared at compile time (e.g. <code>int arr[MAX];</code>)</td>
+              <td>Dynamic heap allocation per element (<code>malloc</code> per push)</td>
+            </tr>
+            <tr>
+              <td><strong>Capacity Limit</strong></td>
+              <td>Fixed maximum size (prone to <strong>Stack Overflow</strong> if capacity reached)</td>
+              <td>Unlimited (limited only by available system RAM)</td>
+            </tr>
+            <tr>
+              <td><strong>Memory Overhead</strong></td>
+              <td>Zero extra pointers. Compact contiguous RAM.</td>
+              <td>Extra pointer (<code>struct Node *next</code>) per node (+8 bytes).</td>
+            </tr>
+            <tr>
+              <td><strong>Push / Pop Speed</strong></td>
+              <td><span class="speed-pill instant">⚡ O(1) Instant Math</span></td>
+              <td><span class="speed-pill instant">⚡ O(1) Pointer Rewire</span></td>
+            </tr>
+            <tr>
+              <td><strong>Simplicity</strong></td>
+              <td>Extremely simple: integer index increment and decrement.</td>
+              <td>Requires careful pointer updates and <code>free()</code> on pop.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CTA NAVIGATION -->
+    <section class="section-container">
+      <div style="background: var(--gradient-aurora); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; color: #080a0f;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem;">Next: Implement Stack Operations in C</h2>
+        <p style="font-size: 1.05rem; font-weight: 600; max-width: 600px; margin: 0 auto 1.5rem;">
+          Examine compilable C implementations for Push, Pop, Peek, isEmpty, and isFull with overflow/underflow safeguards.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="operations.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Explore Stack Operations &rarr;
+          </a>
+          <a href="applications.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Stack Applications (Recursion &amp; Infix) &rarr;
+          </a>
+          <a href="interactive-lab.html" class="btn-primary" style="background: #ffffff; color: #080a0f; text-decoration: none;">
+            Open Interactive Lab
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Stack Core</a>
+        <a href="operations.html" style="color: var(--accent-primary-text); text-decoration: none;">Operations</a>
+        <a href="applications.html" style="color: var(--accent-primary-text); text-decoration: none;">Applications</a>
+        <a href="interactive-lab.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="practice.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>

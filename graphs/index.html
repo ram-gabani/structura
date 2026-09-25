@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graph Core & Network Topology — Structura</title>
+  <meta name="description" content="A comprehensive beginner guide to Graphs, Vertices, Edges, Directed vs Undirected, Weighted vs Unweighted, Degrees, Connectivity, and C representation for Data Structures in C.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <!-- Instant Theme Setup -->
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body class="topic-page topic-graphs" data-dsa-topic="graphs">
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Graph Topology Model &bull; ⏱️ 8 min read</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link active">Graphs Core</a>
+        <a href="representation.html" class="nav-link">Representation</a>
+        <a href="traversals.html" class="nav-link">Traversals</a>
+        <a href="interactive-lab.html" class="nav-link">Interactive Lab</a>
+        <a href="practice.html" class="nav-link">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Visual Learning Hub</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle dark and light theme" role="switch" aria-checked="false" title="Switch Theme (Light / Dark)">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb">
+              <span class="thumb-icon-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="thumb-icon-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Application Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO SECTION -->
+    <section class="hero-card" id="overview">
+      <div class="hero-badge-row">
+        <span class="section-tag">Non-Linear Network Model</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">G = (V, E)</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">Complex Topologies</span>
+      </div>
+
+      <h1 class="hero-title">What is a <span>Graph</span>?</h1>
+      <p class="hero-description">
+        Arrays and linked lists connect elements sequentially in a single line. Trees organize data strictly in a one-way hierarchical parent-child structure with zero cycles. But how do we model a flight network connecting 50 global cities, or a social network where friendships criss-cross in every direction?
+      </p>
+      <p class="hero-description" style="margin-top: 0.75rem; color: var(--text-primary);">
+        A <strong>Graph</strong> is the most versatile non-linear data structure in computer science. Mathematically defined as <strong>G = (V, E)</strong>, it consists of a non-empty set of <strong>Vertices (Nodes)</strong> interconnected by a set of <strong>Edges (Arcs / Links)</strong> that can model arbitrary cyclic networks without any hierarchy!
+      </p>
+
+      <div class="concept-card-grid cols-4" style="margin-top: 1.5rem;">
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-sky">Vertices (V)</span>
+          </div>
+          <div class="concept-title" style="font-size: 1rem;">Data Entities</div>
+          <div class="concept-body" style="font-size: 0.86rem;">
+            Individual objects, cities, routers, or people represented as labeled nodes in the network.
+          </div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-emerald">Edges (E)</span>
+          </div>
+          <div class="concept-title" style="font-size: 1rem;">Connections</div>
+          <div class="concept-body" style="font-size: 0.86rem;">
+            Pairwise relations or channels connecting pairs of vertices: <code>e = (u, v)</code>.
+          </div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-purple">Arbitrary Topology</span>
+          </div>
+          <div class="concept-title" style="font-size: 1rem;">No Root Node</div>
+          <div class="concept-body" style="font-size: 0.86rem;">
+            Unlike trees, graphs have no designated root. Vertices may form closed loops and cycles.
+          </div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-amber">Path &amp; Reachability</span>
+          </div>
+          <div class="concept-title" style="font-size: 1rem;">Route Finding</div>
+          <div class="concept-body" style="font-size: 0.86rem;">
+            A sequence of connected edges that allows traversing from vertex <code>u</code> to vertex <code>v</code>.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1. PRIMARY STRUCTURAL VISUALIZATION -->
+    <section class="section-container" id="visual-structure">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Anatomy of a <span>Graph Network</span></h2>
+          <p class="section-subtitle">A labeled 5-vertex undirected graph showing edges, neighbors, and degree</p>
+        </div>
+        <span class="speed-pill instant">Network Anatomy</span>
+      </div>
+
+      <div class="card-glass blue-accent">
+        <!-- SVG Interactive Graph Diagram -->
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.5rem; position: relative; height: 320px; overflow: hidden; margin-bottom: 1.5rem;">
+          <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" viewBox="0 0 700 320">
+            <!-- Edges -->
+            <line x1="120" y1="160" x2="260" y2="80" stroke="var(--border-strong)" stroke-width="2.5" />
+            <line x1="120" y1="160" x2="260" y2="240" stroke="var(--border-strong)" stroke-width="2.5" />
+            <line x1="260" y1="80" x2="440" y2="80" stroke="var(--border-strong)" stroke-width="2.5" />
+            <line x1="260" y1="80" x2="260" y2="240" stroke="var(--border-strong)" stroke-width="2.5" />
+            <line x1="260" y1="240" x2="440" y2="240" stroke="var(--border-strong)" stroke-width="2.5" />
+            <line x1="440" y1="80" x2="440" y2="240" stroke="var(--border-strong)" stroke-width="2.5" />
+            <line x1="440" y1="160" x2="580" y2="160" stroke="var(--border-strong)" stroke-width="2.5" />
+            <line x1="440" y1="80" x2="580" y2="160" stroke="var(--border-strong)" stroke-width="2.5" />
+            <line x1="440" y1="240" x2="580" y2="160" stroke="var(--border-strong)" stroke-width="2.5" />
+
+            <!-- Vertex Circles & Labels -->
+            <!-- A -->
+            <circle cx="120" cy="160" r="26" fill="var(--surface-raised)" stroke="var(--brand)" stroke-width="3" />
+            <text x="120" y="167" fill="var(--text-primary)" font-family="JetBrains Mono" font-weight="900" font-size="16" text-anchor="middle">A</text>
+            <text x="120" y="202" fill="var(--text-muted)" font-family="JetBrains Mono" font-size="10" text-anchor="middle">Deg: 2</text>
+
+            <!-- B -->
+            <circle cx="260" cy="80" r="26" fill="var(--surface-raised)" stroke="var(--brand)" stroke-width="3" />
+            <text x="260" y="87" fill="var(--text-primary)" font-family="JetBrains Mono" font-weight="900" font-size="16" text-anchor="middle">B</text>
+            <text x="260" y="45" fill="var(--text-muted)" font-family="JetBrains Mono" font-size="10" text-anchor="middle">Deg: 3</text>
+
+            <!-- C -->
+            <circle cx="260" cy="240" r="26" fill="var(--surface-raised)" stroke="var(--brand)" stroke-width="3" />
+            <text x="260" y="247" fill="var(--text-primary)" font-family="JetBrains Mono" font-weight="900" font-size="16" text-anchor="middle">C</text>
+            <text x="260" y="282" fill="var(--text-muted)" font-family="JetBrains Mono" font-size="10" text-anchor="middle">Deg: 3</text>
+
+            <!-- D -->
+            <circle cx="440" cy="80" r="26" fill="var(--surface-raised)" stroke="var(--brand)" stroke-width="3" />
+            <text x="440" y="87" fill="var(--text-primary)" font-family="JetBrains Mono" font-weight="900" font-size="16" text-anchor="middle">D</text>
+            <text x="440" y="45" fill="var(--text-muted)" font-family="JetBrains Mono" font-size="10" text-anchor="middle">Deg: 4</text>
+
+            <!-- E -->
+            <circle cx="440" cy="240" r="26" fill="var(--surface-raised)" stroke="var(--brand)" stroke-width="3" />
+            <text x="440" y="247" fill="var(--text-primary)" font-family="JetBrains Mono" font-weight="900" font-size="16" text-anchor="middle">E</text>
+            <text x="440" y="282" fill="var(--text-muted)" font-family="JetBrains Mono" font-size="10" text-anchor="middle">Deg: 4</text>
+
+            <!-- F -->
+            <circle cx="580" cy="160" r="26" fill="var(--surface-raised)" stroke="var(--success)" stroke-width="3" />
+            <text x="580" y="167" fill="var(--text-primary)" font-family="JetBrains Mono" font-weight="900" font-size="16" text-anchor="middle">F</text>
+            <text x="580" y="202" fill="var(--success)" font-family="JetBrains Mono" font-size="10" text-anchor="middle">Deg: 3</text>
+          </svg>
+        </div>
+
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; color: var(--text-secondary); line-height: 1.8;">
+          <div>&bull; <strong>Vertex Set V</strong> = { A, B, C, D, E, F } &rarr; <code>|V| = 6</code></div>
+          <div>&bull; <strong>Edge Set E</strong> = { (A,B), (A,C), (B,C), (B,D), (C,E), (D,E), (D,F), (E,F) } &rarr; <code>|E| = 8</code></div>
+          <div>&bull; <strong>Cycle Example</strong> = Path A &rarr; B &rarr; C &rarr; A returns to starting node A, forming a closed cycle!</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. GRAPH TERMINOLOGY GUIDE -->
+    <section class="section-container" id="terminology">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Essential Graph <span>Terminology &amp; Definitions</span></h2>
+          <p class="section-subtitle">Core vocabulary required for university examinations and technical interviews</p>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        
+        <!-- Vertex & Edge -->
+        <div style="background: var(--surface-raised); border-left: 3px solid var(--brand); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 1.25rem 1.5rem;">
+          <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--brand); margin-bottom: 0.4rem;">
+            1. Vertex (Node) &amp; Edge (Arc)
+          </h3>
+          <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+            A <strong>Vertex</strong> is a primary data item (e.g. computer, airport, intersection). An <strong>Edge</strong> is an unordered or ordered pair connecting two vertices <code>(u, v)</code>. Two vertices connected directly by an edge are called <strong>Adjacent</strong> or <strong>Neighbors</strong>.
+          </p>
+        </div>
+
+        <!-- Degree -->
+        <div style="background: var(--surface-raised); border-left: 3px solid var(--success); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 1.25rem 1.5rem;">
+          <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--success); margin-bottom: 0.4rem;">
+            2. Degree of a Vertex (Handshaking Theorem)
+          </h3>
+          <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+            In an undirected graph, the <strong>Degree</strong> of vertex <code>v</code> is the number of edges incident to it. 
+            <br>
+            <em>Academic Handshaking Theorem:</em> The sum of degrees of all vertices equals twice the total number of edges: <code>&sum; deg(v) = 2 &times; |E|</code>.
+          </p>
+        </div>
+
+        <!-- Path & Cycle -->
+        <div style="background: var(--surface-raised); border-left: 3px solid var(--warning); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 1.25rem 1.5rem;">
+          <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--warning); margin-bottom: 0.4rem;">
+            3. Path, Simple Path &amp; Cycle
+          </h3>
+          <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+            A <strong>Path</strong> is a sequence of consecutive vertices connected by edges. A path is <strong>Simple</strong> if no vertex is visited more than once. A <strong>Cycle</strong> is a closed path where the starting vertex and ending vertex are identical (e.g., A &rarr; B &rarr; C &rarr; A). An <strong>Acyclic Graph</strong> contains zero cycles.
+          </p>
+        </div>
+
+        <!-- Connected Graph -->
+        <div style="background: var(--surface-raised); border-left: 3px solid var(--danger); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 1.25rem 1.5rem;">
+          <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--danger); margin-bottom: 0.4rem;">
+            4. Connected vs Disconnected Graphs
+          </h3>
+          <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+            An undirected graph is <strong>Connected</strong> if there exists at least one valid path between every pair of vertices. If some vertices are isolated with no path connecting them to the rest, the graph is <strong>Disconnected</strong> and consists of separate <em>Connected Components</em>.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. CLASSIFICATION OF GRAPHS -->
+    <section class="section-container" id="types">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Major Graph <span>Classifications</span></h2>
+          <p class="section-subtitle">How edge properties alter the topology and algorithm choice</p>
+        </div>
+      </div>
+
+      <div class="concept-card-grid cols-2">
+        
+        <!-- Undirected vs Directed -->
+        <div class="card-glass">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-sky">Directionality</span>
+          </div>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.5rem;">
+            Undirected vs Directed (Digraph)
+          </h3>
+          <div style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6;">
+            <p><strong>Undirected Graph:</strong> Edges are two-way bidirectional highways: <code>(u, v) == (v, u)</code>. If A connects to B, you can freely travel from B to A.</p>
+            <p style="margin-top: 0.5rem;"><strong>Directed Graph (Digraph):</strong> Edges have one-way direction arrows: <code>&lang;u, v&rang; &ne; &lang;v, u&rang;</code>. Vertex <code>v</code> has an <strong>In-Degree</strong> (incoming arrows) and an <strong>Out-Degree</strong> (outgoing arrows).</p>
+          </div>
+        </div>
+
+        <!-- Weighted vs Unweighted -->
+        <div class="card-glass">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-emerald">Edge Weights</span>
+          </div>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.5rem;">
+            Weighted vs Unweighted Graphs
+          </h3>
+          <div style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6;">
+            <p><strong>Unweighted Graph:</strong> Every edge simply represents existence of a link (all edge costs equal 1). Common in social networks (friend / not friend).</p>
+            <p style="margin-top: 0.5rem;"><strong>Weighted Graph:</strong> Every edge carries a numerical cost, distance, latency, or toll. Essential for Google Maps navigation (Dijkstra's shortest path) and network packet routing.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. REAL-WORLD ANALOGIES -->
+    <section class="section-container" id="analogies">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Real-World Graph <span>Applications</span></h2>
+          <p class="section-subtitle">Why computer scientists model modern infrastructure using graphs</p>
+        </div>
+      </div>
+
+      <div class="concept-card-grid cols-3">
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-sky">Road Networks</span></div>
+          <div class="concept-title">GPS &amp; Maps</div>
+          <div class="concept-body">
+            Intersections are vertices, roads are edges, and travel time in minutes is the edge weight. One-way streets form a directed graph!
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-emerald">Social Graphs</span></div>
+          <div class="concept-title">People &amp; Followers</div>
+          <div class="concept-body">
+            Facebook friendships are bidirectional (undirected graph). Twitter/Instagram following is one-way (directed graph).
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-badge badge-purple">The Internet</span></div>
+          <div class="concept-title">Web &amp; Routing</div>
+          <div class="concept-body">
+            Webpages are vertices; hyperlinked URLs are directed edges (Google PageRank). Routers communicate packets over weighted fiber lines.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. CALL TO ACTION NAVIGATION -->
+    <section class="section-container">
+      <div style="background: var(--gradient-aurora); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; color: #080a0f;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem;">Next: Graph Storage in Memory</h2>
+        <p style="font-size: 1.05rem; font-weight: 600; max-width: 600px; margin: 0 auto 1.5rem;">
+          How do we represent graphs inside C memory? Discover the trade-offs between Adjacency Matrix 2D arrays and Adjacency List pointer chains!
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="representation.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Explore Representation &rarr;
+          </a>
+          <a href="interactive-lab.html" class="btn-primary" style="background: #ffffff; color: #080a0f; text-decoration: none;">
+            Open Graph Visualizer Lab
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <p style="font-size: 0.88rem; color: var(--text-muted); max-width: 500px;">
+        Interactive Data Structures in C. Interactive classroom study guide.
+      </p>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Graphs Core</a>
+        <a href="representation.html" style="color: var(--accent-primary-text); text-decoration: none;">Representation</a>
+        <a href="traversals.html" style="color: var(--accent-primary-text); text-decoration: none;">Traversals</a>
+        <a href="interactive-lab.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="practice.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>

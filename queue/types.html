@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Queue Types: Linear, Circular, Deque & Priority Queue — Structura</title>
+  <meta name="description" content="Explore Linear Queue limitations, Circular Queue modulo wrap-around, Double-Ended Queue (Deque), and Priority Queues for Data Structures in C.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body class="topic-page topic-queue" data-dsa-topic="queue">
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Queue Classifications &bull; ⏱️ 7 min read</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link">Queue Core</a>
+        <a href="types.html" class="nav-link active">Types</a>
+        <a href="operations.html" class="nav-link">Operations</a>
+        <a href="interactive-lab.html" class="nav-link">Interactive Lab</a>
+        <a href="practice.html" class="nav-link">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Visual Learning Hub</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb">
+              <span class="thumb-icon-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="thumb-icon-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO -->
+    <section class="hero-card">
+      <div class="hero-badge-row">
+        <span class="section-tag">Classification</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">Circular Modulo Math</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">Deque &amp; Priority</span>
+      </div>
+
+      <h1 class="hero-title">The Four Types of <span>Queues</span></h1>
+      <p class="hero-description">
+        Standard Linear Queues suffer from a severe architectural flaw: <em>False Overflow</em>. Explore how Circular Queues solve memory wastage through ring buffers, how Deques permit two-ended access, and how Priority Queues serve high-urgency items first.
+      </p>
+    </section>
+
+    <!-- 1. LINEAR QUEUE & FALSE OVERFLOW -->
+    <section class="section-container" id="linear-queue">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">1. Linear Queue &amp; <span>The False Overflow Problem</span></h2>
+          <p class="section-subtitle">Why standard array queues waste precious computer RAM</p>
+        </div>
+        <span class="speed-pill sequential">Limitation</span>
+      </div>
+
+      <div class="card-glass rose-accent">
+        <p style="font-size: 0.98rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1.25rem;">
+          In a Linear Queue implemented on an array of size 5:
+        </p>
+
+        <!-- False Overflow Visual Trace -->
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.5rem; font-family: 'JetBrains Mono'; margin-bottom: 1.25rem;">
+          <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">RAM SLOTS [0] TO [4]:</div>
+          
+          <div style="display: flex; gap: 0.5rem; margin-bottom: 0.85rem; flex-wrap: wrap;">
+            <div style="width: 80px; height: 50px; background: rgba(251, 113, 133, 0.1); border: 1px dashed var(--danger); border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.72rem; color: var(--danger);">
+              <span>Slot [0]</span>
+              <span>Vacated</span>
+            </div>
+            <div style="width: 80px; height: 50px; background: rgba(251, 113, 133, 0.1); border: 1px dashed var(--danger); border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.72rem; color: var(--danger);">
+              <span>Slot [1]</span>
+              <span>Vacated</span>
+            </div>
+            <div style="width: 80px; height: 50px; background: rgba(56, 189, 248, 0.15); border: 2px solid var(--brand); border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.8rem; color: var(--brand); font-weight: 700;">
+              <span>FRONT [2]</span>
+              <span>30</span>
+            </div>
+            <div style="width: 80px; height: 50px; background: var(--surface-raised); border: 1px solid var(--border); border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.8rem; color: var(--text-primary); font-weight: 700;">
+              <span>Slot [3]</span>
+              <span>40</span>
+            </div>
+            <div style="width: 80px; height: 50px; background: rgba(251, 191, 36, 0.15); border: 2px solid var(--warning); border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.8rem; color: var(--warning); font-weight: 700;">
+              <span>REAR [4]</span>
+              <span>50</span>
+            </div>
+          </div>
+
+          <div style="color: #fca5a5; font-size: 0.84rem; line-height: 1.6;">
+            ⚠️ <strong>False Overflow State:</strong> REAR is at index 4 (MAX - 1). If you attempt to enqueue another element, <code>rear == MAX - 1</code> reports Queue Overflow! Yet Slots 0 and 1 are completely EMPTY!
+          </div>
+        </div>
+
+        <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
+          Because both <code>front</code> and <code>rear</code> march monotonically forward, the queue "drifts" rightward through RAM, abandoning vacated slots behind it. Shifting all elements left after every dequeue would take <code>O(n)</code> time, destroying efficiency.
+        </p>
+      </div>
+    </section>
+
+    <!-- 2. CIRCULAR QUEUE (THE SOLUTION) -->
+    <section class="section-container" id="circular-queue">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">2. Circular Queue: <span>The Ring Buffer Solution</span></h2>
+          <p class="section-subtitle">Reusing vacated front slots using modulo arithmetic</p>
+        </div>
+        <span class="speed-pill instant">Optimal</span>
+      </div>
+
+      <div class="card-glass emerald-accent">
+        <p style="font-size: 0.98rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1.25rem;">
+          A <strong>Circular Queue</strong> conceptually folds the straight array into a continuous circle. When <code>rear</code> reaches the final index <code>MAX - 1</code>, it does not stop; it wraps around back to index <code>0</code> if front slots have been vacated!
+        </p>
+
+        <!-- Modulo Math Banner -->
+        <div class="card-glass" style="background: var(--surface); border: 1px solid var(--brand); margin-bottom: 1.25rem;">
+          <h3 style="font-size: 1.05rem; color: var(--brand); margin-bottom: 0.5rem; font-family: 'JetBrains Mono';">
+            📐 Modulo Wrap-Around Formulas:
+          </h3>
+          <div style="font-family: 'JetBrains Mono'; font-size: 0.92rem; color: var(--text-primary); line-height: 1.8;">
+            <div>&bull; Enqueue Pointer Advance: <code>rear = (rear + 1) % MAX</code></div>
+            <div>&bull; Dequeue Pointer Advance: <code>front = (front + 1) % MAX</code></div>
+            <div>&bull; Circular Full Condition: <code>(rear + 1) % MAX == front</code></div>
+          </div>
+        </div>
+
+        <div class="code-card">
+          <div class="code-header">
+            <span class="code-title">Circular Enqueue in C</span>
+            <button class="copy-code-btn" data-target="code-circ-enq">📋 Copy Code</button>
+          </div>
+          <pre class="code-block"><code id="code-circ-enq">void enqueue(struct CircularQueue *q, int val) {
+    /* Full condition: next rear would hit front */
+    if ((q-&gt;rear + 1) % MAX == q-&gt;front) {
+        printf("Circular Queue Overflow!\n");
+        return;
+    }
+    if (q-&gt;front == -1) { /* First element */
+        q-&gt;front = 0;
+    }
+    q-&gt;rear = (q-&gt;rear + 1) % MAX;
+    q-&gt;arr[q-&gt;rear] = val;
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. DEQUE & PRIORITY QUEUE -->
+    <section class="section-container" id="other-types">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">3. Deque &amp; Priority Queue</h2>
+          <p class="section-subtitle">Specialized variations for advanced system architectures</p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+        
+        <!-- Deque -->
+        <div class="card-glass purple-accent">
+          <h3 style="font-size: 1.15rem; color: var(--concept); margin-bottom: 0.5rem;">A. Double-Ended Queue (Deque)</h3>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 0.75rem;">
+            A general linear list where insertions and deletions are permitted at <strong>both ends</strong> (both Front and Rear).
+          </p>
+          <ul style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.7; padding-left: 1.25rem;">
+            <li><strong>Input-Restricted Deque:</strong> Insertion permitted only at Rear; deletions allowed at both Front &amp; Rear.</li>
+            <li><strong>Output-Restricted Deque:</strong> Deletion permitted only at Front; insertions allowed at both Front &amp; Rear.</li>
+            <li><strong>Use Case:</strong> Web crawler URL caches, undo-redo histories, and A-Steal work scheduling algorithms.</li>
+          </ul>
+        </div>
+
+        <!-- Priority Queue -->
+        <div class="card-glass amber-accent">
+          <h3 style="font-size: 1.15rem; color: var(--warning); margin-bottom: 0.5rem;">B. Priority Queue</h3>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 0.75rem;">
+            Each element has an associated <strong>priority value</strong>. Elements with higher priority are dequeued before lower-priority elements.
+          </p>
+          <ul style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.7; padding-left: 1.25rem;">
+            <li><strong>Ascending Priority:</strong> Lowest numeric key served first (e.g. Dijkstra's shortest path).</li>
+            <li><strong>Descending Priority:</strong> Highest numeric key served first (e.g. VIP customer queue).</li>
+            <li><strong>Use Case:</strong> Hospital emergency room triage, CPU process priority scheduling, Dijkstra's algorithm.</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. COMPARISON MATRIX -->
+    <section class="section-container" id="matrix">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Queue Types Comparison Matrix</h2>
+          <p class="section-subtitle">Summary of properties, insertion/deletion rules, and complexities</p>
+        </div>
+      </div>
+
+      <div class="analogy-table-wrapper">
+        <table class="analogy-table">
+          <thead>
+            <tr>
+              <th>Queue Type</th>
+              <th>Insertion Point</th>
+              <th>Deletion Point</th>
+              <th>Memory Efficiency</th>
+              <th>Time Complexity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Linear Queue</strong></td>
+              <td>REAR only</td>
+              <td>FRONT only</td>
+              <td>Poor (suffers from False Overflow)</td>
+              <td><code>O(1)</code> Enqueue / Dequeue</td>
+            </tr>
+            <tr>
+              <td><strong>Circular Queue</strong></td>
+              <td>REAR (wraps via modulo)</td>
+              <td>FRONT (wraps via modulo)</td>
+              <td>Optimal (100% array utilization)</td>
+              <td><code>O(1)</code> Enqueue / Dequeue</td>
+            </tr>
+            <tr>
+              <td><strong>Deque</strong></td>
+              <td>Both FRONT and REAR</td>
+              <td>Both FRONT and REAR</td>
+              <td>High flexibility</td>
+              <td><code>O(1)</code> at both ends</td>
+            </tr>
+            <tr>
+              <td><strong>Priority Queue</strong></td>
+              <td>Any position (by priority)</td>
+              <td>Highest priority item</td>
+              <td>Depends on Heap / Array backing</td>
+              <td><code>O(log n)</code> with Binary Heap</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CTA NAVIGATION -->
+    <section class="section-container">
+      <div style="background: var(--gradient-aurora); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; color: #080a0f;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem;">Next: Implement Queue Operations in C</h2>
+        <p style="font-size: 1.05rem; font-weight: 600; max-width: 600px; margin: 0 auto 1.5rem;">
+          Examine compilable C implementations for both Linear and Circular Queues with step-by-step modulo math.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="operations.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Explore Operations Guide &rarr;
+          </a>
+          <a href="interactive-lab.html" class="btn-primary" style="background: #ffffff; color: #080a0f; text-decoration: none;">
+            Open Interactive Lab
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Queue Core</a>
+        <a href="types.html" style="color: var(--accent-primary-text); text-decoration: none;">Types</a>
+        <a href="operations.html" style="color: var(--accent-primary-text); text-decoration: none;">Operations</a>
+        <a href="interactive-lab.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="practice.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>

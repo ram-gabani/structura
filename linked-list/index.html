@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linked List Core & Dynamic Pointers — Structura</title>
+  <meta name="description" content="A beginner-friendly guide to Linked Lists in C, Dynamic Memory Allocation (malloc, free), Node Structure, Pointers, and Array vs Linked List Comparison for Data Structures in C.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <!-- Instant Theme Setup -->
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body class="topic-page topic-linked-list" data-dsa-topic="linked-list">
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Linked List Core &bull; ⏱️ 7 min read</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link active">Linked List Core</a>
+        <a href="types.html" class="nav-link">Types</a>
+        <a href="operations.html" class="nav-link">Operations</a>
+        <a href="interactive-lab.html" class="nav-link">Interactive Lab</a>
+        <a href="practice.html" class="nav-link">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Visual Learning Hub</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle dark and light theme" role="switch" aria-checked="false" title="Switch Theme (Light / Dark)">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb">
+              <span class="thumb-icon-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="thumb-icon-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Application Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- 1. HERO SECTION -->
+    <section class="hero-card" id="overview">
+      <div class="hero-badge-row">
+        <span class="section-tag">Linear Data Structure</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">Dynamic Memory</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">Pointers in C</span>
+      </div>
+
+      <h1 class="hero-title">What is a <span>Linked List</span>?</h1>
+      <p class="hero-description">
+        In an array, elements are locked into contiguous, fixed-size blocks of physical RAM. If your array runs out of space, resizing requires allocating an entire new block and copying every single item!
+      </p>
+      <p class="hero-description" style="margin-top: 0.75rem; color: var(--text-primary);">
+        A <strong>Linked List</strong> solves this limitation completely. Instead of storing items side-by-side, each element is created individually inside the computer's free memory heap as an independent <strong>Node</strong>. Each node stores its own data, plus a <strong>Pointer</strong> that stores the memory address of the next node!
+      </p>
+
+      <div class="concept-card-grid cols-4" style="margin-top: 1.5rem;">
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-sky">Dynamic Sizing</span>
+          </div>
+          <div class="concept-title" style="font-size: 1rem;">Grows on Demand</div>
+          <div class="concept-body" style="font-size: 0.86rem;">
+            Nodes are allocated one-by-one using <code>malloc()</code> only when needed, with zero wasted pre-allocated capacity.
+          </div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-emerald">Non-Contiguous</span>
+          </div>
+          <div class="concept-title" style="font-size: 1rem;">Scattered in RAM</div>
+          <div class="concept-body" style="font-size: 0.86rem;">
+            Nodes live anywhere in memory. They are stitched together exclusively by address pointers stored inside each node.
+          </div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-purple">⚡ O(1) Insert</span>
+          </div>
+          <div class="concept-title" style="font-size: 1rem;">Zero Shifting</div>
+          <div class="concept-body" style="font-size: 0.86rem;">
+            Inserting or deleting at the front requires simply updating pointer addresses without shifting downstream elements.
+          </div>
+        </div>
+
+        <div class="concept-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-default);">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-amber">Sequential Access</span>
+          </div>
+          <div class="concept-title" style="font-size: 1rem;">No Direct Math</div>
+          <div class="concept-body" style="font-size: 0.86rem;">
+            To reach node #5, you cannot calculate an offset. You must traverse from <code>HEAD</code> through nodes 1, 2, 3, and 4.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. STRUCTURAL ANATOMY OF A NODE -->
+    <section class="section-container" id="anatomy">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Anatomy of a <span>Linked List Node</span></h2>
+          <p class="section-subtitle">Understanding the two essential compartments of every node in C</p>
+        </div>
+        <span class="speed-pill instant">🧱 Core Structure</span>
+      </div>
+
+      <div class="card-glass blue-accent">
+        <p style="font-size: 1.02rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1.5rem;">
+          In C, a node is represented as a self-referential structure (<code>struct</code>). It contains two distinct fields:
+        </p>
+
+        <!-- Visual Diagram: [data | next] -> [data | next] -> [data | NULL] -->
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 2rem 1.5rem; overflow-x: auto; margin-bottom: 1.75rem;">
+          <div style="display: flex; align-items: center; justify-content: center; gap: 0.85rem; min-width: 620px;">
+            
+            <!-- HEAD POINTER -->
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.25rem;">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-muted);">POINTER</span>
+              <div style="background: rgba(56, 189, 248, 0.15); border: 1px solid var(--brand); color: var(--brand); font-family: 'JetBrains Mono'; font-weight: 800; padding: 0.45rem 0.8rem; border-radius: var(--radius-sm); font-size: 0.85rem;">
+                HEAD: 0x3010
+              </div>
+            </div>
+
+            <span style="font-size: 1.4rem; color: var(--brand); font-weight: 900;">&rarr;</span>
+
+            <!-- NODE 1 -->
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.25rem;">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-muted);">RAM: 0x3010</span>
+              <div style="display: flex; background: var(--surface-raised); border: 2px solid var(--border-strong); border-radius: var(--radius-sm); overflow: hidden;">
+                <div style="padding: 0.75rem 1.25rem; font-family: 'JetBrains Mono'; font-weight: 800; font-size: 1.1rem; color: var(--text-primary); text-align: center;">
+                  <div style="font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase;">data</div>
+                  10
+                </div>
+                <div style="padding: 0.75rem 1rem; background: rgba(0,0,0,0.2); border-left: 1px dashed var(--border-strong); font-family: 'JetBrains Mono'; font-size: 0.82rem; color: var(--brand); text-align: center;">
+                  <div style="font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase;">next</div>
+                  0x3048
+                </div>
+              </div>
+            </div>
+
+            <span style="font-size: 1.4rem; color: var(--brand); font-weight: 900;">&rarr;</span>
+
+            <!-- NODE 2 -->
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.25rem;">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-muted);">RAM: 0x3048</span>
+              <div style="display: flex; background: var(--surface-raised); border: 2px solid var(--border-strong); border-radius: var(--radius-sm); overflow: hidden;">
+                <div style="padding: 0.75rem 1.25rem; font-family: 'JetBrains Mono'; font-weight: 800; font-size: 1.1rem; color: var(--text-primary); text-align: center;">
+                  <div style="font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase;">data</div>
+                  24
+                </div>
+                <div style="padding: 0.75rem 1rem; background: rgba(0,0,0,0.2); border-left: 1px dashed var(--border-strong); font-family: 'JetBrains Mono'; font-size: 0.82rem; color: var(--brand); text-align: center;">
+                  <div style="font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase;">next</div>
+                  0x3080
+                </div>
+              </div>
+            </div>
+
+            <span style="font-size: 1.4rem; color: var(--brand); font-weight: 900;">&rarr;</span>
+
+            <!-- NODE 3 -->
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.25rem;">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-muted);">RAM: 0x3080</span>
+              <div style="display: flex; background: var(--surface-raised); border: 2px solid var(--border-strong); border-radius: var(--radius-sm); overflow: hidden;">
+                <div style="padding: 0.75rem 1.25rem; font-family: 'JetBrains Mono'; font-weight: 800; font-size: 1.1rem; color: var(--text-primary); text-align: center;">
+                  <div style="font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase;">data</div>
+                  38
+                </div>
+                <div style="padding: 0.75rem 1rem; background: rgba(0,0,0,0.2); border-left: 1px dashed var(--border-strong); font-family: 'JetBrains Mono'; font-size: 0.82rem; color: var(--danger); text-align: center;">
+                  <div style="font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase;">next</div>
+                  NULL
+                </div>
+              </div>
+            </div>
+
+            <span style="font-size: 1.4rem; color: var(--danger); font-weight: 900;">&rarr;</span>
+
+            <!-- NULL TERMINATOR -->
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.25rem;">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-muted);">TERMINATION</span>
+              <div style="background: rgba(251, 113, 133, 0.12); border: 1px dashed var(--danger); color: var(--danger); font-family: 'JetBrains Mono'; font-weight: 800; padding: 0.45rem 0.8rem; border-radius: var(--radius-sm); font-size: 0.85rem;">
+                NULL (0x0)
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="concept-card-grid cols-3">
+          <div class="concept-card">
+            <div class="concept-card-header"><span class="concept-badge badge-sky">1. Data Field</span></div>
+            <div class="concept-title">Payload Value</div>
+            <div class="concept-body">Stores the actual value (e.g., an <code>int</code>, <code>char</code>, or student record structure).</div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-header"><span class="concept-badge badge-emerald">2. Link / Next Pointer</span></div>
+            <div class="concept-title">Memory Coordinate</div>
+            <div class="concept-body">A pointer variable (<code>struct Node *next</code>) storing the exact RAM address of the subsequent node.</div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-header"><span class="concept-badge badge-rose">3. NULL Termination</span></div>
+            <div class="concept-title">Sentinel End</div>
+            <div class="concept-body">The final node's <code>next</code> field points to <code>NULL</code>, indicating to loops that traversal must stop.</div>
+          </div>
+        </div>
+
+        <!-- Key Takeaway -->
+        <div class="key-takeaway-banner" style="margin-top: 1.5rem;">
+          <div class="key-takeaway-header">💡 The Role of the HEAD Pointer</div>
+          <ul class="key-takeaway-list">
+            <li><strong>The Only Entry Point:</strong> The entire linked list is accessed solely through the pointer variable <code>head</code>.</li>
+            <li><strong>Losing HEAD Means Memory Leak:</strong> If you overwrite <code>head</code> without saving its address, all nodes become unreachable zombies in memory!</li>
+            <li><strong>Empty List State:</strong> When <code>head == NULL</code>, the linked list is verified to be completely empty.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. REAL-LIFE ANALOGY -->
+    <section class="section-container" id="analogy">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Real-Life Analogy: <span>The Campus Treasure Hunt</span></h2>
+          <p class="section-subtitle">How physical clues mirror sequential pointer memory</p>
+        </div>
+      </div>
+
+      <div class="card-glass emerald-accent">
+        <h3 style="font-size: 1.2rem; color: var(--accent-emerald-text); margin-bottom: 0.5rem;">
+          🗺️ Analogy: Clue Cards in an Envelope
+        </h3>
+        <p style="font-size: 0.98rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1.25rem;">
+          Imagine participating in a campus scavenger hunt. The organizer gives you the first clue card (the <strong>HEAD</strong> pointer) which directs you to the <em>Library</em>. At the library, you open the envelope: inside is a riddle (<strong>Data</strong>) and an instruction: <em>"Walk to Canteen Table 4"</em> (the <strong>Next Pointer</strong>).
+        </p>
+        <p style="font-size: 0.98rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1.25rem;">
+          Notice two critical rules that match computer science:
+        </p>
+        <ul style="padding-left: 1.5rem; line-height: 1.8; color: var(--text-secondary); font-size: 0.95rem;">
+          <li><strong>No Pre-determined Locations:</strong> Clues can be anywhere across campus — Library, Canteen, Computer Lab, or Ground. They do not have to be in consecutive rooms (Non-contiguous memory).</li>
+          <li><strong>Strict Sequential Order:</strong> You cannot jump straight to Clue #4 because nobody knows where Clue #4 is hidden until they inspect Clue #3! (Sequential Access: <code>O(n)</code>).</li>
+          <li><strong>The Finish Line:</strong> The final card says <em>"Congratulations! Hunt Complete."</em> with no further address (The <code>NULL</code> pointer).</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 4. ARRAY VS LINKED LIST COMPARISON -->
+    <section class="section-container" id="comparison">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Array vs. Linked List: <span>Architectural Comparison</span></h2>
+          <p class="section-subtitle">Exam-critical differences in memory, access speed, and allocation</p>
+        </div>
+        <span class="speed-pill instant">⚖️ Core Trade-offs</span>
+      </div>
+
+      <div class="analogy-table-wrapper">
+        <table class="analogy-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Array</th>
+              <th>Linked List</th>
+              <th>Architectural Reason</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Memory Layout</strong></td>
+              <td>Contiguous (unbroken sequence)</td>
+              <td>Non-contiguous (scattered in heap)</td>
+              <td>Arrays need 1 continuous block; Nodes use isolated pointers</td>
+            </tr>
+            <tr>
+              <td><strong>Size Allocation</strong></td>
+              <td>Static (fixed at compile/declaration)</td>
+              <td>Dynamic (allocates &amp; frees on demand)</td>
+              <td>Linked lists call <code>malloc()</code> per node at runtime</td>
+            </tr>
+            <tr>
+              <td><strong>Element Access</strong></td>
+              <td><span class="speed-pill instant">⚡ O(1) Instant</span></td>
+              <td><span class="speed-pill sequential">🚶 O(n) Sequential</span></td>
+              <td>Arrays calculate <code>Base + i*size</code>; Lists must follow pointer chain</td>
+            </tr>
+            <tr>
+              <td><strong>Insertion at Front</strong></td>
+              <td><span class="speed-pill sequential">🚶 O(n) Shifting</span></td>
+              <td><span class="speed-pill instant">⚡ O(1) Rewire</span></td>
+              <td>Arrays must shift all <code>n</code> elements; Lists only update <code>head</code></td>
+            </tr>
+            <tr>
+              <td><strong>Memory Overhead</strong></td>
+              <td>Low (only data stored)</td>
+              <td>Higher (+4 or +8 bytes per node)</td>
+              <td>Every node must store an extra pointer variable (<code>next</code>)</td>
+            </tr>
+            <tr>
+              <td><strong>CPU Cache Hit Rate</strong></td>
+              <td>Very High (spatial locality)</td>
+              <td>Lower (scattered addresses)</td>
+              <td>CPUs prefetch neighbor RAM blocks, favoring arrays</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 5. C CODE IMPLEMENTATION -->
+    <section class="section-container" id="c-code">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Compilable C Program: <span>Creating &amp; Traversing a List</span></h2>
+          <p class="section-subtitle">Standard C99 program demonstrating struct declaration, malloc(), and freeing memory</p>
+        </div>
+      </div>
+
+      <div class="code-card">
+        <div class="code-header">
+          <div class="code-title">
+            <span class="code-lang-badge">C99</span>
+            <span>linked_list_intro.c</span>
+          </div>
+          <button class="copy-code-btn" data-target="code-ll-intro">📋 Copy Code</button>
+        </div>
+
+        <pre class="code-block"><code id="code-ll-intro">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+/* 1. Define the Self-Referential Node Structure */
+struct Node {
+    int data;               /* Payload value */
+    struct Node *next;      /* Pointer storing address of next node */
+};
+
+/* 2. Helper function to create a new dynamically allocated node */
+struct Node* createNode(int value) {
+    struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode-&gt;data = value;
+    newNode-&gt;next = NULL;   /* Default next to NULL */
+    return newNode;
+}
+
+/* 3. Helper function to print all nodes sequentially */
+void printList(struct Node *head) {
+    struct Node *temp = head;
+    printf("HEAD -&gt; ");
+    while (temp != NULL) {
+        printf("[%d | next] -&gt; ", temp-&gt;data);
+        temp = temp-&gt;next;  /* Advance to next node */
+    }
+    printf("NULL\n");
+}
+
+/* 4. Function to free all allocated memory to prevent memory leaks */
+void freeList(struct Node *head) {
+    struct Node *temp;
+    while (head != NULL) {
+        temp = head;
+        head = head-&gt;next;
+        free(temp);         /* Return memory block to heap */
+    }
+}
+
+int main(void) {
+    /* Step A: Initialize an empty list */
+    struct Node *head = NULL;
+
+    /* Step B: Create three isolated nodes */
+    struct Node *first  = createNode(10);
+    struct Node *second = createNode(20);
+    struct Node *third  = createNode(30);
+
+    /* Step C: Link nodes together via pointers */
+    head = first;           /* Head points to node 1 */
+    first-&gt;next = second;   /* Node 1 points to node 2 */
+    second-&gt;next = third;   /* Node 2 points to node 3 */
+    /* third-&gt;next is already NULL */
+
+    /* Step D: Traverse and display the list */
+    printList(head);
+
+    /* Step E: Always clean up dynamically allocated memory */
+    freeList(head);
+    head = NULL;
+
+    return 0;
+}</code></pre>
+      </div>
+
+      <!-- Code Execution Output Card -->
+      <div class="card-glass" style="margin-top: 1rem; border-left: 3px solid var(--success);">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.35rem;">PROGRAM OUTPUT:</div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; color: var(--success); font-weight: 700;">
+          HEAD -&gt; [10 | next] -&gt; [20 | next] -&gt; [30 | next] -&gt; NULL
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. COMMON PITFALLS -->
+    <section class="section-container" id="pitfalls">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Common Beginner Pitfalls <span>in C Pointers</span></h2>
+          <p class="section-subtitle">The 3 most dangerous memory errors every 3rd-semester student must avoid</p>
+        </div>
+      </div>
+
+      <div class="concept-card-grid cols-3">
+        <div class="concept-card">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-rose">Pitfall 01</span>
+            <span>⚠️</span>
+          </div>
+          <div class="concept-title">Losing the HEAD Pointer</div>
+          <div class="concept-body">
+            Using <code>head = head->next</code> inside a display loop permanently destroys your reference to earlier nodes!
+            <div style="margin-top: 0.65rem; background: rgba(248, 113, 133, 0.1); border: 1px solid rgba(248, 113, 133, 0.25); border-radius: 4px; padding: 0.45rem; font-family: 'JetBrains Mono'; font-size: 0.76rem; color: #fca5a5;">
+              ❌ <code>while(head) { head=head->next; }</code>
+            </div>
+            <div style="margin-top: 0.35rem; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.25); border-radius: 4px; padding: 0.45rem; font-family: 'JetBrains Mono'; font-size: 0.76rem; color: #6ee7b7;">
+              ✓ <code>struct Node *temp = head; // use temp</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-amber">Pitfall 02</span>
+            <span>⚠️</span>
+          </div>
+          <div class="concept-title">Dereferencing NULL</div>
+          <div class="concept-body">
+            Calling <code>temp->next</code> when <code>temp == NULL</code> triggers an immediate segmentation fault (crash!).
+            <div style="margin-top: 0.65rem; background: rgba(248, 113, 133, 0.1); border: 1px solid rgba(248, 113, 133, 0.25); border-radius: 4px; padding: 0.45rem; font-family: 'JetBrains Mono'; font-size: 0.76rem; color: #fca5a5;">
+              ❌ <code>while(temp->next != NULL) // on empty list</code>
+            </div>
+            <div style="margin-top: 0.35rem; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.25); border-radius: 4px; padding: 0.45rem; font-family: 'JetBrains Mono'; font-size: 0.76rem; color: #6ee7b7;">
+              ✓ <code>if(head == NULL) return;</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-purple">Pitfall 03</span>
+            <span>⚠️</span>
+          </div>
+          <div class="concept-title">Memory Leaks (No free)</div>
+          <div class="concept-body">
+            Unlike Python or Java, C has no garbage collector. Failing to call <code>free()</code> leaves memory locked forever.
+            <div style="margin-top: 0.65rem; background: rgba(248, 113, 133, 0.1); border: 1px solid rgba(248, 113, 133, 0.25); border-radius: 4px; padding: 0.45rem; font-family: 'JetBrains Mono'; font-size: 0.76rem; color: #fca5a5;">
+              ❌ <code>// Program exits without free()</code>
+            </div>
+            <div style="margin-top: 0.35rem; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.25); border-radius: 4px; padding: 0.45rem; font-family: 'JetBrains Mono'; font-size: 0.76rem; color: #6ee7b7;">
+              ✓ <code>free(temp); // Return heap bytes</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION NAVIGATION -->
+    <section class="section-container">
+      <div style="background: var(--gradient-aurora); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; color: #080a0f;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem;">Next: Explore Linked List Types</h2>
+        <p style="font-size: 1.05rem; font-weight: 600; max-width: 600px; margin: 0 auto 1.5rem;">
+          Compare Singly, Doubly, and Circular Linked Lists with visual pointer graphs and C structs!
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="types.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Explore Types Guide &rarr;
+          </a>
+          <a href="operations.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Operations &amp; C Algorithms &rarr;
+          </a>
+          <a href="interactive-lab.html" class="btn-primary" style="background: #ffffff; color: #080a0f; text-decoration: none;">
+            Open Interactive Lab
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <p style="font-size: 0.88rem; color: var(--text-muted); max-width: 500px;">
+        Designed for Data Structures in C. Interactive Computer Science &amp; Data Structures Visual Portal.
+      </p>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Linked List Core</a>
+        <a href="types.html" style="color: var(--accent-primary-text); text-decoration: none;">Types</a>
+        <a href="operations.html" style="color: var(--accent-primary-text); text-decoration: none;">Operations</a>
+        <a href="interactive-lab.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="practice.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>

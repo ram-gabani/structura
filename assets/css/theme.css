@@ -1,0 +1,355 @@
+/* ==========================================================================
+   STRUCTURA THEME ARCHITECTURE
+   Dark Mode First Technical Learning Theme & Light Mode Counterpart
+   ========================================================================== */
+
+:root {
+  color-scheme: dark;
+
+  /* Core Design Tokens (Locked Specification) */
+  --bg: #0B1020;
+  --surface: #11182A;
+  --surface-raised: #182236;
+  --surface-hover: #1D2B43;
+  --border: #27364F;
+
+  --text-primary: #F8FAFC;
+  --text-secondary: #C7D2E2;
+  --text-muted: #8B9AB4;
+
+  --brand: #38BDF8;
+  --brand-strong: #0EA5E9;
+  --brand-soft: #123C5A;
+
+  --concept: #A78BFA;
+  --success: #34D399;
+  --warning: #FBBF24;
+  --danger: #FB7185;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+
+  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.18);
+  --shadow-md: 0 16px 40px rgba(0, 0, 0, 0.24);
+
+  /* Surface & Background Aliases */
+  --bg-app: var(--bg);
+  --bg-surface: var(--surface);
+  --bg-surface-elevated: var(--surface-raised);
+  --bg-surface-subtle: #0E1526;
+  --bg-surface-hover: var(--surface-hover);
+  --bg-surface-active: #23334E;
+  --bg-overlay: rgba(11, 16, 32, 0.94);
+
+  /* Typography Aliases */
+  --text-faint: #64748B;
+  --text-inverse: #0B1020;
+
+  /* Borders & Dividers */
+  --border-subtle: rgba(39, 54, 79, 0.6);
+  --border-default: var(--border);
+  --border-strong: #3B4F70;
+  --border-focus: var(--brand);
+
+  /* Brand Accents (Cyan #38BDF8 as dominant brand) */
+  --accent-primary: var(--brand);
+  --accent-primary-hover: var(--brand-strong);
+  --accent-primary-subtle: rgba(56, 189, 248, 0.12);
+  --accent-primary-border: rgba(56, 189, 248, 0.32);
+  --accent-primary-text: var(--brand);
+  --accent-primary-glow: 0 2px 10px rgba(56, 189, 248, 0.16);
+
+  /* Semantic Palettes (Restrained, Meaningful Color System) */
+  --accent-cyan: var(--brand);
+  --accent-cyan-subtle: rgba(56, 189, 248, 0.12);
+  --accent-cyan-border: rgba(56, 189, 248, 0.32);
+  --accent-cyan-text: var(--brand);
+
+  --accent-sky: var(--brand);
+  --accent-sky-subtle: rgba(56, 189, 248, 0.12);
+  --accent-sky-border: rgba(56, 189, 248, 0.32);
+  --accent-sky-text: var(--brand);
+
+  --accent-indigo: var(--concept);
+  --accent-indigo-subtle: rgba(167, 139, 250, 0.12);
+  --accent-indigo-border: rgba(167, 139, 250, 0.32);
+  --accent-indigo-text: var(--concept);
+
+  --accent-lavender: var(--concept);
+  --accent-lavender-subtle: rgba(167, 139, 250, 0.12);
+  --accent-lavender-border: rgba(167, 139, 250, 0.32);
+  --accent-lavender-text: var(--concept);
+
+  --accent-purple: var(--concept);
+  --accent-purple-subtle: rgba(167, 139, 250, 0.12);
+  --accent-purple-border: rgba(167, 139, 250, 0.32);
+  --accent-purple-text: var(--concept);
+
+  --accent-emerald: var(--success);
+  --accent-emerald-subtle: rgba(52, 211, 153, 0.12);
+  --accent-emerald-border: rgba(52, 211, 153, 0.32);
+  --accent-emerald-text: var(--success);
+
+  --accent-teal: var(--success);
+  --accent-teal-subtle: rgba(52, 211, 153, 0.12);
+  --accent-teal-border: rgba(52, 211, 153, 0.32);
+  --accent-teal-text: var(--success);
+
+  --accent-amber: var(--warning);
+  --accent-amber-subtle: rgba(251, 191, 36, 0.12);
+  --accent-amber-border: rgba(251, 191, 36, 0.32);
+  --accent-amber-text: var(--warning);
+
+  --accent-orange: var(--warning);
+  --accent-orange-subtle: rgba(251, 191, 36, 0.12);
+  --accent-orange-border: rgba(251, 191, 36, 0.32);
+  --accent-orange-text: var(--warning);
+
+  --accent-rose: var(--danger);
+  --accent-rose-subtle: rgba(251, 113, 133, 0.12);
+  --accent-rose-border: rgba(251, 113, 133, 0.32);
+  --accent-rose-text: var(--danger);
+
+  /* Subtle Hero Accent Lines & Gradients */
+  --gradient-aurora: linear-gradient(135deg, var(--brand) 0%, var(--concept) 100%);
+  --gradient-aurora-rose: linear-gradient(135deg, var(--danger) 0%, var(--concept) 100%);
+  --gradient-aurora-teal: linear-gradient(135deg, var(--success) 0%, var(--brand) 100%);
+  --gradient-lavender-cyan: linear-gradient(135deg, var(--concept) 0%, var(--brand) 100%);
+  --gradient-gold: linear-gradient(135deg, var(--warning) 0%, #F59E0B 100%);
+  --gradient-amber-fire: linear-gradient(135deg, var(--danger) 0%, var(--warning) 100%);
+  --gradient-cyan-purple: linear-gradient(135deg, var(--brand) 0%, var(--concept) 100%);
+  --gradient-emerald-teal: linear-gradient(135deg, var(--success) 0%, var(--brand) 100%);
+  --gradient-card-glass: none;
+  --gradient-hero-mesh: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.05) 0%, transparent 70%);
+
+  /* C Code Syntax Highlighting (Preserved & Calm) */
+  --code-bg: #090D16;
+  --code-header-bg: #0E1524;
+  --code-border: var(--border);
+  --code-text: #E2E8F0;
+  --code-line-num: #64748B;
+
+  --syn-kw: #F43F5E;
+  --syn-type: var(--concept);
+  --syn-fn: var(--brand);
+  --syn-str: var(--success);
+  --syn-num: #FB923C;
+  --syn-cm: #64748B;
+  --syn-op: #F43F5E;
+  --syn-macro: var(--warning);
+  --syn-var: #93C5FD;
+  --syn-special: #E879F9;
+
+  --code-highlight-bg: rgba(56, 189, 248, 0.1);
+  --code-highlight-border: var(--brand);
+
+  /* Storage Locker Analogy Theming */
+  --locker-body-bg: var(--surface-raised);
+  --locker-border: var(--border);
+  --locker-box-bg: var(--surface);
+  --locker-box-border: var(--border-strong);
+  --locker-box-text: var(--text-primary);
+  --locker-vent: var(--border);
+  --locker-handle: var(--brand);
+  --locker-tag-bg: rgba(56, 189, 248, 0.12);
+  --locker-tag-text: var(--brand);
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-xl: 18px;
+  --radius-2xl: 22px;
+  --radius-full: 9999px;
+
+  /* Shadows (Restrained, No Excessive Glow) */
+  --shadow-card: var(--shadow-sm);
+  --shadow-card-hover: 0 6px 18px rgba(0, 0, 0, 0.28);
+  --shadow-glow-teal: none;
+  --shadow-glow-cyan: none;
+  --shadow-glow-lavender: none;
+  --shadow-glow-rose: none;
+  --shadow-glow-emerald: none;
+
+  /* Transitions (150-220ms) */
+  --transition-fast: 160ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   SMOOTH THEME TRANSITION
+   ========================================================================== */
+
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition:
+    background-color 220ms ease,
+    border-color 220ms ease,
+    color 160ms ease,
+    box-shadow 220ms ease,
+    fill 160ms ease !important;
+}
+
+/* ==========================================================================
+   LIGHT MODE PALETTE: READABLE LIGHT EQUIVALENT
+   ========================================================================== */
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* Core Design Tokens (Locked Specification) */
+  --bg: #F8FAFC;
+  --surface: #FFFFFF;
+  --surface-raised: #F1F5F9;
+  --surface-hover: #E2E8F0;
+  --border: #CBD5E1;
+
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+
+  --brand: #0284C7;
+  --brand-strong: #0369A1;
+  --brand-soft: #E0F2FE;
+
+  --concept: #7C3AED;
+  --success: #059669;
+  --warning: #D97706;
+  --danger: #E11D48;
+
+  /* Surface & Background Aliases */
+  --bg-app: var(--bg);
+  --bg-surface: var(--surface);
+  --bg-surface-elevated: var(--surface-raised);
+  --bg-surface-subtle: #F1F5F9;
+  --bg-surface-hover: var(--surface-hover);
+  --bg-surface-active: #CBD5E1;
+  --bg-overlay: rgba(248, 250, 252, 0.94);
+
+  /* Typography Aliases */
+  --text-faint: #94A3B8;
+  --text-inverse: #FFFFFF;
+
+  /* Borders & Dividers */
+  --border-subtle: #E2E8F0;
+  --border-default: var(--border);
+  --border-strong: #94A3B8;
+  --border-focus: var(--brand);
+
+  /* Brand Accents */
+  --accent-primary: var(--brand);
+  --accent-primary-hover: var(--brand-strong);
+  --accent-primary-subtle: var(--brand-soft);
+  --accent-primary-border: #7DD3FC;
+  --accent-primary-text: var(--brand-strong);
+  --accent-primary-glow: 0 2px 8px rgba(2, 132, 199, 0.15);
+
+  /* Semantic Palettes */
+  --accent-cyan: var(--brand);
+  --accent-cyan-subtle: var(--brand-soft);
+  --accent-cyan-border: #7DD3FC;
+  --accent-cyan-text: var(--brand-strong);
+
+  --accent-sky: var(--brand);
+  --accent-sky-subtle: var(--brand-soft);
+  --accent-sky-border: #7DD3FC;
+  --accent-sky-text: var(--brand-strong);
+
+  --accent-indigo: var(--concept);
+  --accent-indigo-subtle: #EDE9FE;
+  --accent-indigo-border: #C4B5FD;
+  --accent-indigo-text: var(--concept);
+
+  --accent-lavender: var(--concept);
+  --accent-lavender-subtle: #EDE9FE;
+  --accent-lavender-border: #C4B5FD;
+  --accent-lavender-text: var(--concept);
+
+  --accent-purple: var(--concept);
+  --accent-purple-subtle: #EDE9FE;
+  --accent-purple-border: #C4B5FD;
+  --accent-purple-text: var(--concept);
+
+  --accent-emerald: var(--success);
+  --accent-emerald-subtle: #D1FAE5;
+  --accent-emerald-border: #6EE7B7;
+  --accent-emerald-text: var(--success);
+
+  --accent-teal: var(--success);
+  --accent-teal-subtle: #D1FAE5;
+  --accent-teal-border: #6EE7B7;
+  --accent-teal-text: var(--success);
+
+  --accent-amber: var(--warning);
+  --accent-amber-subtle: #FEF3C7;
+  --accent-amber-border: #FDE68A;
+  --accent-amber-text: var(--warning);
+
+  --accent-orange: var(--warning);
+  --accent-orange-subtle: #FEF3C7;
+  --accent-orange-border: #FDE68A;
+  --accent-orange-text: var(--warning);
+
+  --accent-rose: var(--danger);
+  --accent-rose-subtle: #FFE4E6;
+  --accent-rose-border: #FECDD3;
+  --accent-rose-text: var(--danger);
+
+  --gradient-aurora: linear-gradient(135deg, var(--brand) 0%, var(--concept) 100%);
+  --gradient-aurora-rose: linear-gradient(135deg, var(--danger) 0%, var(--concept) 100%);
+  --gradient-aurora-teal: linear-gradient(135deg, var(--success) 0%, var(--brand) 100%);
+  --gradient-lavender-cyan: linear-gradient(135deg, var(--concept) 0%, var(--brand) 100%);
+  --gradient-gold: linear-gradient(135deg, var(--warning) 0%, #D97706 100%);
+  --gradient-amber-fire: linear-gradient(135deg, var(--danger) 0%, var(--warning) 100%);
+  --gradient-cyan-purple: linear-gradient(135deg, var(--brand) 0%, var(--concept) 100%);
+  --gradient-emerald-teal: linear-gradient(135deg, var(--success) 0%, var(--brand) 100%);
+  --gradient-card-glass: none;
+  --gradient-hero-mesh: radial-gradient(circle at 50% 0%, rgba(2, 132, 199, 0.05) 0%, transparent 70%);
+
+  /* Code Syntax Highlighting in Light Mode: Clear Dark Slate Container */
+  --code-bg: #0F172A;
+  --code-header-bg: #1E293B;
+  --code-border: #334155;
+  --code-text: #E2E8F0;
+  --code-line-num: #64748B;
+
+  --code-highlight-bg: rgba(2, 132, 199, 0.2);
+  --code-highlight-border: var(--brand);
+
+  /* Storage Locker Analogy (Light) */
+  --locker-body-bg: #FFFFFF;
+  --locker-border: #CBD5E1;
+  --locker-box-bg: #F8FAFC;
+  --locker-box-border: #94A3B8;
+  --locker-box-text: #0F172A;
+  --locker-vent: #E2E8F0;
+  --locker-handle: var(--brand);
+  --locker-tag-bg: var(--brand-soft);
+  --locker-tag-text: var(--brand-strong);
+
+  /* Shadows (Light Mode) */
+  --shadow-card: 0 2px 10px rgba(15, 23, 42, 0.06);
+  --shadow-card-hover: 0 6px 18px rgba(15, 23, 42, 0.1);
+  --shadow-glow-teal: none;
+  --shadow-glow-cyan: none;
+  --shadow-glow-lavender: none;
+  --shadow-glow-rose: none;
+  --shadow-glow-emerald: none;
+}
+
+/* ==========================================================================
+   ACCESSIBILITY: PREFERS REDUCED MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

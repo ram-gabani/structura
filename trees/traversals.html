@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tree Traversals: In-Order, Pre-Order, Post-Order & Level-Order — Structura</title>
+  <meta name="description" content="Master Depth-First Traversals (Inorder, Preorder, Postorder) and Breadth-First Level-Order traversal in C with recursion call stacks and step traces. Data Structures in C.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body class="topic-page topic-trees" data-dsa-topic="trees">
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Tree Traversals &bull; ⏱️ 8 min read</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link">Trees Core</a>
+        <a href="traversals.html" class="nav-link active">Traversals</a>
+        <a href="bst.html" class="nav-link">Binary Search Tree</a>
+        <a href="interactive-lab.html" class="nav-link">Interactive Lab</a>
+        <a href="practice.html" class="nav-link">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Visual Learning Hub</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb">
+              <span class="thumb-icon-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="thumb-icon-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO -->
+    <section class="hero-card">
+      <div class="hero-badge-row">
+        <span class="section-tag">Algorithm Tracing</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">Recursive DFS</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">Queue BFS</span>
+      </div>
+
+      <h1 class="hero-title">Binary Tree <span>Traversals</span></h1>
+      <p class="hero-description">
+        Unlike linear arrays traversed by a single index counter from 0 to n-1, visiting every node in a branching tree requires a structured recursive strategy. Master In-order, Pre-order, Post-order, and Breadth-First Level-Order traversals.
+      </p>
+    </section>
+
+    <!-- 1. THE SAMPLE TREE EXHIBIT -->
+    <section class="section-container" id="sample-tree">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Reference Tree Model</h2>
+          <p class="section-subtitle">We will trace all four traversal orders against this exact 5-node tree</p>
+        </div>
+      </div>
+
+      <div class="card-glass blue-accent">
+        <!-- Visual Tree Trace -->
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 2rem 1.5rem; display: flex; flex-direction: column; align-items: center; font-family: 'JetBrains Mono'; margin-bottom: 1.5rem;">
+          
+          <div class="tree-node-circle" style="border-color: var(--brand); color: #fff; font-size: 1.1rem;">1</div>
+          
+          <div style="width: 160px; height: 20px; border-left: 2px solid var(--border-strong); border-right: 2px solid var(--border-strong); border-top: 2px solid var(--border-strong); margin: 6px 0;"></div>
+          
+          <div style="display: flex; justify-content: space-between; width: 220px;">
+            <div class="tree-node-circle" style="border-color: var(--concept);">2</div>
+            <div class="tree-node-circle" style="border-color: var(--concept);">3</div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; width: 220px; margin: 6px 0;">
+            <div style="width: 80px; height: 18px; border-left: 2px solid var(--border-strong); border-right: 2px solid var(--border-strong); border-top: 2px solid var(--border-strong);"></div>
+            <div></div>
+          </div>
+
+          <div style="display: flex; width: 220px; gap: 40px;">
+            <div class="tree-node-circle" style="border-color: var(--success); color: var(--success);">4</div>
+            <div class="tree-node-circle" style="border-color: var(--success); color: var(--success);">5</div>
+          </div>
+
+        </div>
+
+        <div class="concept-card-grid cols-3">
+          <div class="concept-card">
+            <div class="concept-card-header"><span class="concept-badge badge-sky">In-Order (L-Root-R)</span></div>
+            <div class="concept-title">4 &rarr; 2 &rarr; 5 &rarr; 1 &rarr; 3</div>
+            <div class="concept-body">Traverse left subtree, visit root, traverse right subtree. In a BST, produces sorted order!</div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-header"><span class="concept-badge badge-emerald">Pre-Order (Root-L-R)</span></div>
+            <div class="concept-title">1 &rarr; 2 &rarr; 4 &rarr; 5 &rarr; 3</div>
+            <div class="concept-body">Visit root first, then left subtree, then right subtree. Used to clone or serialize trees.</div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-header"><span class="concept-badge badge-purple">Post-Order (L-R-Root)</span></div>
+            <div class="concept-title">4 &rarr; 5 &rarr; 2 &rarr; 3 &rarr; 1</div>
+            <div class="concept-body">Traverse subtrees first, visit root last. Used to delete trees and evaluate expression trees.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. RECURSIVE C IMPLEMENTATIONS -->
+    <section class="section-container" id="implementations">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">C Implementation: <span>The 3 Classic Traversal Functions</span></h2>
+          <p class="section-subtitle">Notice how just swapping the order of lines changes the entire traversal!</p>
+        </div>
+        <span class="speed-pill instant">Elegant Recursion</span>
+      </div>
+
+      <div class="code-card">
+        <div class="code-header">
+          <div class="code-title">
+            <span class="code-lang-badge">C99</span>
+            <span>traversals.c</span>
+          </div>
+          <button class="copy-code-btn" data-target="code-traversals">📋 Copy Functions</button>
+        </div>
+
+        <pre class="code-block"><code id="code-traversals">/* 1. In-Order Traversal: Left -&gt; Root -&gt; Right */
+void inOrder(struct TreeNode *root) {
+    if (root == NULL) return;
+    inOrder(root-&gt;left);           /* 1. Left Subtree */
+    printf("%d ", root-&gt;data);     /* 2. Process Root */
+    inOrder(root-&gt;right);          /* 3. Right Subtree */
+}
+
+/* 2. Pre-Order Traversal: Root -&gt; Left -&gt; Right */
+void preOrder(struct TreeNode *root) {
+    if (root == NULL) return;
+    printf("%d ", root-&gt;data);     /* 1. Process Root */
+    preOrder(root-&gt;left);          /* 2. Left Subtree */
+    preOrder(root-&gt;right);         /* 3. Right Subtree */
+}
+
+/* 3. Post-Order Traversal: Left -&gt; Right -&gt; Root */
+void postOrder(struct TreeNode *root) {
+    if (root == NULL) return;
+    postOrder(root-&gt;left);         /* 1. Left Subtree */
+    postOrder(root-&gt;right);        /* 2. Right Subtree */
+    printf("%d ", root-&gt;data);     /* 3. Process Root */
+}</code></pre>
+      </div>
+
+      <div class="key-takeaway-banner" style="margin-top: 1.5rem;">
+        <div class="key-takeaway-header">💡 Time &amp; Space Complexity Analysis</div>
+        <ul class="key-takeaway-list">
+          <li><strong>Time Complexity: \(O(n)\)</strong> — Every single node in the tree is visited exactly once.</li>
+          <li><strong>Space Complexity: \(O(h)\)</strong> — Memory used by the recursive Call Stack equals the tree height \(h\). In a balanced tree, \(h = O(\log n)\); in a skewed degenerate tree, \(h = O(n)\).</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 3. LEVEL-ORDER TRAVERSAL (BFS) -->
+    <section class="section-container" id="level-order">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Breadth-First / <span>Level-Order Traversal</span></h2>
+          <p class="section-subtitle">Visiting nodes level-by-level from top to bottom using a FIFO Queue</p>
+        </div>
+        <span class="speed-pill instant">Queue Driven</span>
+      </div>
+
+      <div class="card-glass amber-accent">
+        <p style="font-size: 0.98rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1rem;">
+          In Breadth-First traversal, nodes are printed horizontally across Level 0, then Level 1, then Level 2. Because subtrees branch out, recursion cannot directly accomplish this; we use a <strong>FIFO Queue</strong>!
+        </p>
+
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; font-family: 'JetBrains Mono'; font-size: 0.85rem; line-height: 1.7; margin-bottom: 1rem;">
+          <div>1. Enqueue Root [1] &rarr; Queue: [1]</div>
+          <div>2. Dequeue 1, print 1. Enqueue its children (2, 3) &rarr; Queue: [2, 3]</div>
+          <div>3. Dequeue 2, print 2. Enqueue its children (4, 5) &rarr; Queue: [3, 4, 5]</div>
+          <div>4. Dequeue 3, print 3. It has no children &rarr; Queue: [4, 5]</div>
+          <div>5. Dequeue 4 &amp; 5, print both. Queue is empty &rarr; Finished!</div>
+          <div style="color: var(--success); font-weight: 700; margin-top: 0.35rem;">Output Order: 1 &rarr; 2 &rarr; 3 &rarr; 4 &rarr; 5</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA NAVIGATION -->
+    <section class="section-container">
+      <div style="background: var(--gradient-aurora); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; color: #080a0f;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem;">Next: Binary Search Trees (BST)</h2>
+        <p style="font-size: 1.05rem; font-weight: 600; max-width: 600px; margin: 0 auto 1.5rem;">
+          Master the BST invariant (Left &lt; Root &lt; Right), O(log n) searches, insertions, and 3-case node deletion!
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="bst.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Explore BST Guide &rarr;
+          </a>
+          <a href="interactive-lab.html" class="btn-primary" style="background: #ffffff; color: #080a0f; text-decoration: none;">
+            Watch Traversals in Interactive Lab
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Trees Core</a>
+        <a href="traversals.html" style="color: var(--accent-primary-text); text-decoration: none;">Traversals</a>
+        <a href="bst.html" style="color: var(--accent-primary-text); text-decoration: none;">Binary Search Tree</a>
+        <a href="interactive-lab.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="practice.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>

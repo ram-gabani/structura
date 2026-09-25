@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Queue Operations & Circular Buffer Algorithms — Structura</title>
+  <meta name="description" content="Step-by-step algorithms and complete C code for Enqueue, Dequeue, Peek, and Modulo arithmetic in Circular Queues. Data Structures in C.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body class="topic-page topic-queue" data-dsa-topic="queue">
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Queue Operations &bull; ⏱️ 7 min read</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link">Queue Core</a>
+        <a href="types.html" class="nav-link">Types</a>
+        <a href="operations.html" class="nav-link active">Operations</a>
+        <a href="interactive-lab.html" class="nav-link">Interactive Lab</a>
+        <a href="practice.html" class="nav-link">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Visual Learning Hub</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb">
+              <span class="thumb-icon-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="thumb-icon-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO -->
+    <section class="hero-card">
+      <div class="hero-badge-row">
+        <span class="section-tag">Operations Manual</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">Circular Queue</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">C Algorithms</span>
+      </div>
+
+      <h1 class="hero-title">Queue Operations <span>&amp; Modulo Algorithms</span></h1>
+      <p class="hero-description">
+        Learn how to implement both Linear and Circular Queue operations in standard C. Understand the boundary checks for Queue Overflow and Underflow, and master the modulo arithmetic that turns fixed arrays into seamless circular rings.
+      </p>
+    </section>
+
+    <!-- 1. ENQUEUE OPERATION -->
+    <section class="section-container" id="enqueue">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">1. The Enqueue Operation <span>(Insertion)</span></h2>
+          <p class="section-subtitle">Adding an element to the rear of the circular queue</p>
+        </div>
+        <span class="speed-pill instant">⚡ O(1) Time</span>
+      </div>
+
+      <div class="card-glass blue-accent">
+        <div style="font-size: 0.98rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1rem;">
+          <strong>Algorithmic Steps:</strong>
+          <ol style="padding-left: 1.5rem; margin-top: 0.5rem;">
+            <li><strong>Overflow Check:</strong> Check if <code>(rear + 1) % MAX == front</code>. If true, queue is full; abort.</li>
+            <li><strong>First Element Check:</strong> If <code>front == -1</code> (empty queue), set <code>front = 0</code>.</li>
+            <li><strong>Advance Rear:</strong> Compute <code>rear = (rear + 1) % MAX</code>.</li>
+            <li><strong>Store Value:</strong> Set <code>arr[rear] = value</code>.</li>
+          </ol>
+        </div>
+
+        <div class="code-card">
+          <div class="code-header">
+            <span class="code-title">Circular Enqueue in C</span>
+            <button class="copy-code-btn" data-target="code-enq">📋 Copy Code</button>
+          </div>
+          <pre class="code-block"><code id="code-enq">void enqueue(struct CircularQueue *q, int value) {
+    /* Step 1: Check Overflow */
+    if ((q-&gt;rear + 1) % MAX == q-&gt;front) {
+        printf("Error: Circular Queue Overflow! Cannot insert %d.\n", value);
+        return;
+    }
+    /* Step 2: Handle initial empty state */
+    if (q-&gt;front == -1) {
+        q-&gt;front = 0;
+    }
+    /* Step 3: Modulo advance and store */
+    q-&gt;rear = (q-&gt;rear + 1) % MAX;
+    q-&gt;arr[q-&gt;rear] = value;
+    printf("Enqueued %d at Slot [%d].\n", value, q-&gt;rear);
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. DEQUEUE OPERATION -->
+    <section class="section-container" id="dequeue">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">2. The Dequeue Operation <span>(Deletion)</span></h2>
+          <p class="section-subtitle">Removing the earliest element from the front of the queue</p>
+        </div>
+        <span class="speed-pill instant">⚡ O(1) Time</span>
+      </div>
+
+      <div class="card-glass emerald-accent">
+        <div style="font-size: 0.98rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1rem;">
+          <strong>Algorithmic Steps:</strong>
+          <ol style="padding-left: 1.5rem; margin-top: 0.5rem;">
+            <li><strong>Underflow Check:</strong> Check if <code>front == -1</code>. If true, queue is empty; abort.</li>
+            <li><strong>Retrieve Value:</strong> Save <code>val = arr[front]</code>.</li>
+            <li><strong>Final Element Check:</strong> If <code>front == rear</code> (only 1 element was left), reset queue to empty: <code>front = -1; rear = -1;</code>.</li>
+            <li><strong>Advance Front:</strong> Otherwise, advance via modulo: <code>front = (front + 1) % MAX</code>.</li>
+            <li>Return <code>val</code>.</li>
+          </ol>
+        </div>
+
+        <div class="code-card">
+          <div class="code-header">
+            <span class="code-title">Circular Dequeue in C</span>
+            <button class="copy-code-btn" data-target="code-deq">📋 Copy Code</button>
+          </div>
+          <pre class="code-block"><code id="code-deq">int dequeue(struct CircularQueue *q) {
+    /* Step 1: Check Underflow */
+    if (q-&gt;front == -1) {
+        printf("Error: Circular Queue Underflow! Queue is empty.\n");
+        return -1;
+    }
+
+    int val = q-&gt;arr[q-&gt;front];
+
+    /* Step 2: If last remaining item is removed, reset to empty */
+    if (q-&gt;front == q-&gt;rear) {
+        q-&gt;front = -1;
+        q-&gt;rear = -1;
+    } else {
+        /* Step 3: Modulo advance */
+        q-&gt;front = (q-&gt;front + 1) % MAX;
+    }
+
+    return val;
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. COMPLETE CIRCULAR QUEUE PROGRAM -->
+    <section class="section-container" id="program">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Complete Circular Queue C Program</h2>
+          <p class="section-subtitle">Fully compilable standard C99 program with struct CircularQueue</p>
+        </div>
+      </div>
+
+      <div class="code-card">
+        <div class="code-header">
+          <div class="code-title">
+            <span class="code-lang-badge">C99</span>
+            <span>circular_queue.c</span>
+          </div>
+          <button class="copy-code-btn" data-target="code-circ-full">📋 Copy Complete Program</button>
+        </div>
+
+        <pre class="code-block"><code id="code-circ-full">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#define MAX 5
+
+struct CircularQueue {
+    int arr[MAX];
+    int front;
+    int rear;
+};
+
+void initQueue(struct CircularQueue *q) {
+    q-&gt;front = -1;
+    q-&gt;rear = -1;
+}
+
+int isEmpty(struct CircularQueue *q) {
+    return (q-&gt;front == -1);
+}
+
+int isFull(struct CircularQueue *q) {
+    return ((q-&gt;rear + 1) % MAX == q-&gt;front);
+}
+
+void enqueue(struct CircularQueue *q, int val) {
+    if (isFull(q)) {
+        printf("Queue is FULL! Overflow.\n");
+        return;
+    }
+    if (isEmpty(q)) {
+        q-&gt;front = 0;
+    }
+    q-&gt;rear = (q-&gt;rear + 1) % MAX;
+    q-&gt;arr[q-&gt;rear] = val;
+    printf("Enqueued: %d\n", val);
+}
+
+int dequeue(struct CircularQueue *q) {
+    if (isEmpty(q)) {
+        printf("Queue is EMPTY! Underflow.\n");
+        return -1;
+    }
+    int val = q-&gt;arr[q-&gt;front];
+    if (q-&gt;front == q-&gt;rear) {
+        /* Queue becomes empty */
+        q-&gt;front = -1;
+        q-&gt;rear = -1;
+    } else {
+        q-&gt;front = (q-&gt;front + 1) % MAX;
+    }
+    return val;
+}
+
+void display(struct CircularQueue *q) {
+    if (isEmpty(q)) {
+        printf("Queue is Empty.\n");
+        return;
+    }
+    printf("Queue elements: ");
+    int i = q-&gt;front;
+    while (1) {
+        printf("[%d] ", q-&gt;arr[i]);
+        if (i == q-&gt;rear) break;
+        i = (i + 1) % MAX;
+    }
+    printf("\n");
+}
+
+int main(void) {
+    struct CircularQueue q;
+    initQueue(&amp;q);
+
+    enqueue(&amp;q, 10);
+    enqueue(&amp;q, 20);
+    enqueue(&amp;q, 30);
+    display(&amp;q);
+
+    printf("Dequeued: %d\n", dequeue(&amp;q));
+    display(&amp;q);
+
+    enqueue(&amp;q, 40);
+    enqueue(&amp;q, 50);
+    enqueue(&amp;q, 60); /* Wraps around to Slot 0! */
+    display(&amp;q);
+
+    return 0;
+}</code></pre>
+      </div>
+
+      <div class="card-glass" style="margin-top: 1rem; border-left: 3px solid var(--success);">
+        <div style="font-family: 'JetBrains Mono'; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.35rem;">PROGRAM CONSOLE OUTPUT:</div>
+        <pre style="font-family: 'JetBrains Mono'; font-size: 0.9rem; color: var(--success); margin: 0; line-height: 1.5;">Enqueued: 10
+Enqueued: 20
+Enqueued: 30
+Queue elements: [10] [20] [30] 
+Dequeued: 10
+Queue elements: [20] [30] 
+Enqueued: 40
+Enqueued: 50
+Enqueued: 60
+Queue elements: [20] [30] [40] [50] [60]</pre>
+      </div>
+    </section>
+
+    <!-- CTA NAVIGATION -->
+    <section class="section-container">
+      <div style="background: var(--gradient-aurora); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; color: #080a0f;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem;">Simulate Circular Modulo Math in the Lab!</h2>
+        <p style="font-size: 1.05rem; font-weight: 600; max-width: 600px; margin: 0 auto 1.5rem;">
+          Toggle between Linear and Circular modes and watch the Front and Rear pointers wrap around with instant telemetry.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="interactive-lab.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Open Interactive Lab &rarr;
+          </a>
+          <a href="practice.html" class="btn-primary" style="background: #ffffff; color: #080a0f; text-decoration: none;">
+            Practice Questions &amp; Quiz
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Queue Core</a>
+        <a href="types.html" style="color: var(--accent-primary-text); text-decoration: none;">Types</a>
+        <a href="operations.html" style="color: var(--accent-primary-text); text-decoration: none;">Operations</a>
+        <a href="interactive-lab.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="practice.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>

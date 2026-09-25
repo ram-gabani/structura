@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stack Applications: Call Stack, Parentheses & Notations — Structura</title>
+  <meta name="description" content="Discover key stack applications: Function Call Stack & Recursion, Parentheses Matching, Infix to Postfix conversion, and Expression Evaluation for Data Structures in C.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body class="topic-page topic-stack" data-dsa-topic="stack">
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Stack Applications &bull; ⏱️ 8 min read</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link">Stack Core</a>
+        <a href="operations.html" class="nav-link">Operations</a>
+        <a href="applications.html" class="nav-link active">Applications</a>
+        <a href="interactive-lab.html" class="nav-link">Interactive Lab</a>
+        <a href="practice.html" class="nav-link">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Visual Learning Hub</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb">
+              <span class="thumb-icon-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="thumb-icon-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO -->
+    <section class="hero-card">
+      <div class="hero-badge-row">
+        <span class="section-tag">Real-World Computing</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">Compiler Design</span>
+        <span class="section-tag" style="color: var(--accent-cyan-text); background: var(--accent-cyan-subtle); border-color: var(--accent-cyan-border);">Expression Math</span>
+      </div>
+
+      <h1 class="hero-title">Core Applications <span>of the Stack</span></h1>
+      <p class="hero-description">
+        Stacks are not merely academic constructs; they power the internal execution engine of every operating system and compiler on Earth. Explore how the Call Stack handles recursion, how compilers validate syntax, and how arithmetic expressions are calculated.
+      </p>
+    </section>
+
+    <!-- 1. FUNCTION CALL STACK & RECURSION -->
+    <section class="section-container" id="call-stack">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">1. The Function-Call Stack &amp; <span>Recursion</span></h2>
+          <p class="section-subtitle">How CPUs keep track of active function calls and local variables</p>
+        </div>
+        <span class="speed-pill instant">OS Architecture</span>
+      </div>
+
+      <div class="card-glass blue-accent">
+        <p style="font-size: 0.98rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1.25rem;">
+          Whenever a function is invoked in C, the operating system creates an <strong>Activation Record (Stack Frame)</strong> containing the function's arguments, local variables, and the return instruction address. This frame is <strong>pushed</strong> onto the CPU's hardware call stack.
+        </p>
+
+        <!-- Call Stack Visual Simulation -->
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.5rem; margin-bottom: 1.25rem; font-family: 'JetBrains Mono';">
+          <div style="color: var(--brand); font-weight: 800; font-size: 0.85rem; margin-bottom: 0.75rem;">
+            Tracing Recursive Factorial: fact(3)
+          </div>
+          <div style="display: flex; flex-direction: column-reverse; gap: 0.5rem; max-width: 380px;">
+            <div style="padding: 0.5rem 0.85rem; background: var(--surface-raised); border: 1px solid var(--border); border-radius: 4px; font-size: 0.82rem;">
+              Frame 1: <code>main()</code> &bull; calls fact(3)
+            </div>
+            <div style="padding: 0.5rem 0.85rem; background: var(--surface-raised); border: 1px solid var(--border); border-radius: 4px; font-size: 0.82rem;">
+              Frame 2: <code>fact(n = 3)</code> &bull; waits for fact(2)
+            </div>
+            <div style="padding: 0.5rem 0.85rem; background: var(--surface-raised); border: 1px solid var(--border); border-radius: 4px; font-size: 0.82rem;">
+              Frame 3: <code>fact(n = 2)</code> &bull; waits for fact(1)
+            </div>
+            <div style="padding: 0.5rem 0.85rem; background: rgba(56, 189, 248, 0.15); border: 1px solid var(--brand); border-radius: 4px; font-size: 0.82rem; color: var(--brand); font-weight: 700;">
+              Frame 4: <code>fact(n = 1)</code> &larr; BASE CASE! Returns 1 &amp; POPS
+            </div>
+          </div>
+        </div>
+
+        <div class="key-takeaway-banner">
+          <div class="key-takeaway-header">💡 Why Infinite Recursion Crashes Programs</div>
+          <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.94rem;">
+            If a recursive function lacks a base case, it pushes stack frames endlessly until it exhausts the memory allocated to the program's call stack. This results in the infamous <strong>Stack Overflow</strong> segmentation crash!
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. BALANCED PARENTHESES MATCHING -->
+    <section class="section-container" id="parentheses">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">2. Parentheses &amp; <span>Bracket Matching</span></h2>
+          <p class="section-subtitle">How compilers and code editors verify syntax balance</p>
+        </div>
+        <span class="speed-pill instant">Compiler Logic</span>
+      </div>
+
+      <div class="card-glass emerald-accent">
+        <p style="font-size: 0.98rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1rem;">
+          To determine whether an expression like <code>{ [ ( a + b ) * c ] }</code> has balanced brackets:
+        </p>
+
+        <ol style="padding-left: 1.5rem; line-height: 1.8; color: var(--text-secondary); font-size: 0.92rem; margin-bottom: 1.25rem;">
+          <li>Scan the string character-by-character from left to right.</li>
+          <li>If an <strong>opening bracket</strong> (<code>(</code>, <code>{</code>, <code>[</code>) is found, <strong>PUSH</strong> it onto the stack.</li>
+          <li>If a <strong>closing bracket</strong> (<code>)</code>, <code>}</code>, <code>]</code>) is found:
+            <ul>
+              <li>If the stack is empty, return <em>Unbalanced</em> (closing bracket with no opener!).</li>
+              <li>Otherwise, <strong>POP</strong> the top bracket and verify if it matches the current closing bracket type. If mismatch, return <em>Unbalanced</em>.</li>
+            </ul>
+          </li>
+          <li>At string end: If the stack is completely <strong>empty</strong>, the expression is <strong>Balanced</strong>!</li>
+        </ol>
+
+        <div class="code-card">
+          <div class="code-header">
+            <span class="code-title">C Balanced Parentheses Checker</span>
+            <button class="copy-code-btn" data-target="code-bracket">📋 Copy Code</button>
+          </div>
+          <pre class="code-block"><code id="code-bracket">int isMatchingPair(char open, char close) {
+    if (open == '(' &amp;&amp; close == ')') return 1;
+    if (open == '{' &amp;&amp; close == '}') return 1;
+    if (open == '[' &amp;&amp; close == ']') return 1;
+    return 0;
+}
+
+int isBalanced(const char *expr) {
+    char stack[100];
+    int top = -1;
+
+    for (int i = 0; expr[i] != '\0'; i++) {
+        char ch = expr[i];
+        if (ch == '(' || ch == '{' || ch == '[') {
+            stack[++top] = ch; /* Push */
+        } else if (ch == ')' || ch == '}' || ch == ']') {
+            if (top == -1) return 0; /* Unmatched closing */
+            char open = stack[top--]; /* Pop */
+            if (!isMatchingPair(open, ch)) return 0; /* Mismatch */
+        }
+    }
+    return (top == -1); /* Balanced if stack is empty */
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. INFIX, POSTFIX & PREFIX NOTATIONS -->
+    <section class="section-container" id="notations">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">3. Expression Notations: <span>Infix, Postfix &amp; Prefix</span></h2>
+          <p class="section-subtitle">Why computers evaluate expressions without operator precedence ambiguity</p>
+        </div>
+      </div>
+
+      <div class="analogy-table-wrapper" style="margin-bottom: 1.5rem;">
+        <table class="analogy-table">
+          <thead>
+            <tr>
+              <th>Notation</th>
+              <th>Operator Position</th>
+              <th>Example</th>
+              <th>Computer Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Infix</strong></td>
+              <td>Between operands (A + B)</td>
+              <td><code>(A + B) * C</code></td>
+              <td>Human-readable; requires parenthesis rules &amp; BODMAS</td>
+            </tr>
+            <tr>
+              <td><strong>Postfix</strong> (RPN)</td>
+              <td>After operands (A B +)</td>
+              <td><code>A B + C *</code></td>
+              <td>Ideal for CPUs: evaluated left-to-right using a single stack</td>
+            </tr>
+            <tr>
+              <td><strong>Prefix</strong> (Polish)</td>
+              <td>Before operands (+ A B)</td>
+              <td><code>* + A B C</code></td>
+              <td>Evaluated right-to-left using a stack</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Postfix Evaluation Algorithm -->
+      <div class="card-glass purple-accent">
+        <h3 style="font-size: 1.15rem; color: var(--concept); margin-bottom: 0.5rem;">Evaluating Postfix Expression: <code>5 3 + 2 *</code></h3>
+        <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem;">
+          Algorithm: Scan tokens left to right. When an operand is encountered, push it onto the stack. When an operator is encountered, pop the top two operands, apply the operator, and push the result back!
+        </p>
+
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.25rem; font-family: 'JetBrains Mono'; font-size: 0.84rem; line-height: 1.8;">
+          <div>1. Token '5' &rarr; Push 5 &rarr; Stack: [5]</div>
+          <div>2. Token '3' &rarr; Push 3 &rarr; Stack: [5, 3]</div>
+          <div>3. Token '+' &rarr; Pop 3, Pop 5 &rarr; Compute 5 + 3 = 8 &rarr; Push 8 &rarr; Stack: [8]</div>
+          <div>4. Token '2' &rarr; Push 2 &rarr; Stack: [8, 2]</div>
+          <div>5. Token '*' &rarr; Pop 2, Pop 8 &rarr; Compute 8 * 2 = 16 &rarr; Push 16 &rarr; Stack: [16]</div>
+          <div style="color: var(--success); font-weight: 700; margin-top: 0.5rem;">Final Result: 16 (Popped from stack)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA NAVIGATION -->
+    <section class="section-container">
+      <div style="background: var(--gradient-aurora); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; color: #080a0f;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem;">Experience Stack Operations Live!</h2>
+        <p style="font-size: 1.05rem; font-weight: 600; max-width: 600px; margin: 0 auto 1.5rem;">
+          Push, pop, and peek in the Interactive Stack Lab with real-time pointer arrows and overflow alerts.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="interactive-lab.html" class="btn-primary" style="background: #080a0f; color: #ffffff; text-decoration: none;">
+            Open Interactive Lab &rarr;
+          </a>
+          <a href="practice.html" class="btn-primary" style="background: #ffffff; color: #080a0f; text-decoration: none;">
+            Practice Questions &amp; Quiz
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Stack Core</a>
+        <a href="operations.html" style="color: var(--accent-primary-text); text-decoration: none;">Operations</a>
+        <a href="applications.html" style="color: var(--accent-primary-text); text-decoration: none;">Applications</a>
+        <a href="interactive-lab.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="practice.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>

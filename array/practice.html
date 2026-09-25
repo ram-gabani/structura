@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practice Hub, Pitfalls & Quiz — Structura</title>
+  <meta name="description" content="Curated coding challenges with hints, expandable C solutions, common bug pitfalls, and an interactive self-assessment quiz.">
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <!-- Instant Theme Setup (Prevents theme flash) -->
+  <script>
+    (function() {
+      var saved = localStorage.getItem('dsa_portal_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/visualizer.css">
+</head>
+<body>
+
+  <!-- Top Sticky Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" aria-label="Structura Portal">
+        <div class="brand-icon">[]</div>
+        <div class="brand-title">
+          <span class="brand-name">STRUCT<span>URA</span></span>
+          <span class="brand-badge">Practice &bull; Self-Check</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link nav-home-link" title="Return to All Topics">&larr; All Topics</a>
+        <a href="index.html" class="nav-link">Array Core</a>
+        <a href="searching.html" class="nav-link">Searching</a>
+        <a href="sorting.html" class="nav-link">Sorting</a>
+        <a href="visualizer.html" class="nav-link">Interactive Lab</a>
+        <a href="questions.html" class="nav-link active">Practice &amp; Quiz</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <div class="header-status-badge">
+          <span class="status-dot"></span>
+          <span>Data Structures in C</span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-switch-btn" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-icon sun-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span class="theme-switch-icon moon-track-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            </span>
+            <span class="theme-switch-thumb"></span>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main" id="app-main">
+
+    <!-- HERO SECTION -->
+    <section class="hero-card">
+      <div class="hero-badge-row">
+        <span class="section-tag">Practice Hub</span>
+        <span class="section-tag" style="color: var(--accent-amber-text); background: var(--accent-amber-subtle); border-color: var(--accent-amber-border);">Curated Challenges</span>
+        <span class="section-tag" style="color: var(--accent-emerald-text); background: var(--accent-emerald-subtle); border-color: var(--accent-emerald-border);">Interactive Quiz</span>
+      </div>
+
+      <h1 class="hero-title">Practice Challenges &amp; <span>Self-Assessment</span></h1>
+      <p class="hero-description">
+        Put theory into action with curated coding problems with hints and expandable solutions, learn the top pitfalls to avoid in C, and test your knowledge with the interactive quiz.
+      </p>
+    </section>
+
+    <!-- SECTION 1: CURATED CODING QUESTIONS -->
+    <section class="section-container" id="problems">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">1. Curated Practice Challenges</h2>
+          <p class="section-subtitle">Real-world coding problems with hints and full C solutions</p>
+        </div>
+      </div>
+
+      <!-- Problem 1 -->
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-title">Problem 1: Reverse an Array in Place</div>
+          <span class="difficulty-badge easy">Easy</span>
+        </div>
+
+        <p class="question-story">
+          <strong>Story:</strong> A train has reached the end of the line and needs to reverse its compartments completely so the first carriage becomes the last, and the last becomes the first.
+        </p>
+
+        <div class="question-io-box">
+          <div class="io-line"><span class="io-label">Input:</span>  [10, 20, 30, 40, 50]</div>
+          <div class="io-line"><span class="io-label">Output:</span> [50, 40, 30, 20, 10]</div>
+        </div>
+
+        <div class="question-actions-row">
+          <button class="btn-hint" data-hint="hint-p1">💡 Reveal Hint</button>
+        </div>
+
+        <div class="hint-drawer" id="hint-p1">
+          <strong>Hint:</strong> Use two pointers: one at the start (<code>left = 0</code>) and one at the end (<code>right = n - 1</code>). Swap their values, then move <code>left++</code> and <code>right--</code> until they meet in the middle!
+        </div>
+
+        <div class="solution-drawer">
+          <details>
+            <summary>▶ View Step-by-Step C Solution</summary>
+            <div class="solution-body">
+              <div class="annotated-code-container" style="margin-bottom: 0;">
+                <div class="code-annotation-grid">
+                  <div class="chalkboard-code-area">
+                    <pre><code id="sol-code-1"><span class="syn-macro">#include</span> <span class="syn-str">&lt;stdio.h&gt;</span>
+
+<span class="syn-type">void</span> <span class="syn-fn">reverseArray</span>(<span class="syn-type">int</span> <span class="syn-var">arr</span>[], <span class="syn-type">int</span> <span class="syn-var">n</span>) {
+    <span class="syn-type">int</span> <span class="syn-var">left</span> = <span class="syn-num">0</span>;
+    <span class="syn-type">int</span> <span class="syn-var">right</span> = <span class="syn-var">n</span> - <span class="syn-num">1</span>;
+
+    <span class="syn-kw">while</span> (<span class="syn-var">left</span> &lt; <span class="syn-var">right</span>) {
+        <span class="syn-type">int</span> <span class="syn-var">temp</span> = <span class="syn-var">arr</span>[<span class="syn-var">left</span>];
+        <span class="syn-var">arr</span>[<span class="syn-var">left</span>] = <span class="syn-var">arr</span>[<span class="syn-var">right</span>];
+        <span class="syn-var">arr</span>[<span class="syn-var">right</span>] = <span class="syn-var">temp</span>;
+
+        <span class="syn-var">left</span>++;
+        <span class="syn-var">right</span>--;
+    }
+}</code></pre>
+                  </div>
+                  <div class="step-breakdown-panel">
+                    <div class="step-card">
+                      <div class="step-card-header">
+                        <span class="step-line-pill line-badge sky">Line 4-5: Dual Pointers</span>
+                      </div>
+                      <div class="step-card-title step-title">Boundary Pointers</div>
+                      <div class="step-card-body step-text">Initialize <span class="step-code-chip">left = 0</span> and <span class="step-code-chip">right = n - 1</span> at opposing array ends.</div>
+                    </div>
+                    <div class="step-card">
+                      <div class="step-card-header">
+                        <span class="step-line-pill line-badge emerald">Line 7-13: In-Place Swap</span>
+                      </div>
+                      <div class="step-card-title step-title">Convergence Loop</div>
+                      <div class="step-card-body step-text">Swap values using a temporary variable, incrementing <code>left</code> and decrementing <code>right</code> until they meet.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <!-- Problem 2 -->
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-title">Problem 2: Find Maximum &amp; Minimum Value</div>
+          <span class="difficulty-badge easy">Easy</span>
+        </div>
+
+        <p class="question-story">
+          <strong>Story:</strong> A teacher needs to identify the highest test score and the lowest test score in a classroom of students stored in an array.
+        </p>
+
+        <div class="question-io-box">
+          <div class="io-line"><span class="io-label">Input:</span>  [45, 92, 18, 77, 85, 33]</div>
+          <div class="io-line"><span class="io-label">Output:</span> Max = 92, Min = 18</div>
+        </div>
+
+        <div class="question-actions-row">
+          <button class="btn-hint" data-hint="hint-p2">💡 Reveal Hint</button>
+        </div>
+
+        <div class="hint-drawer" id="hint-p2">
+          <strong>Hint:</strong> Start by assuming the first item <code>arr[0]</code> is both the max and min. Then loop through the rest of the slots from index 1 to the end, updating max if a bigger item is found, and min if a smaller item is found.
+        </div>
+
+        <div class="solution-drawer">
+          <details>
+            <summary>▶ View Step-by-Step C Solution</summary>
+            <div class="solution-body">
+              <div class="annotated-code-container" style="margin-bottom: 0;">
+                <div class="code-annotation-grid">
+                  <div class="chalkboard-code-area">
+                    <pre><code id="sol-code-2"><span class="syn-type">void</span> <span class="syn-fn">findMaxMin</span>(<span class="syn-type">int</span> <span class="syn-var">arr</span>[], <span class="syn-type">int</span> <span class="syn-var">n</span>, <span class="syn-type">int</span> *<span class="syn-var">maxVal</span>, <span class="syn-type">int</span> *<span class="syn-var">minVal</span>) {
+    *<span class="syn-var">maxVal</span> = <span class="syn-var">arr</span>[<span class="syn-num">0</span>];
+    *<span class="syn-var">minVal</span> = <span class="syn-var">arr</span>[<span class="syn-num">0</span>];
+
+    <span class="syn-kw">for</span> (<span class="syn-type">int</span> <span class="syn-var">i</span> = <span class="syn-num">1</span>; <span class="syn-var">i</span> &lt; <span class="syn-var">n</span>; <span class="syn-var">i</span>++) {
+        <span class="syn-kw">if</span> (<span class="syn-var">arr</span>[<span class="syn-var">i</span>] &gt; *<span class="syn-var">maxVal</span>) *<span class="syn-var">maxVal</span> = <span class="syn-var">arr</span>[<span class="syn-var">i</span>];
+        <span class="syn-kw">if</span> (<span class="syn-var">arr</span>[<span class="syn-var">i</span>] &lt; *<span class="syn-var">minVal</span>) *<span class="syn-var">minVal</span> = <span class="syn-var">arr</span>[<span class="syn-var">i</span>];
+    }
+}</code></pre>
+                  </div>
+                  <div class="step-breakdown-panel">
+                    <div class="step-card">
+                      <div class="step-card-header">
+                        <span class="step-line-pill line-badge sky">Line 2-3: Baseline Seed</span>
+                      </div>
+                      <div class="step-card-title step-title">Initial Guess</div>
+                      <div class="step-card-body step-text">Seed <span class="step-code-chip">*maxVal</span> and <span class="step-code-chip">*minVal</span> with the first element <code>arr[0]</code>.</div>
+                    </div>
+                    <div class="step-card">
+                      <div class="step-card-header">
+                        <span class="step-line-pill line-badge emerald">Line 5-8: Single Scan</span>
+                      </div>
+                      <div class="step-card-title step-title">Linear Traversal</div>
+                      <div class="step-card-body step-text">Traverse remaining elements from index 1 to <code>n - 1</code>, updating bounds in <span class="pill-highlight">O(n)</span> time.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <!-- Problem 3 -->
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-title">Problem 3: Move All Zeroes to the End</div>
+          <span class="difficulty-badge medium">Medium</span>
+        </div>
+
+        <p class="question-story">
+          <strong>Story:</strong> A train conductor wants to move all empty seats (represented by <code>0</code>) to the very back of the train while keeping all seated passengers in their relative forward order.
+        </p>
+
+        <div class="question-io-box">
+          <div class="io-line"><span class="io-label">Input:</span>  [0, 1, 0, 3, 12]</div>
+          <div class="io-line"><span class="io-label">Output:</span> [1, 3, 12, 0, 0]</div>
+        </div>
+
+        <div class="question-actions-row">
+          <button class="btn-hint" data-hint="hint-p3">💡 Reveal Hint</button>
+        </div>
+
+        <div class="hint-drawer" id="hint-p3">
+          <strong>Hint:</strong> Keep a <code>writeIndex = 0</code>. Loop through the array; whenever you find a non-zero number, write it to <code>arr[writeIndex++]</code>. At the end, fill remaining slots up to <code>n</code> with zeroes!
+        </div>
+
+        <div class="solution-drawer">
+          <details>
+            <summary>▶ View Step-by-Step C Solution</summary>
+            <div class="solution-body">
+              <div class="annotated-code-container" style="margin-bottom: 0;">
+                <div class="code-annotation-grid">
+                  <div class="chalkboard-code-area">
+                    <pre><code id="sol-code-3"><span class="syn-type">void</span> <span class="syn-fn">moveZeroes</span>(<span class="syn-type">int</span> <span class="syn-var">arr</span>[], <span class="syn-type">int</span> <span class="syn-var">n</span>) {
+    <span class="syn-type">int</span> <span class="syn-var">writeIndex</span> = <span class="syn-num">0</span>;
+
+    <span class="syn-cm">// 1. Move non-zero elements forward</span>
+    <span class="syn-kw">for</span> (<span class="syn-type">int</span> <span class="syn-var">i</span> = <span class="syn-num">0</span>; <span class="syn-var">i</span> &lt; <span class="syn-var">n</span>; <span class="syn-var">i</span>++) {
+        <span class="syn-kw">if</span> (<span class="syn-var">arr</span>[<span class="syn-var">i</span>] != <span class="syn-num">0</span>) {
+            <span class="syn-var">arr</span>[<span class="syn-var">writeIndex</span>++] = <span class="syn-var">arr</span>[<span class="syn-var">i</span>];
+        }
+    }
+
+    <span class="syn-cm">// 2. Fill the remaining spots with zeroes</span>
+    <span class="syn-kw">while</span> (<span class="syn-var">writeIndex</span> &lt; <span class="syn-var">n</span>) {
+        <span class="syn-var">arr</span>[<span class="syn-var">writeIndex</span>++] = <span class="syn-num">0</span>;
+    }
+}</code></pre>
+                  </div>
+                  <div class="step-breakdown-panel">
+                    <div class="step-card">
+                      <div class="step-card-header">
+                        <span class="step-line-pill line-badge sky">Line 2: Write Pointer</span>
+                      </div>
+                      <div class="step-card-title step-title">Compaction Index</div>
+                      <div class="step-card-body step-text">Track the next available forward position using <span class="step-code-chip">writeIndex</span>.</div>
+                    </div>
+                    <div class="step-card">
+                      <div class="step-card-header">
+                        <span class="step-line-pill line-badge emerald">Line 5-13: Tail Zeroing</span>
+                      </div>
+                      <div class="step-card-title step-title">Two-Pass In-Place</div>
+                      <div class="step-card-body step-text">Non-zero numbers preserve relative order; tail slots are filled with <code>0</code>.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: TOP 3 COMMON PITFALLS -->
+    <section class="section-container" id="pitfalls">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">2. Common Pitfalls &amp; Bugs in C</h2>
+          <p class="section-subtitle">The 3 most common beginner mistakes and how to avoid them</p>
+        </div>
+      </div>
+
+      <div class="concept-card-grid cols-3">
+        <!-- Pitfall 1 -->
+        <div class="concept-card">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-rose">Pitfall 01</span>
+            <span>⚠️</span>
+          </div>
+          <div class="concept-title">Out of Bounds Access</div>
+          <div class="concept-body">
+            An array of size 5 only has indices <code>0</code> to <code>4</code>. Accessing <code>arr[5]</code> triggers an illegal memory access!
+            <div style="margin-top: 0.85rem; display: flex; flex-direction: column; gap: 0.4rem;">
+              <div style="background: rgba(248, 113, 113, 0.1); border: 1px solid rgba(248, 113, 113, 0.25); border-radius: 4px; padding: 0.45rem 0.6rem; font-family: 'JetBrains Mono'; font-size: 0.76rem; color: #fca5a5;">
+                ❌ <code>arr[5] = 100; // Crash!</code>
+              </div>
+              <div style="background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.25); border-radius: 4px; padding: 0.45rem 0.6rem; font-family: 'JetBrains Mono'; font-size: 0.76rem; color: #6ee7b7;">
+                ✓ <code>arr[4] = 100; // Valid (n-1)</code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pitfall 2 -->
+        <div class="concept-card">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-amber">Pitfall 02</span>
+            <span>⚠️</span>
+          </div>
+          <div class="concept-title">Off-by-One Loop Error</div>
+          <div class="concept-body">
+            Using <code>&lt;= n</code> instead of <code>&lt; n</code> in a loop condition will execute 1 extra round and read out of bounds on the final turn.
+            <div style="margin-top: 0.85rem; display: flex; flex-direction: column; gap: 0.4rem;">
+              <div style="background: rgba(248, 113, 113, 0.1); border: 1px solid rgba(248, 113, 113, 0.25); border-radius: 4px; padding: 0.45rem 0.6rem; font-family: 'JetBrains Mono'; font-size: 0.76rem; color: #fca5a5;">
+                ❌ <code>for(int i=0; i&lt;=n; i++)</code>
+              </div>
+              <div style="background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.25); border-radius: 4px; padding: 0.45rem 0.6rem; font-family: 'JetBrains Mono'; font-size: 0.76rem; color: #6ee7b7;">
+                ✓ <code>for(int i=0; i&lt;n; i++)</code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pitfall 3 -->
+        <div class="concept-card">
+          <div class="concept-card-header">
+            <span class="concept-badge badge-purple">Pitfall 03</span>
+            <span>⚠️</span>
+          </div>
+          <div class="concept-title">Uninitialized Memory</div>
+          <div class="concept-body">
+            In C, declaring an array without setting values leaves whatever random garbage numbers happened to be in that RAM location.
+            <div style="margin-top: 0.85rem; display: flex; flex-direction: column; gap: 0.4rem;">
+              <div style="background: rgba(248, 113, 113, 0.1); border: 1px solid rgba(248, 113, 113, 0.25); border-radius: 4px; padding: 0.45rem 0.6rem; font-family: 'JetBrains Mono'; font-size: 0.76rem; color: #fca5a5;">
+                ❌ <code>int arr[5]; // Garbage</code>
+              </div>
+              <div style="background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.25); border-radius: 4px; padding: 0.45rem 0.6rem; font-family: 'JetBrains Mono'; font-size: 0.76rem; color: #6ee7b7;">
+                ✓ <code>int arr[5] = {0}; // Zeroed</code>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: INTERACTIVE SELF-CHECK QUIZ -->
+    <section class="section-container" id="quiz">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">3. Self-Assessment Knowledge Check</h2>
+          <p class="section-subtitle">Test your understanding with instant feedback</p>
+        </div>
+      </div>
+
+      <div id="quiz-container">
+        <!-- Injected and managed by bundle.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer style="border-top: 1px solid var(--border-default); background: var(--bg-surface-subtle); padding: 2.5rem 1.5rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-primary);">STRUCTURA</div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; font-size: 0.85rem;">
+        <a href="../index.html" style="color: var(--accent-primary-text); text-decoration: none;">&larr; All Topics</a>
+        <a href="index.html" style="color: var(--accent-primary-text); text-decoration: none;">Array Core</a>
+        <a href="searching.html" style="color: var(--accent-primary-text); text-decoration: none;">Searching</a>
+        <a href="sorting.html" style="color: var(--accent-primary-text); text-decoration: none;">Sorting</a>
+        <a href="visualizer.html" style="color: var(--accent-primary-text); text-decoration: none;">Interactive Lab</a>
+        <a href="questions.html" style="color: var(--accent-primary-text); text-decoration: none;">Practice &amp; Quiz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/bundle.js"></script>
+</body>
+</html>
